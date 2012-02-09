@@ -23,3 +23,15 @@
   font-weight: 200;
   line-height: 27px;
 }
+
+.armazenamento-ubuntu {
+	background-image: url('../img/os/ubuntu_medium.png');
+	background-repeat: no-repeat;
+	background-position: 95% 50%;
+}
+
+.armazenamento-windows {
+	background-image: url('../img/os/windows_medium.png');
+	background-repeat: no-repeat;
+	background-position: 95% 50%;
+}
