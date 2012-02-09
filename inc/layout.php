@@ -1,5 +1,8 @@
 <?php
 
+define('URL_TROCA_SENHA', 			'https://central.inf.uffs.edu.br:1234');
+define('TAMANHO_HOME', 				'100Mb');
+
 function barraNavegacao() {
 	$aPagina = basename($_SERVER['PHP_SELF']);
 	
@@ -43,6 +46,7 @@ function cabecalho($theTitulo) {
 		
 		echo '<!-- Le styles -->';
 		echo '<link href="./css/bootstrap.css" rel="stylesheet">';
+		echo '<link href="./css/style.css" rel="stylesheet">';
 		echo '<style type="text/css">';
 		echo 'body {';
 		echo '        padding-top: 60px;';
