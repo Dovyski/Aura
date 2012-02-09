@@ -5,7 +5,7 @@
 	
 	echo '<div class="hero-unit armazenamento-ubuntu">';
 		echo '<h1>Ubuntu</h1>';
-		echo '<p>Como usar sua home no Ubuntu</p>';
+		echo '<p>Como usar sua home no Ubuntu.</p>';
 	echo '</div>';
 	
 	echo '<div class="row">';

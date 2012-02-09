@@ -22,7 +22,7 @@ function barraNavegacao() {
 					echo '<ul class="nav">';
 						echo '<li '.($aPagina == 'index.php' 			? 'class="active"' : '').'><a href="index.php">Inicial</a></li>';
 						echo '<li '.($aPagina == 'guia.php' 			? 'class="active"' : '').'><a href="guia.php">Guia rápido</a></li>';
-						echo '<li '.($aPagina == 'armazenamento.php' 	? 'class="active"' : '').'><a href="armazenamento.php">Armazenamento</a></li>';
+						echo '<li '.(strstr($aPagina, 'armazenamento') !== false ? 'class="active"' : '').'><a href="armazenamento.php">Armazenamento</a></li>';
 						echo '<li '.($aPagina == 'senha.php' 			? 'class="active"' : '').'><a href="senha.php">Troca de senha</a></li>';
 						echo '<li '.($aPagina == 'sobre.php' 			? 'class="active"' : '').'><a href="sobre.php">Sobre</a></li>';
 					echo '</ul>';

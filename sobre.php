@@ -1,7 +1,7 @@
 <?php 
 	require_once dirname(__FILE__).'/inc/layout.php';
 	
-	cabecalho('Troca de senha');
+	cabecalho('Sobre');
 	
 	echo '<div class="hero-unit">';
 		echo '<h1>Sobre</h1>';
