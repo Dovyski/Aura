@@ -1,3 +1,25 @@
 #mandamentos div {
 	margin-top: 15px;	
 }
+
+.membro-equipe {
+  float: left;
+  width: 300px;
+  padding: 20px;
+  margin: 15px;
+  background-color: #f5f5f5;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px; 
+}
+.membro-equipe h1 {
+  margin-bottom: 0;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.membro-equipe p {
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 27px;
+}

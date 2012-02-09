@@ -5,7 +5,7 @@
 	
 	echo '<div class="hero-unit">';
 		echo '<h1>NCC</h1>';
-		echo '<p>O NCC (Núcleo de Ciência da Computação) é responsável por gerenciar os laboratórios do curso de Ciência da Computação. Para usufruir dos laboratórios, você precisa ter uma <strong>conta NCC</strong>.</p>';
+		echo '<p>O NCC (Núcleo de Ciência da Computação) é responsável por gerenciar os laboratórios do curso de Ciência da Computação.</p>';
 		echo '<p><a href="sobre.php" class="btn btn-primary btn-large">Saber mais &raquo;</a></p>';
 	echo '</div>';
 	

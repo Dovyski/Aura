@@ -10,15 +10,50 @@
 	
 	echo '<div class="row">';
 		echo '<div class="span6">';
-			echo '<h2>Guia rápido <span class="label label-info">Novo!</span></h2>';
-			echo '<p>O NCC possui diversas vantagens e algumas obrigações para seus usuários. Aprenda todas elas rapidamente através dos 10 mandamentos do NCC, um guia simples e rápido de ler.</p>';
-			echo '<p><a class="btn" href="guia.php">Ver detalhes &raquo;</a></p>';
+			echo '<h2>Função</h2>';
+			echo '<p>O NCC (Núcleo de Ciência da Computação) tem como objetivo garantir o bom funcionamento dos laboratórios do curso, propiciando a seus usuários uma excelente experiência da uso das máquinas.</p>';
+			echo '<p>A equipe do NCC mantém os computadores formatados, rápidos e livres de softwares maliciosos. Além disso, proporciona aos usuários ferramentas que auxilien atividades do dia-a-dia, como compartilhamento de arquivos e armazenamento de documentos importantes (trabalhos de aula, materiais, etc).</p>';
 		echo '</div>';
 		
 		echo '<div class="span6">';
-			echo '<h2>Armazenamento</h2>';
-			echo '<p>Cada usuário do NCC possui um espaço reservado no servidor para guardar arquivos (documentos, trabalhos, etc). Saiba como usar esse espaço para guardar e proteger seus dados.</p>';
-			echo '<p><a class="btn" href="armazenamento.php">Ver detalhes &raquo;</a></p>';
+			echo '<h2>Atividades</h2>';
+			echo '<p>Os integrandes do NCC realizam diversas atividades ligadas a hardware e software, dentre elas:</p>';
+			echo '<p>';
+				echo '<ul>';
+					echo '<li>Utilização e desenvolvimento de soluções para automatização de tarefas;</li>';
+					echo '<li>Estudo, desenvolvimento e utilização de soluções de virtualização de máquinas e servidores;</li>';
+					echo '<li>Pesquisas e aplicação de IA (inteligiência artificial) para facilitar a vida dos usuários;</li>';
+					echo '<li>Atendimento aos usuários do NCC;</li>';
+					echo '<li>Estudo aprofundado sobre sistemas operacionais e tecnologias de rede.</li>';
+				echo '</ul>';
+			echo '</p>';
+		echo '</div>';
+	echo '</div>';
+	
+	echo '<div class="row" style="margin-top: 30px;">';		
+		echo '<div class="span12">';
+			echo '<h2>Equipe</h2>';
+			echo '<p>O NCC conta com a seguinte equipe no momento:</p>';
+		echo '</div>';
+	echo '</div>';
+		
+	echo '<div class="row">';		
+		echo '<div class="span12">';
+			echo '<div class="membro-equipe">';
+				echo '<h1>Prof. Fernando Bevilacqua</h1>';
+				echo '<p>fernando.bevilacqua@uffs.edu.br</p>';
+				echo '<p><strong>Coordenador</strong></p>';
+			echo '</div>';
+		
+			echo '<div class="membro-equipe">';
+				echo '<h1>Aluno Voluntário 1</h1>';
+				echo '<p>Seja um voluntário</p>';
+			echo '</div>';
+		
+			echo '<div class="membro-equipe">';
+				echo '<h1>Aluno Voluntário 2</h1>';
+				echo '<p>Seja um voluntário</p>';
+			echo '</div>';
 		echo '</div>';
 	echo '</div>';
 	
