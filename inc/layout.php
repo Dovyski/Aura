@@ -4,6 +4,10 @@ define('URL_TROCA_SENHA', 			'https://central.inf.uffs.edu.br:1234');
 define('TAMANHO_HOME', 				'100Mb');
 define('EMAIL_NCC', 				'ncc@uffs.edu.br');
 define('RESPONSAVEL_NCC_SENHA',		'prof. Fernando Bevilacqua');
+define('DRIVE_HOME_WINDOWS',		'H:\\');
+define('TEMP_WINDOWS',				'\\\central\temp');
+define('NOME_DOMINIO',				'ncc.lan');
+define('HOST_SERVIDOR',				'central.inf.uffs.edu.br');
 
 function barraNavegacao() {
 	$aPagina = basename($_SERVER['PHP_SELF']);

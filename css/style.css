@@ -35,3 +35,15 @@
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
 }
+
+.img-armazenamento {
+	padding: 20px;
+	margin: 0 auto;
+	text-align: center;
+	display:block; 
+}
+
+.img-armazenamento-small {
+	width: 70%;
+	height: auto; 
+}
