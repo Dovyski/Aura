@@ -3,7 +3,7 @@
 	
 	cabecalho('Sobre');
 	
-	echo '<div class="hero-unit">';
+	echo '<div class="hero-unit fundo-icone icone-sobre">';
 		echo '<h1>Sobre</h1>';
 		echo '<p>O que é o Núcleo de Ciência da Computação.</p>';
 	echo '</div>';

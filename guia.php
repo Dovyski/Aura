@@ -3,7 +3,7 @@
 	
 	cabecalho('Guia rápido');
 	
-	echo '<div class="hero-unit">';
+	echo '<div class="hero-unit  fundo-icone icone-guia">';
 		echo '<h1>Guia rápido</h1>';
 		echo '<p>O que você precisa saber sobre o NCC e os laboratórios.</p>';
 	echo '</div>';

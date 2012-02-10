@@ -3,7 +3,7 @@
 	
 	cabecalho('Armazenamento Windows');
 	
-	echo '<div class="hero-unit armazenamento-windows">';
+	echo '<div class="hero-unit fundo-icone icone-windows">';
 		echo '<h1>Windows</h1>';
 		echo '<p>Como usar sua home no Windows.</p>';
 	echo '</div>';

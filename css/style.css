@@ -24,17 +24,17 @@
   line-height: 27px;
 }
 
-.armazenamento-ubuntu {
-	background-image: url('../img/os/ubuntu_medium.png');
+.fundo-icone {
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
 }
 
-.armazenamento-windows {
-	background-image: url('../img/os/windows_medium.png');
-	background-repeat: no-repeat;
-	background-position: 95% 50%;
-}
+.icone-ubuntu 			{ background-image: url('../img/headers/ubuntu.png'); }
+.icone-windows 			{ background-image: url('../img/headers/windows.png');}
+.icone-sobre 			{ background-image: url('../img/headers/robo.png');}
+.icone-guia 			{ background-image: url('../img/headers/guia.png');}
+.icone-armazenamento 	{ background-image: url('../img/headers/armazenamento.png');}
+.icone-senha 			{ background-image: url('../img/headers/chave.png');}
 
 .img-armazenamento {
 	padding: 20px;

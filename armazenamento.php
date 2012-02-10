@@ -3,7 +3,7 @@
 	
 	cabecalho('Armazenamento');
 	
-	echo '<div class="hero-unit">';
+	echo '<div class="hero-unit fundo-icone icone-armazenamento">';
 		echo '<h1>Armazenamento</h1>';
 		echo '<p>Salve seus materiais acadêmicos em segurança.</p>';
 	echo '</div>';

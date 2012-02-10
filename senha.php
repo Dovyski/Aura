@@ -3,7 +3,7 @@
 	
 	cabecalho('Troca de senha');
 	
-	echo '<div class="hero-unit">';
+	echo '<div class="hero-unit fundo-icone icone-senha">';
 		echo '<h1>Troca de senha</h1>';
 		echo '<p>Sua conta e sua senha são pessoais e intransferíveis.</p>';
 	echo '</div>';
