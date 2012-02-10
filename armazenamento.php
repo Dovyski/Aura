@@ -11,7 +11,7 @@
 	echo '<div class="row">';
 		echo '<div class="span12">';
 			echo '<p>Cada usuário do NCC possui uma pasta especial no servidor onde pode guardar arquivos importantes. Essa pasta, cujo conceito denominada-se <strong>home</strong>, possui capacidade de armazenar até <strong>'.TAMANHO_HOME.'</strong> e está disponível para acesso através da rede em qualquer computador, bastando que o usuário esteja autenticado.</p>';
-			echo '<p>Cada home é <strong>exclusiva</strong> e somente o usuário dono dela pode ler ou gravar arquivos, os demais usuários não possuiem acesso à pasta. Veja abaixo como utilizar sua home de acordo com o sistema operacional.</p>';
+			echo '<p>Cada home é <strong>exclusiva</strong> e somente o usuário dono dela pode ler ou gravar arquivos, os demais usuários não possuem acesso à pasta. Veja abaixo como utilizar sua home de acordo com o sistema operacional.</p>';
 		echo '</div>';
 	echo '</div>';
 	
