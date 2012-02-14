@@ -11,7 +11,7 @@
 	echo '<div class="row">';
 		echo '<div class="span6">';
 			echo '<h2>Função</h2>';
-			echo '<p>O NCC (Núcleo de Ciência da Computação) tem como objetivo garantir o bom funcionamento dos laboratórios do curso, propiciando a seus usuários uma excelente experiência da uso das máquinas.</p>';
+			echo '<p>O NCC (Núcleo de Ciência da Computação) tem como objetivo garantir o bom funcionamento dos laboratórios do curso, propiciando a seus usuários uma excelente experiência de uso das máquinas.</p>';
 			echo '<p>A equipe do NCC mantém os computadores formatados, rápidos e livres de softwares maliciosos. Além disso, proporciona aos usuários ferramentas que auxiliem atividades do dia-a-dia, como compartilhamento de arquivos e armazenamento de documentos importantes (trabalhos de aula, materiais, etc).</p>';
 		echo '</div>';
 		
@@ -47,12 +47,12 @@
 		
 			echo '<div class="membro-equipe">';
 				echo '<h1>Aluno Voluntário 1</h1>';
-				echo '<p>Seja um voluntário</p>';
+				echo '<p>Seja um voluntário!</p>';
 			echo '</div>';
 		
 			echo '<div class="membro-equipe">';
 				echo '<h1>Aluno Voluntário 2</h1>';
-				echo '<p>Seja um voluntário</p>';
+				echo '<p>Seja um voluntário!</p>';
 			echo '</div>';
 		echo '</div>';
 	echo '</div>';
