@@ -11,8 +11,8 @@
 	echo '<div class="row">';
 		echo '<div class="span12">';
 			echo '<p>No Ubuntu, todos os dados que estiverem contidos na pasta <code>'.PASTA_HOME_UBUNTU.'</code> serão salvos automaticamente em sua home no servidor. Veja a figura abaixo:</p>';
-			echo '<p><img src="img/homes/ubuntu_minha_pasta.png" class="img-armazenamento img-armazenamento-small" title="Minha pasta, automaticamente salva em sua home."></p>';
-			echo '<p>Os dados colocados em sua home serão salvos automaticamente no servidor, isso quer dizer que estarão disponíveis em qualquer computador que você efetue login. Lembre-se que <strong>apenas</strong> os dados colocados em sua home (pasta <code>'.PASTA_HOME_UBUNTU.'</code>) serão salvos ao longo do tempo, os dados colocados em outras pastas, como <strong>Lixeira</strong> ou <strong>/var/www</strong>, serão <strong>APAGADOS</strong> periodicamente.</p>';
+			echo '<p><img src="img/homes/ubuntu_home2.png" class="img-armazenamento img-armazenamento-small" title="'.PASTA_HOME_UBUNTU.', automaticamente salva os dados na sua home."></p>';
+			echo '<p>Os dados colocados dentro da <code>'.PASTA_HOME_UBUNTU.'</code> (e suas subpastas) serão salvos automaticamente no servidor, isso quer dizer que estarão disponíveis em qualquer computador que você efetue login. Lembre-se que <strong>apenas</strong> os dados colocados em sua home (pasta <code>'.PASTA_HOME_UBUNTU.'</code>) serão salvos ao longo do tempo, os dados colocados em outras pastas, como <strong>Lixeira</strong> ou <strong>/var/www</strong>, serão <strong>APAGADOS</strong> periodicamente.</p>';
 		echo '</div>';
 	echo '</div>';
 	
