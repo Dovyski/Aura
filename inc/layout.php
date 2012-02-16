@@ -33,24 +33,33 @@ function barraNavegacaoAdmin() {
 	$aPagina = basename($_SERVER['PHP_SELF']);
 
 	echo '<div class="navbar navbar-fixed-top">';
-	echo '<div class="navbar-inner">';
-	echo '<div class="container">';
-	echo '<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">';
-	echo '<span class="icon-bar"></span>';
-	echo '<span class="icon-bar"></span>';
-	echo '<span class="icon-bar"></span>';
-	echo '</a>';
-	echo '<a class="brand" href="index.php">Intranet</a>';
-		
-	echo '<div class="nav-collapse">';
-	echo '<ul class="nav">';
-	echo '<li '.($aPagina == 'index.php' 			? 'class="active"' : '').'><a href="index.php">Inicial</a></li>';
-	echo '<li '.($aPagina == 'aura.php' 			? 'class="active"' : '').'><a href="aura.php">Aura</a></li>';
-	echo '<li><a href="../logout.php">Logout</a></li>';
-	echo '</ul>';
-	echo '</div><!--/.nav-collapse -->';
-	echo '</div>';
-	echo '</div>';
+		echo '<div class="navbar-inner">';
+			echo '<div class="container">';
+				echo '<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">';
+					echo '<span class="icon-bar"></span>';
+					echo '<span class="icon-bar"></span>';
+					echo '<span class="icon-bar"></span>';
+				echo '</a>';
+				echo '<a class="brand" href="index.php">Intranet</a>';
+				
+				echo '<div class="nav-collapse">';
+					echo '<ul class="nav">';
+						echo '<li '.($aPagina == 'index.php' 			? 'class="active"' : '').'><a href="index.php">Inicial</a></li>';
+						echo '<li '.($aPagina == 'aura.php' 			? 'class="active"' : '').'><a href="aura.php">Aura</a></li>';
+					echo '</ul>';
+					
+					echo '<ul class="nav pull-right">';
+						echo '<div class="btn-group">';
+							echo '<a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['nome'].'</a>';
+							echo '<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
+							echo '<ul class="dropdown-menu">';
+								echo '<li><a href="../logout.php"><i class="icon-remove"></i> Sair</a></li>';
+							echo '</ul>';
+						echo '</div>';
+					echo '</ul>';
+				echo '</div><!--/.nav-collapse -->';
+			echo '</div>';
+		echo '</div>';
 	echo '</div>';
 }
 
@@ -100,34 +109,34 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 	echo '<div class="container">';
 }
 
-function rodape() {
+function rodape($theBaseUrl = '.') {
 		echo '<hr>';
 		
 		echo '<footer>';
 			echo '<p style="float:left;">NCC - Ciência da Computação - UFFS</p>';
 			if(utilIsNavegandoIntranet()) {
-				echo '<p style="float:right;"><a href="../" title="Acesso à área pública do site do NCC.">Site</p>';
+				echo '<p style="float:right;"><a href="../" title="Acesso à área pública do site do NCC.">Site</a></p>';
 			} else {
-				echo '<p style="float:right;"><a href="login.php" title="Acesso à intranet do NCC.">Intranet</p>';
+				echo '<p style="float:right;"><a href="login.php" title="Acesso à intranet do NCC.">Intranet</a></p>';
 			}
 		echo '</footer>';
+		
+	if(MODO_DEBUG) {
+		echo '<div class="row" style="margin-top: 80px;">';
+			echo '<div class="span12">';
+				echo '<h2>Debug</h2>';
+				echo 'IP <pre>'.$_SERVER['REMOTE_ADDR'].'</pre>';
+				echo 'Sessão ';
+				var_dump($_SESSION);
+			echo '</div>';
+		echo '</div>';
+	}
 	
 	echo '</div> <!-- /container -->';
 
 	echo '<!-- Le javascript. Placed at the end of the document so the pages load faster -->';
-	echo '<script src="./js/jquery.js"></script>';
-	echo '<script src="./js/bootstrap-transition.js"></script>';
-	echo '<script src="./js/bootstrap-alert.js"></script>';
-	echo '<script src="./js/bootstrap-modal.js"></script>';
-	echo '<script src="./js/bootstrap-dropdown.js"></script>';
-	echo '<script src="./js/bootstrap-scrollspy.js"></script>';
-	echo '<script src="./js/bootstrap-tab.js"></script>';
-	echo '<script src="./js/bootstrap-tooltip.js"></script>';
-	echo '<script src="./js/bootstrap-popover.js"></script>';
-	echo '<script src="./js/bootstrap-button.js"></script>';
-	echo '<script src="./js/bootstrap-collapse.js"></script>';
-	echo '<script src="./js/bootstrap-carousel.js"></script>';
-	echo '<script src="./js/bootstrap-typeahead.js"></script>';
+	echo '<script src="'.$theBaseUrl.'/js/jquery.js"></script>';
+	echo '<script src="'.$theBaseUrl.'/js/bootstrap.js"></script>';
 	
 	echo '</body>';
 	echo '</html>';

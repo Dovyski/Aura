@@ -19,4 +19,6 @@ define('NCC_LDAP_SERVIDOR',			'central.inf.uffs.edu.br');
 define('NCC_LDAP_BIND_RDN',			'uid=%s,ou=Users,dc=central,dc=inf,dc=uffs,dc=edu,dc=br');
 define('NCC_LDAP_BASE_DN_USERS',	'ou=Users,dc=central,dc=inf,dc=uffs,dc=edu,dc=br');
 
+// Controle do site
+define('MODO_DEBUG', 				true);
 ?>

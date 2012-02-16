@@ -8,7 +8,7 @@
 		echo '<h1>Intranet</h1>';
 		echo '<p>O centro de controle do NCC.</p>';
 	echo '</div>';
-	
+
 	echo '<div class="row">';
 		echo '<div class="span4">';
 			echo '<h2>Coisa1 <span class="label label-warning">Novo</span></h2>';
@@ -28,5 +28,5 @@
 		echo '</div>';
 	echo '</div>';
 	
-	rodape();
+	rodape('../');
 ?>

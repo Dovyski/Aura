@@ -66,9 +66,11 @@ function authFindUsuarios($theFilto = '(CN=*)') {
 
 function authLogin($theUsuario) {
 	$_SESSION['logado'] = true;
+	$aInfos 			= authFindUsuarios('(uid='.$theUsuario.')');
 	 
 	if(true) { // TODO: testar se é admin...
-		$_SESSION['admin'] = true;
+		$_SESSION['admin'] 	 = true;
+		$_SESSION['usuario'] = $aInfos[$theUsuario];
 	}
 }
 
