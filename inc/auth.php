@@ -9,7 +9,9 @@ require_once dirname(__FILE__).'/config.php';
  * @param string $theSenha senha do usuário.
  * @return bool <code>true</code> se o usuário foi autenticado com sucesso, ou <code>false</code> caso contrário.
  */
-function authLoginDominio($theUsuario, $theSenha) {
+function authIsUsuarioValido($theUsuario, $theSenha) {
+	// TODO: proteger os dados com algum escape?
+	
 	// Connect
 	$aAd = ldap_connect(NCC_LDAP_SERVIDOR);
 	
@@ -27,41 +29,74 @@ function authLoginDominio($theUsuario, $theSenha) {
 	return $aBind;
 }
 
-function authListUsuarios() {
-	/**
-	 *
-	 $ad = ldap_connect("central.inf.uffs.edu.br");
+function authFindUsuarios($theFilto = '(CN=*)') {
+	$aRet 	= array();
+	$aAd 	= ldap_connect(NCC_LDAP_SERVIDOR);
+	
+	// Set some variables
+	ldap_set_option($aAd, LDAP_OPT_PROTOCOL_VERSION, 3);
+	ldap_set_option($aAd, LDAP_OPT_REFERRALS, 0);
+	
+	// Bind to the ldap directory
+	// Adaptado daqui: http://br2.php.net/manual/en/function.ldap-bind.php#105620
+	$aBind  	= @ldap_bind($aAd);
+	$aResult	= ldap_search($aAd, NCC_LDAP_BASE_DN_USERS, $theFilto);
+	$aEntradas  = ldap_get_entries($aAd, $aResult);
 
-    //Set some variables
-    ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
-    
-    //Bind to the ldap directory
-    // Adaptado daqui: http://br2.php.net/manual/en/function.ldap-bind.php#105620
-    $bd = ldap_bind($ad, "uid=fernando,ou=Users,dc=central,dc=inf,dc=uffs,dc=edu,dc=br", "arroz44")
-        or die("Couldn't bind to AD!");
+	foreach($aEntradas as $aNum => $aInfo) {
+		$aUid = $aInfo['uid'][0];
+		
+		if(!empty($aUid)) {
+			$aRet[$aUid] = array(
+				'uid'		=> $aUid,
+				'gid'		=> $aInfo['gidnumber'],				
+				'dn'		=> $aInfo['dn'],
+				'nome'		=> $aInfo['cn'][0],
+				'shell'		=> $aInfo['loginshell'][0],
+				'home'		=> $aInfo['homedirectory'][0],
+				'sambahome'	=> $aInfo['sambahomepath'][0],
+				'meta'		=> $aInfo['description'][0]
+			);
+		} 
+	}
+	
+	ldap_unbind($aAd);
+	return $aRet;
+}
 
-    //Search the directory
-    $result = ldap_search($ad, "ou=Users,dc=central,dc=inf,dc=uffs,dc=edu,dc=br", "(CN=*)");    
+function authLogin($theUsuario) {
+	$_SESSION['logado'] = true;
+	 
+	if(true) { // TODO: testar se é admin...
+		$_SESSION['admin'] = true;
+	}
+}
 
-    //Create result set
-    $entries = ldap_get_entries($ad, $result);
-    
-    //Sort and print
-    echo "User count: " . $entries["count"] . "<br /><br /><b>Users:</b><br />";
+function authRestritoNaoLogado() {
+	if(authIsLogado()) {
+		header('Location: ' . (authIsAdmin() ? 'admin/' : 'index.php'));
+		exit();
+	}
+}
 
-    echo '<pre>';
-    print_r($entries);
-    echo '</pre>';
-    
-    for ($i=0; $i < $entries["count"]; $i++)
-    {
-        echo $entries[$i]["displayname"][0]."<br />";
-    }
+function authRestritoAdmin() {
+	if(!authIsAdmin()) {
+		header('Location: ../login.php');
+		exit();
+	}
+}
 
-    //never forget to unbind!
-    ldap_unbind($ad);
-	 */
+function authLogout() {
+	unset($_SESSION);
+	session_destroy();
+}
+
+function authIsLogado() {
+	return isset($_SESSION['logado']) && $_SESSION['logado'];
+}
+
+function authIsAdmin() {
+	return isset($_SESSION['admin']) && $_SESSION['admin'] == true;
 }
 
 ?>

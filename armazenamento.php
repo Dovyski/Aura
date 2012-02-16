@@ -1,5 +1,5 @@
 <?php 
-	require_once dirname(__FILE__).'/inc/layout.php';
+	require_once dirname(__FILE__).'/inc/globals.php';
 	
 	cabecalho('Armazenamento');
 	

@@ -29,7 +29,32 @@ function barraNavegacao() {
 	echo '</div>';
 }
 
-function cabecalho($theTitulo) {
+function barraNavegacaoAdmin() {
+	$aPagina = basename($_SERVER['PHP_SELF']);
+
+	echo '<div class="navbar navbar-fixed-top">';
+	echo '<div class="navbar-inner">';
+	echo '<div class="container">';
+	echo '<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">';
+	echo '<span class="icon-bar"></span>';
+	echo '<span class="icon-bar"></span>';
+	echo '<span class="icon-bar"></span>';
+	echo '</a>';
+	echo '<a class="brand" href="index.php">Intranet</a>';
+		
+	echo '<div class="nav-collapse">';
+	echo '<ul class="nav">';
+	echo '<li '.($aPagina == 'index.php' 			? 'class="active"' : '').'><a href="index.php">Inicial</a></li>';
+	echo '<li '.($aPagina == 'aura.php' 			? 'class="active"' : '').'><a href="aura.php">Aura</a></li>';
+	echo '<li><a href="../logout.php">Logout</a></li>';
+	echo '</ul>';
+	echo '</div><!--/.nav-collapse -->';
+	echo '</div>';
+	echo '</div>';
+	echo '</div>';
+}
+
+function cabecalho($theTitulo, $theBaseUrl = '.') {
 	echo '<!DOCTYPE html>';
 	echo '<html lang="en">';
 	echo '<head>';
@@ -44,8 +69,8 @@ function cabecalho($theTitulo) {
 		echo '<![endif]-->';
 		
 		echo '<!-- Le styles -->';
-		echo '<link href="./css/bootstrap.css" rel="stylesheet">';
-		echo '<link href="./css/style.css" rel="stylesheet">';
+		echo '<link href="'.$theBaseUrl.'/css/bootstrap.css" rel="stylesheet">';
+		echo '<link href="'.$theBaseUrl.'/css/style.css" rel="stylesheet">';
 		echo '<style type="text/css">';
 		echo 'body {';
 		echo '        padding-top: 60px;';
@@ -54,19 +79,23 @@ function cabecalho($theTitulo) {
 		echo '</style>';
 		
 		if(LAYOUT_RESPONSIVE) {
-			echo '<link href="./css/bootstrap-responsive.css" rel="stylesheet">';
+			echo '<link href="'.$theBaseUrl.'/css/bootstrap-responsive.css" rel="stylesheet">';
 		}
 		
 		echo '<!-- Le fav and touch icons -->';
 		echo '<link rel="shortcut icon" href="img/favicon.ico">';
-		echo '<link rel="apple-touch-icon" href="img/apple-touch-icon.png">';
-		echo '<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">';
-		echo '<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">';
+		echo '<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">';
+		echo '<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png">';
+		echo '<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png">';
 	echo '</head>';
 	
 	echo '<body>';
 	
-	barraNavegacao();
+	if(authIsAdmin() && utilIsNavegandoIntranet()) {
+		barraNavegacaoAdmin();
+	} else {
+		barraNavegacao();
+	}
 	
 	echo '<div class="container">';
 }
@@ -76,11 +105,15 @@ function rodape() {
 		
 		echo '<footer>';
 			echo '<p style="float:left;">NCC - Ciência da Computação - UFFS</p>';
-			echo '<p style="float:right;"><a href="login.php" title="Acesso à intranet do NCC.">Intranet</p>';
+			if(utilIsNavegandoIntranet()) {
+				echo '<p style="float:right;"><a href="../" title="Acesso à área pública do site do NCC.">Site</p>';
+			} else {
+				echo '<p style="float:right;"><a href="login.php" title="Acesso à intranet do NCC.">Intranet</p>';
+			}
 		echo '</footer>';
 	
 	echo '</div> <!-- /container -->';
-	
+
 	echo '<!-- Le javascript. Placed at the end of the document so the pages load faster -->';
 	echo '<script src="./js/jquery.js"></script>';
 	echo '<script src="./js/bootstrap-transition.js"></script>';
