@@ -10,29 +10,9 @@
 	
 	echo '<div class="row">';
 		echo '<div class="span12">';
-			echo '<p>Para acessar sua home no Ubuntu, clique em algum local vazio da área de trabalho, depois clique no menu <code>Arquivo -> Conectar ao servidor...</code> (canto superior esquerdo da tela). Uma pequena janela com o título <code>Conectar ao servidor</code> aparecerá na tela, conforme a figura abaixo:</p>';
-			echo '<p><img src="img/homes/drive_home1_ubuntu.png" class="img-armazenamento img-armazenamento-small" title=""></p>';
-			
-			echo '<p>Nessa janela, preencha os campos conforme descrito abaixo:</p>';
-			echo '<ul>';
-				echo '<li>No campo <code>Servidor</code> digite <code>'.HOST_SERVIDOR.'</code>.</li>';
-				echo '<li>Em <code>Tipo</code> escolha <code>Compartilhamento Windows</code>.</li>';
-				echo '<li>Em <code>Nome do domínio</code> digite <code>'.NOME_DOMINIO.'</code>.</li>';
-				echo '<li>Em <code>Nome do usuário</code> digite seu nome de usuário NCC.</li>';
-				echo '<li>No campo <code>Senha</code> digite sua senha NCC.</li>';
-			echo '</ul>';
-			
-			echo '<p>Quando terminar de digitar os dados, clique no botão <code>Conectar</code>. A janela deve informar que está conectando, conforme mostra a figura:</p>';
-			echo '<p><img src="img/homes/drive_home2_ubuntu.png" class="img-armazenamento" title=""></p>';
-			
-			echo '<p>Se nenhum dado for ditidado incorretamente, a janela de compartilhamento será aberta, como na figura abaixo:</p>';
-			echo '<p><img src="img/homes/drive_home3_ubuntu.png" class="img-armazenamento" title=""></p>';
-			
-			echo '<p>Sua home é a pasta com o nome do <strong>seu usuário</strong>. Basta dar duplo-clique na sua home e acessar seus dados. Em alguns casos, seu usuário e senha podem ser requeridos novamente quando você tentar acessar sua home, como mostra a figura abaixo:</p>';
-			echo '<p><img src="img/homes/drive_home4_ubuntu.png" class="img-armazenamento" title=""></p>';
-			
-			echo '<p>Se isso acontecer, digite seu usuário e senha nos campos apropriados e, no campo <code>Domínio</code>, digite <code>'.NOME_DOMINIO.'</code>. Em seguida, clique no botão <code>Conectar</code>.</p>';
-			echo '<p>Os dados colocados em sua home serão salvos automaticamente no servidor, isso quer dizer que estarão disponíveis em qualquer computador que você efetue login. Lembre-se que <strong>apenas</strong> os dados colocados em sua home (<code>'.DRIVE_HOME_WINDOWS.'</code>) serão salvos ao longo do tempo, os dados colocados em outras pastas, como <strong>Documentos</strong> ou <strong>Imagens</strong>, serão <strong>APAGADOS</strong> periodicamente.</p>';
+			echo '<p>No Ubuntu, todos os dados que estiverem contidos na pasta <code>'.PASTA_HOME_UBUNTU.'</code> serão salvos automaticamente em sua home no servidor. Veja a figura abaixo:</p>';
+			echo '<p><img src="img/homes/ubuntu_minha_pasta.png" class="img-armazenamento img-armazenamento-small" title="Minha pasta, automaticamente salva em sua home."></p>';
+			echo '<p>Os dados colocados em sua home serão salvos automaticamente no servidor, isso quer dizer que estarão disponíveis em qualquer computador que você efetue login. Lembre-se que <strong>apenas</strong> os dados colocados em sua home (pasta <code>'.PASTA_HOME_UBUNTU.'</code>) serão salvos ao longo do tempo, os dados colocados em outras pastas, como <strong>Lixeira</strong> ou <strong>/var/www</strong>, serão <strong>APAGADOS</strong> periodicamente.</p>';
 		echo '</div>';
 	echo '</div>';
 	
