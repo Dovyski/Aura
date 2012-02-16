@@ -5,6 +5,7 @@ define('TAMANHO_HOME', 				'100Mb');
 define('EMAIL_NCC', 				'ncc@uffs.edu.br');
 define('RESPONSAVEL_NCC_SENHA',		'prof. Fernando Bevilacqua');
 define('DRIVE_HOME_WINDOWS',		'H:\\');
+define('PASTA_HOME_UBUNTU',			'Minha pasta');
 define('TEMP_WINDOWS',				'\\\central\temp');
 
 define('LAYOUT_RESPONSIVE',			false);

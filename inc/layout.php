@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__).'/config.php';
+
 function barraNavegacao() {
 	$aPagina = basename($_SERVER['PHP_SELF']);
 	
@@ -73,7 +75,8 @@ function rodape() {
 		echo '<hr>';
 		
 		echo '<footer>';
-			echo '<p>NCC - Ciência da Computação - UFFS</p>';
+			echo '<p style="float:left;">NCC - Ciência da Computação - UFFS</p>';
+			echo '<p style="float:right;"><a href="login.php" title="Acesso à intranet do NCC.">Intranet</p>';
 		echo '</footer>';
 	
 	echo '</div> <!-- /container -->';
