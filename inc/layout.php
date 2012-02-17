@@ -129,7 +129,7 @@ function rodape($theBaseUrl = '.') {
 			if(utilIsNavegandoIntranet()) {
 				echo '<p style="float:right;"><a href="../" title="Acesso à área pública do site do NCC.">Site</a></p>';
 			} else {
-				echo '<p style="float:right;"><a href="login.php" title="Acesso à intranet do NCC.">Intranet</a></p>';
+				echo '<p style="float:right;"><a href="./admin" title="Acesso à intranet do NCC.">Intranet</a></p>';
 			}
 		echo '</footer>';
 		

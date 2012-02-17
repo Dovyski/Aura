@@ -20,7 +20,7 @@ function authLogin($theUsuario) {
 
 	$_SESSION['logado'] = true;
 	$_SESSION['usuario'] = $aInfos;
-
+	
 	if(in_array($theUsuario, $aAdmins)) {
 		$_SESSION['admin'] = true;
 	}
@@ -34,15 +34,19 @@ function authRestritoNaoLogado() {
 }
 
 function authRestritoAdmin() {
-	if(!authIsAdmin()) {
-		header('Location: ../login.php');
+	if(!authIsLogado()) {
+		header('Location: '.(utilIsNavegandoIntranet() ? '../login.php' : 'login.php'));
+		exit();
+		
+	} else if(!authIsAdmin()){
+		header('Location: '.(utilIsNavegandoIntranet() ? 'restrito.php' : 'admin/restrito.php'));
 		exit();
 	}
 }
 
 function authRestritoLogado() {
 	if(!authIsLogado()) {
-		header('Location: ' . (authIsAdmin() ? 'admin/' : 'index.php'));
+		header('Location: ' . (utilIsNavegandoIntranet() ? '../login.php' : 'index.php'));
 		exit();
 	}
 }
