@@ -23,6 +23,10 @@ function barraNavegacao() {
 						echo '<li '.($aPagina == 'senha.php' 			? 'class="active"' : '').'><a href="senha.php">Troca de senha</a></li>';
 						echo '<li '.($aPagina == 'sobre.php' 			? 'class="active"' : '').'><a href="sobre.php">Sobre</a></li>';
 					echo '</ul>';
+					
+					if(authIsLogado()) {
+						layoutBarraUsuarioLogado();						
+					}
 				echo '</div><!--/.nav-collapse -->';
 			echo '</div>';
 		echo '</div>';
@@ -48,19 +52,27 @@ function barraNavegacaoAdmin() {
 						echo '<li '.($aPagina == 'aura.php' 			? 'class="active"' : '').'><a href="aura.php">Aura</a></li>';
 					echo '</ul>';
 					
-					echo '<ul class="nav pull-right">';
-						echo '<div class="btn-group">';
-							echo '<a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['nome'].'</a>';
-							echo '<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
-							echo '<ul class="dropdown-menu">';
-								echo '<li><a href="../logout.php"><i class="icon-remove"></i> Sair</a></li>';
-							echo '</ul>';
-						echo '</div>';
-					echo '</ul>';
+					layoutBarraUsuarioLogado();
+					
 				echo '</div><!--/.nav-collapse -->';
 			echo '</div>';
 		echo '</div>';
 	echo '</div>';
+}
+
+function layoutBarraUsuarioLogado() {
+	$aLinkProfile = utilIsNavegandoIntranet() ? './' : './admin/';
+	
+	echo '<ul class="nav pull-right">';
+		echo '<div class="btn-group">';
+			echo '<a class="btn btn-primary" href="'.$aLinkProfile.'"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
+			echo '<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
+			
+			echo '<ul class="dropdown-menu">';
+				echo '<li><a href="../logout.php"><i class="icon-remove"></i> Sair</a></li>';
+			echo '</ul>';
+		echo '</div>';
+	echo '</ul>';
 }
 
 function cabecalho($theTitulo, $theBaseUrl = '.') {
@@ -100,7 +112,7 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 	
 	echo '<body>';
 	
-	if(authIsAdmin() && utilIsNavegandoIntranet()) {
+	if(authIsLogado() && utilIsNavegandoIntranet()) {
 		barraNavegacaoAdmin();
 	} else {
 		barraNavegacao();

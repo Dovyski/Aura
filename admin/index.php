@@ -1,7 +1,7 @@
 <?php 
 	require_once dirname(__FILE__).'/../inc/globals.php';
 
-	authRestritoAdmin();
+	authRestritoLogado();
 	cabecalho('Inicial', '../');
 	
 	echo '<div class="hero-unit">';
