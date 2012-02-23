@@ -15,7 +15,9 @@
 			echo '<div class="controls">';
 				echo '<div class="input-prepend">';
 					echo '<span class="add-on">Console</span>';
-					echo '<input class="span11" id="prependedInput" size="16" type="text">';
+					echo '<form action="" method="post" id="formAura">';
+					echo '<input name="command" id="consoleAura" class="span11" id="prependedInput" size="16" type="text">';
+					echo '</form>';
 				echo '</div>';
 				echo '<p id="auraPainelResposta" class="aura-resposta-console" style="display: none;">Resposta...</p>';
             echo '</div>';
@@ -47,6 +49,8 @@
 			echo '<span class="label label-success">Ativa</span>';
 		echo '</div>';
 	echo '</div>';
+	
+	echo '<script type="text/javascript"> $(function() { AURA.init(); }); </script>';
 	
 	rodape('../');
 ?>

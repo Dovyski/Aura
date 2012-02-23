@@ -92,12 +92,6 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<!-- Le styles -->';
 		echo '<link href="'.$theBaseUrl.'/css/bootstrap.css" rel="stylesheet">';
 		echo '<link href="'.$theBaseUrl.'/css/style.css" rel="stylesheet">';
-		echo '<style type="text/css">';
-		echo 'body {';
-		echo '        padding-top: 60px;';
-		echo '		  padding-bottom: 40px;';
-		echo '}';
-		echo '</style>';
 		
 		if(LAYOUT_RESPONSIVE) {
 			echo '<link href="'.$theBaseUrl.'/css/bootstrap-responsive.css" rel="stylesheet">';
@@ -108,6 +102,10 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">';
 		echo '<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png">';
 		echo '<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png">';
+		
+		echo '<script src="'.$theBaseUrl.'/js/jquery.js"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/bootstrap.js"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/aura.js"></script>';
 	echo '</head>';
 	
 	echo '<body>';
@@ -145,10 +143,6 @@ function rodape($theBaseUrl = '.') {
 	}
 	
 	echo '</div> <!-- /container -->';
-
-	echo '<!-- Le javascript. Placed at the end of the document so the pages load faster -->';
-	echo '<script src="'.$theBaseUrl.'/js/jquery.js"></script>';
-	echo '<script src="'.$theBaseUrl.'/js/bootstrap.js"></script>';
 	
 	echo '</body>';
 	echo '</html>';
