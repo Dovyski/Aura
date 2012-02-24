@@ -7,43 +7,68 @@
 
 namespace Aura;
 
-require_once dirname(__FILE__).'/interpreter.sentenses.php';
-
-class Interpreter {	
+class Interpreter {
+	private static $mSentenses = array();
+	
 	/**
-	 * Interpreta uma frase, retornando um árvore com os parâmetros e comandos
-	 * encontrados.
+	 * Analisa uma frase, executando o comando que melhor se enquadra no que foi interpretado.
+	 * A análise das frases é feita com a ajuda de plugins.
 	 * 
 	 * @param string $theSentense frase a ser interpretada.
-	 * @return array vetor assossiativo com todas as informações obtidas na frase em questão.
+	 * @return mixed false se não conseguiu interpretar e executar algo, ou algum texto (retorno do plugin) em caso de sucesso.
 	 */
-	public static function analyze($theSentense) {
-		$aRet = array(
-			'command' => AURA_NOT_UNDERSTOOD
-		);
-		 
+	public static function process($theSentense) {
+		$aRet = false;
+		
 		if(!empty($theSentense)) {
 			$aText  	= strtolower(preg_replace('/\s+/', ' ', $theSentense));
 			$aMatchs 	= array();
-			
-			foreach(Interpreter\Sentenses::$mSentenses as $aInfo) {
+
+			foreach(self::$mSentenses as $aFuncion => $aInfo) {
+				$aParams = array();
+				$aMatchs = array();
+				
 				if(preg_match_all($aInfo['pattern'], $aText, $aMatchs)) {
-					$aRet['command'] 	= $aInfo['command'];
+					if(MODO_DEBUG) {
+						echo '<small>Match para '.$aFuncion.'() - "'.$aInfo['pattern'].'"</small>';
+						var_dump($aMatchs);
+					}
 					
-					if(isset($aInfo['indexes'])) {
+					if(count($aInfo['indexes']) > 0) {
 						foreach($aInfo['indexes'] as $aIndex) {
-							$aRet['params'][] = $aMatchs[$aIndex];							
+							$aParams[] = count($aMatchs[$aIndex]) == 1 ? $aMatchs[$aIndex][0] : $aMatchs[$aIndex];
 						}
 					} else {
-						$aRet['params'] = $aMatchs;
+						$aParams = $aMatchs;
 					}
 
+					$aRet = call_user_func_array($aFuncion, $aParams);
 					break;
 				}
+				
+				unset($aParams);
+				unset($aMatchs);
 			}
 		}
-
 		return $aRet;
+	}
+	
+	public static function addSentenseHandler($theFunction, $thePattern, $theWantedIndexes = array()) {
+		self::$mSentenses[$theFunction] = array(
+			'pattern' => $thePattern,
+			'indexes' => $theWantedIndexes
+		);
+	}
+	
+	public static function loadSentenseHandlers() {
+		$aPath	  = dirname(__FILE__).'/sentenses/';
+		$aPlugins = scandir($aPath);
+
+		foreach($aPlugins as $aFile) {
+			if($aFile != '.' && $aFile != '..') {
+				require $aPath . $aFile;
+			}
+		}
 	}
 }
 
