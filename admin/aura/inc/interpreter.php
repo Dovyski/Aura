@@ -24,16 +24,11 @@ class Interpreter {
 			$aText  	= strtolower(preg_replace('/\s+/', ' ', $theSentense));
 			$aMatchs 	= array();
 
-			foreach(self::$mSentenses as $aFuncion => $aInfo) {
+			foreach(self::$mSentenses as $aHash => $aInfo) {
 				$aParams = array();
 				$aMatchs = array();
-				
+
 				if(preg_match_all($aInfo['pattern'], $aText, $aMatchs)) {
-					if(MODO_DEBUG) {
-						echo '<small>Match para '.$aFuncion.'() - "'.$aInfo['pattern'].'"</small>';
-						var_dump($aMatchs);
-					}
-					
 					if(count($aInfo['indexes']) > 0) {
 						foreach($aInfo['indexes'] as $aIndex) {
 							$aParams[] = count($aMatchs[$aIndex]) == 1 ? $aMatchs[$aIndex][0] : $aMatchs[$aIndex];
@@ -42,7 +37,17 @@ class Interpreter {
 						$aParams = $aMatchs;
 					}
 
-					$aRet = call_user_func_array($aFuncion, $aParams);
+					try {
+						$aRet = call_user_func_array($aInfo['function'], $aParams);						
+					} catch(\Exception $e) {
+						$aRet = '';
+						echo 'Opa, algum erro acontenceu. '.$e->getMessage();
+					}
+
+					if(MODO_DEBUG) {
+						echo '<br /><br /><small>Match para '.$aInfo['function'].'() - "'.$aInfo['pattern'].'"</small>';
+						var_dump($aMatchs);
+					}
 					break;
 				}
 				
@@ -54,9 +59,12 @@ class Interpreter {
 	}
 	
 	public static function addSentenseHandler($theFunction, $thePattern, $theWantedIndexes = array()) {
-		self::$mSentenses[$theFunction] = array(
-			'pattern' => $thePattern,
-			'indexes' => $theWantedIndexes
+		$aHash = md5($theFunction . $thePattern . implode('', $theWantedIndexes));
+		
+		self::$mSentenses[$aHash] = array(
+			'function' => $theFunction,
+			'pattern'  => $thePattern,
+			'indexes'  => $theWantedIndexes
 		);
 	}
 	

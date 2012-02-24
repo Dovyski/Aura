@@ -30,6 +30,25 @@ class Utils {
 		
 		return $aRet;
 	}
+	
+	/** 
+	 * Escapa todos os caractares nocivos que estejam como valor de um array
+	 * assossiativo, tornando a insersão desse array no banco de dados segura.
+	 * 
+	 * @param array $theArray array assossiativo no formato [chave] => valor.
+	 * @return array um array assossiativo com os valores escapados.
+	 */
+	public static function prepareForSql($theArray) {
+		$aRet = array();
+		
+		if(is_array($theArray) && count($theArray) > 0) {
+			foreach($theArray as $aKey => $aValue) {
+				$aRet[$aKey] = is_numeric($aValue) ? $aValue : "'".addslashes($aValue)."'";
+			}
+		}
+		
+		return $aRet;
+	}
 } 
 
 ?>

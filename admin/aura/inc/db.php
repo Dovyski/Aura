@@ -16,8 +16,8 @@ class Db {
 	
 	private static $mConnection = null;	
 	
-	private static function error() {
-		throw new Exception(mysql_error(), mysql_errno());
+	private static function error($theQuery) {
+		throw new \Exception(mysql_error() . ' ['.$theQuery.']', mysql_errno());
 	}
 	
 	private static function connect() {
@@ -27,7 +27,7 @@ class Db {
 	}
 	
 	private static function query($theSql) {
-		$aRet = mysql_query($theSql, self::$mConnection) or self::error();
+		$aRet = mysql_query($theSql, self::$mConnection) or self::error($theSql);
 		return $aRet;
 	}
 	
