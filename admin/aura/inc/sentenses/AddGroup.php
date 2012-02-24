@@ -8,7 +8,7 @@ function addGroup($theGroupName, $theParams = array()) {
 	echo 'Ok, grupo criado.';
 }
 
-Aura\Interpreter::addSentenseHandler('addGroup', '/(adicione|adicionar|crie|criar|faça|insira|inserir) (o |um )?grupo ([\w\W]* )?(de |com )([\w\W]*)/', array(3, 5));
-Aura\Interpreter::addSentenseHandler('addGroup', '/(adicione|adicionar|crie|criar|faça|insira|inserir) (o |um )?grupo ([\w\W]*)/', array(3));
+Aura\Interpreter::addSentenseHandler('addGroup', '/(adicione|adicionar?|crie|criar?|faça|insira|inserir|insere) (o |um )?grupo ([\w\W]* )?(de |com )([\w\W]*)/', array(3, 5));
+Aura\Interpreter::addSentenseHandler('addGroup', '/(adicione|adicionar?|crie|criar?|faça|insira|inserir|insere) (o |um )?grupo ([\w\W]*)/', array(3));
 
 ?>
