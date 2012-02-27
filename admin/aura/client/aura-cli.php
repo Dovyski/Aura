@@ -48,7 +48,7 @@
 	$aOs	   	= '';
 	$aOsVersion = '';
 	
-	if(stristr(PHP_OS, 'winl') !== false) {
+	if(stristr(PHP_OS, 'win') !== false) {
 		// Windows
 		$aHostname 	= trim(shell_exec('hostname'));
 		$aTemp 		= explode("\n", shell_exec('systeminfo | findstr /B /C:"OS Name" /C:"OS Version"'));
@@ -80,10 +80,10 @@
 			if($aData !== null) {
 				if(count($aData) > 0) {
 					foreach($aData as $aIdCommand => $aInfos) {
-						getUrl(BRAIN_URL . '?method=commandlogMsg&command='.$aInfos->id.'&device=4&time_start='.time());
+						getUrl(BRAIN_URL . '?method=commandlog&command='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_start='.time());
 						
 						$aOut = trim(shell_exec($aInfos->exec));
-						getUrl(BRAIN_URL . '?method=commandlog&command='.$aInfos->id.'&device=4&time_end='.time().'&result=' . urlencode($aOut));
+						getUrl(BRAIN_URL . '?method=commandlog&command='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_end='.time().'&result=' . urlencode($aOut));
 	
 						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.$aOut);
 					}
