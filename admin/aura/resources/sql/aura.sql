@@ -51,8 +51,9 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `desc` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`,`alias`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name` (`name`),
+  KEY `alias` (`alias`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `pings` (
   `fk_device` int(10) unsigned NOT NULL,
@@ -64,12 +65,12 @@ CREATE TABLE IF NOT EXISTS `pings` (
 
 
 ALTER TABLE `command_log`
-  ADD CONSTRAINT `command_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `command_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `command_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `command_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `grooming`
-  ADD CONSTRAINT `grooming_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `grooming_ibfk_1` FOREIGN KEY (`fk_group`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `grooming_ibfk_1` FOREIGN KEY (`fk_group`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `grooming_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `pings`
   ADD CONSTRAINT `pings_ibfk_1` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
