@@ -9,17 +9,19 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE IF NOT EXISTS `commands` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `time` int(10) unsigned NOT NULL,
-  `type` int(11) NOT NULL,
+  `priority` int(11) NOT NULL,
   `status` int(11) NOT NULL,
+  `exec` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `type` (`type`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `priority` (`priority`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `command_log` (
   `fk_command` int(10) unsigned NOT NULL,
-  `fk_device` int(10) unsigned NOT NULL,
-  `time_start` int(10) unsigned NOT NULL,
-  `time_end` int(10) unsigned NOT NULL,
+  `fk_device` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_start` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_end` int(10) unsigned NOT NULL DEFAULT '0',
   `result` text NOT NULL,
   PRIMARY KEY (`fk_command`,`fk_device`),
   KEY `fk_device` (`fk_device`),
@@ -29,12 +31,14 @@ CREATE TABLE IF NOT EXISTS `command_log` (
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
-  `desc` int(255) NOT NULL,
-  `hash` int(32) NOT NULL,
-  `type` int(11) NOT NULL,
+  `alias` varchar(255) NOT NULL DEFAULT '',
+  `desc` varchar(255) NOT NULL DEFAULT '',
+  `hash` varchar(32) NOT NULL DEFAULT '',
+  `type` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `hash` (`hash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `hash` (`hash`),
+  KEY `alias` (`alias`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `grooming` (
   `fk_group` int(10) unsigned NOT NULL,

@@ -69,7 +69,7 @@
 
 	while(1) {
 		logMsg('Solicitando novos dados...');
-		$aResult = getUrl(BRAIN_URL . '?method=commands&device=4');
+		$aResult = getUrl(BRAIN_URL . '?method=commands&device='.AURA_HOSTNAME);
 		
 		if($aResult !== false) {
 			logMsg('Ordens recebidas: ');
@@ -78,7 +78,7 @@
 			$aData = @json_decode($aResult);
 			
 			if($aData !== null) {
-				if(count($aData) > 0) {
+				if(is_array($aData) && count($aData) > 0) {
 					foreach($aData as $aIdCommand => $aInfos) {
 						getUrl(BRAIN_URL . '?method=commandlog&command='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_start='.time());
 						
