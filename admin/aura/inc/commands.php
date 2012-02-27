@@ -103,6 +103,8 @@ class Commands {
 		$theIdDevice 	= (int)$theIdDevice;
 		$theIdCommand	= (int)$theIdCommand;
 		$aCheck			= !empty($theData['time_end']) && is_numeric($theData['time_end']) && $theData['time_end'] > 0;
+		
+		if(!is_array($theData) || count($theData) == 0) return false;
 		 
 		$aSets = Utils::generateUpdateStatement($theData);
 		$aRet  = Db::execute("UPDATE ".Db::TABLE_COMMAND_LOG." SET ".$aSets." WHERE fk_command = ".$theIdCommand." AND fk_device = ".$theIdDevice);
@@ -111,7 +113,7 @@ class Commands {
 			// Todos os envolvidos em executar uma tarefa completaram ela. Vamos
 			// atualizar a tupla de comandos para refletir isso.
 			
-			Db::execute("UPDATE ".Db::TABLE_COMMANDS." SET status = ".self::STATUS_COMPLETED." WHERE id = ".$theIdCommand);
+			Db::execute("UPDATE ".Db::TABLE_COMMANDS." SET status = ".self::STATUS_COMPLETED." WHERE status = ".self::STATUS_RUNNING." AND id = ".$theIdCommand);
 		}
 		
 		return $aRet;
@@ -125,6 +127,27 @@ class Commands {
 		if(Db::numRows($aResult) == 1) {
 			$aTemp = Db::fetchAssoc($aResult);
 			$aRet  = (int)$aTemp['count'];
+		}
+		
+		return $aRet;
+	}
+	
+	public static function findPendingCommandsByDevice($theDeviceId) {
+		$aRet	 		= array();
+		$theDeviceId 	= (int)$theDeviceId;
+		$aResult 		= Db::execute("SELECT
+											c.id, c.priority, c.time, c.exec
+												
+									   FROM ".Db::TABLE_COMMANDS." AS c JOIN
+									   		".Db::TABLE_COMMAND_LOG." AS l ON c.id = l.fk_command
+									    		
+									   WHERE l.fk_device = ".$theDeviceId." AND l.time_end = 0 AND c.status = " . self::STATUS_RUNNING . "
+									   ORDER BY c.priority ASC");
+		
+		if(Db::numRows($aResult) >= 0) {
+			while($aRow = Db::fetchAssoc($aResult)) {
+				$aRet[$aRow['id']] = $aRow;
+			}
 		}
 		
 		return $aRet;
