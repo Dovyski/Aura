@@ -49,6 +49,17 @@ class Utils {
 		
 		return $aRet;
 	}
+	
+	public static function generateUpdateStatement($theArray) {
+		$aRet = "";
+		$aEscaped = self::prepareForSql($theArray);
+		
+		foreach($aEscaped as $aField => $aValue) {
+			$aRet .= $aField . " = " . $aValue . ",";
+		}
+		$aRet = substr($aRet, 0, strlen($aRet) - 1);
+		return $aRet;
+	}
 } 
 
 ?>

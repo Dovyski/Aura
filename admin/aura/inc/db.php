@@ -8,7 +8,7 @@ namespace Aura;
 
 class Db {
 	const TABLE_COMMANDS 		= "commands"; 
-	const TABLE_COMMANDS_LOG 	= "commands_log";
+	const TABLE_COMMAND_LOG 	= "command_log";
 	const TABLE_DEVICES 		= "devices";
 	const TABLE_GROUPS 			= "groups";
 	const TABLE_GROOMING 		= "grooming";
@@ -45,6 +45,10 @@ class Db {
 
 	public static function fetchAssoc($theResult) {
 		return mysql_fetch_assoc($theResult);
+	}
+	
+	public static function lastInsertedId() {
+		return mysql_insert_id();
 	}
 }
 
