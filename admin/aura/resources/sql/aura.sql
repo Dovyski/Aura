@@ -6,7 +6,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 
-CREATE TABLE IF NOT EXISTS `commands` (
+CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `time` int(10) unsigned NOT NULL,
   `priority` int(11) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `commands` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `command_log` (
+CREATE TABLE IF NOT EXISTS `tasks_log` (
   `fk_command` int(10) unsigned NOT NULL,
   `fk_device` int(10) unsigned NOT NULL DEFAULT '0',
   `time_start` int(10) unsigned NOT NULL DEFAULT '0',
@@ -68,9 +68,9 @@ CREATE TABLE IF NOT EXISTS `pings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-ALTER TABLE `command_log`
-  ADD CONSTRAINT `command_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `commands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `command_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `tasks_log`
+  ADD CONSTRAINT `tasks_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tasks_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `grooming`
   ADD CONSTRAINT `grooming_ibfk_1` FOREIGN KEY (`fk_group`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

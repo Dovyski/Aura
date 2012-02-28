@@ -31,9 +31,26 @@ class Devices {
 		
 		return $aRet;
 	}
-
-	public static function getByHash($theDeviceId) {
-
+	
+	/** 
+	 * Obtem informações sobre um grupo de dispositivos.
+	 * 
+	 * @param array $theIds array com os ids dos dispositivos a serem buscados.
+	 * @param bool $theSimplificado se false (default), todos os dados dos dispositivos serão retornados, caso contrário apenas o nome e o id.
+	 * @return array array assossiativo com informações dos dispositivos.
+	 */
+	public static function findByIds($theIds, $theSimplificado = false) {
+		$aRet	 		= array();
+		$aIds 			= Utils::prepareForSql($theIds);
+		$aResult 		= Db::execute("SELECT ".($theSimplificado ? "id,name" : "*")." FROM ".Db::TABLE_DEVICES." WHERE id IN (".implode(',', $aIds).")");
+		
+		if(Db::numRows($aResult) > 0) {
+			while($aRow = Db::fetchAssoc($aResult)) {
+				$aRet[$aRow['id']] = $aRow;
+			}
+		}
+		
+		return $aRet;
 	}
 }
 

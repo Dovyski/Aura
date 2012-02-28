@@ -16,16 +16,16 @@
 				// TODO: log ping requests
 				break;
 					
-			case 'commands':
-				$aRet = Aura\Commands::findPendingCommandsByDevice($aInfoDevice['id']);
+			case 'tasks':
+				$aRet = Aura\Tasks::findPendingTasksByDevice($aInfoDevice['id']);
 				break;
 					
-			case 'commandlog':
-				$aCommand = isset($_REQUEST['command']) ? $_REQUEST['command'] 	: false;
-				unset($_REQUEST['command']);
+			case 'tasklog':
+				$aTask = isset($_REQUEST['task']) ? $_REQUEST['task'] 	: false;
+				unset($_REQUEST['task']);
 		
-				if($aCommand !== false) {
-					$aRet = Aura\Commands::updateLog($aInfoDevice['id'], $aCommand, $_REQUEST);
+				if($aTask !== false) {
+					$aRet = Aura\Tasks::updateLog($aInfoDevice['id'], $aTask, $_REQUEST);
 					$aRet = $aRet ? array('success' => true) : array('error' => true, 'msg' => 'Dados inválidos para atualização de log de comandos.');
 				} else {
 					$aRet = array('error' => true, 'msg' => 'Atualização de log mal formada.');

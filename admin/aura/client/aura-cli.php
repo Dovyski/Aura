@@ -69,7 +69,7 @@
 
 	while(1) {
 		logMsg('Solicitando novos dados...');
-		$aResult = getUrl(BRAIN_URL . '?method=commands&device='.AURA_HOSTNAME);
+		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME);
 		
 		if($aResult !== false) {
 			logMsg('Ordens recebidas: ');
@@ -78,12 +78,12 @@
 			$aData = @json_decode($aResult);
 			
 			if($aData !== null) {
-				if(is_array($aData) && count($aData) > 0) {
-					foreach($aData as $aIdCommand => $aInfos) {
-						getUrl(BRAIN_URL . '?method=commandlog&command='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_start='.time());
+				if(count($aData) > 0) {
+					foreach($aData as $aIdTask => $aInfos) {
+						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_start='.time());
 						
 						$aOut = trim(shell_exec($aInfos->exec));
-						getUrl(BRAIN_URL . '?method=commandlog&command='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_end='.time().'&result=' . urlencode($aOut));
+						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_end='.time().'&result=' . urlencode($aOut));
 	
 						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.$aOut);
 					}
