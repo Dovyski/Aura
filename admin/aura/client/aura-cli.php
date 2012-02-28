@@ -13,27 +13,7 @@
 	 * 
 	 */
 
-	define('BRAIN_URL', 'http://localhost/ncc.cc.uffs.edu.br/admin/aura/brain.php');
-
-	function getUrl($theUrl) {
-		$aUserAgent = 'Aura Client/1.0 ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
-		
-		$aCh = curl_init($theUrl);
-		curl_setopt($aCh, CURLOPT_USERAGENT, $aUserAgent);
-		curl_setopt($aCh, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($aCh,CURLOPT_CONNECTTIMEOUT, 10);
-		curl_setopt($aCh, CURLOPT_FAILONERROR, 1);
-		
-		$aResult = curl_exec($aCh);
-		$aRet	 = curl_errno($aCh) ? false : $aResult; 
-		curl_close($aCh);
-		
-		return $aRet;
-	}
-	
-	function logMsg($theMsg) {
-		echo date('[h:i:s d/m/Y]') . " ".$theMsg . "\n";
-	}
+	require_once dirname(__FILE__).'/functions.php';
 
 	if (php_sapi_name() != 'cli') {
 		die('Rode pela linha de comando!');
@@ -46,24 +26,28 @@
 	
 	$aHostname 	= '';
 	$aOs	   	= '';
+	$aOsName   	= '';
 	$aOsVersion = '';
 	
 	if(stristr(PHP_OS, 'win') !== false) {
 		// Windows
 		$aHostname 	= trim(shell_exec('hostname'));
+		$aOs		= 'win';
 		$aTemp 		= explode("\n", shell_exec('systeminfo | findstr /B /C:"OS Name" /C:"OS Version"'));
 		$aParts		= explode(':', $aTemp[0]);
 		$aParts2	= explode(':', $aTemp[1]);
 		
-		$aOs		= trim($aParts[1]);
+		$aOsName	= trim($aParts[1]);
 		$aOsVersion	= trim($aParts2[1]);		
 	} else {
 		// Linux
+		$aOs		= 'linux';
 	}
 	
 	define('AURA_HOSTNAME',		$aHostname);
-	define('AURA_OS_NAME',		$aOs);
+	define('AURA_OS_NAME',		$aOsName);
 	define('AURA_OS_VERSION',	$aOsVersion);
+	define('AURA_OS',			$aOs);
 	
 	logMsg('Iniciando atividades em '.AURA_HOSTNAME.', rodando '.AURA_OS_NAME.' ('.AURA_OS_VERSION.').');
 
@@ -82,7 +66,7 @@
 					foreach($aData as $aIdTask => $aInfos) {
 						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_start='.time());
 						
-						$aOut = trim(shell_exec($aInfos->exec));
+						$aOut = runCommand($aInfos->exec);
 						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_end='.time().'&result=' . urlencode($aOut));
 	
 						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.$aOut);
