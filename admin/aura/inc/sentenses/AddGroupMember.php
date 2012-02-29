@@ -17,6 +17,6 @@ function addGroupMember($thePersonName, $theGroupName) {
 	}
 }
 
-Aura\Interpreter::addSentenseHandler('addGroupMember', '/(adicione|adicionar?|coloque|colocar?|bote|botar?|ponha)( o| a)? ([\w\W]*) (ao|no) grupo ([\w\W]*)/', array(3, 5));
+Aura\Interpreter::addSentenseHandler('addGroupMember', '/(adicione|adicionar?|coloque|colocar?|bote|botar?|ponha)( o| a)? ([\w\W]*) (ao |no )(grupo )?([\w\W]*)/', array(3, 6));
 
 ?>
