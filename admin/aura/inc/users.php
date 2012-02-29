@@ -19,6 +19,18 @@ class Users {
 		self::OTHER
 	);
 	
+	public static function getByClue($theClue) {
+		$aRet	 = null;
+		$theClue = addslashes($theClue); 
+		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_USERS." WHERE login LIKE '".$theClue."' OR alias LIKE '%".$theClue."%'");
+		
+		if(Db::numRows($aResult) == 1) {
+			$aRet = Db::fetchAssoc($aResult);
+		}
+		
+		return $aRet;
+	}
+	
 	public static function getByLogin($theLogin) {
 		$aRet	 	= null;
 		$theLogin	= addslashes($theLogin);
