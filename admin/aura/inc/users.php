@@ -19,10 +19,10 @@ class Users {
 		self::OTHER
 	);
 	
-	public static function getById($theId) {
-		$aRet	 = null;
-		$theId	 = (int)$theId;
-		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_USERS." WHERE id = ". $theId);
+	public static function getByLogin($theLogin) {
+		$aRet	 	= null;
+		$theLogin	= addslashes($theLogin);
+		$aResult 	= Db::execute("SELECT * FROM ".Db::TABLE_USERS." WHERE login LIKE '". $theLogin . "'");
 	
 		if(Db::numRows($aResult) == 1) {
 			$aRet = Db::fetchAssoc($aResult);
@@ -37,17 +37,16 @@ class Users {
 	 * @param int $theId id do usuário a ser removido.
 	 * @return bool true se o usuário foi removido, ou false caso contrário (usuário não existe).
 	 */
-	public static function removeById($theId) {
-		$aRet	 = false;
-		$theId	 = (int)$theId;
+	public static function removeByLogin($theLogin) {
+		$aRet	 	= false;
+		$theLogin	= addslashes($theLogin);
 		
-		if(self::getById($theId) !== null) {
-			Db::execute("DELETE FROM ".Db::TABLE_USERS." WHERE id = " . $theId);
+		if(self::getByLogin($theLogin) !== null) {
+			Db::execute("DELETE FROM ".Db::TABLE_USERS." WHERE login LIKE '" . $theLogin."'");
 			$aRet = true;
 		}
 		
 		return $aRet;
 	}
 }
-
 ?>
