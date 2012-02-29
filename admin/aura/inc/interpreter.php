@@ -21,14 +21,16 @@ class Interpreter {
 		$aRet = false;
 		
 		if(!empty($theSentense)) {
-			$aText  	= strtolower(preg_replace('/\s+/', ' ', $theSentense));
+			$aText		= Utils::normalizeToAsciiText($theSentense);
+			$aText  	= strtolower(preg_replace('/\s+/', ' ', $aText));
 			$aMatchs 	= array();
 
 			foreach(self::$mSentenses as $aHash => $aInfo) {
-				$aParams = array();
-				$aMatchs = array();
+				$aParams  = array();
+				$aMatchs  = array();
+				$aPattern = Utils::normalizeToAsciiText($aInfo['pattern']);
 
-				if(preg_match_all($aInfo['pattern'], $aText, $aMatchs)) {
+				if(preg_match_all($aPattern, $aText, $aMatchs)) {
 					if(count($aInfo['indexes']) > 0) {
 						foreach($aInfo['indexes'] as $aIndex) {
 							$aParams[] = count($aMatchs[$aIndex]) == 1 ? $aMatchs[$aIndex][0] : $aMatchs[$aIndex];
