@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   PRIMARY KEY (`id`),
   KEY `hash` (`hash`),
   KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `grooming` (
   `fk_group` int(10) unsigned NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `alias` (`alias`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `pings` (
   `fk_device` int(10) unsigned NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   PRIMARY KEY (`id`),
   KEY `priority` (`priority`),
   KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tasks_log` (
   `fk_command` int(10) unsigned NOT NULL,
@@ -66,6 +66,25 @@ CREATE TABLE IF NOT EXISTS `tasks_log` (
   PRIMARY KEY (`fk_command`,`fk_device`),
   KEY `fk_device` (`fk_device`),
   KEY `fk_command` (`fk_command`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `teams` (
+  `fk_user` varchar(30) NOT NULL,
+  `fk_group` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`fk_user`,`fk_group`),
+  KEY `fk_group` (`fk_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `login` varchar(30) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '0',
+  `contact` text NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  PRIMARY KEY (`login`),
+  KEY `name` (`name`),
+  KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -79,3 +98,7 @@ ALTER TABLE `pings`
 ALTER TABLE `tasks_log`
   ADD CONSTRAINT `tasks_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tasks_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `teams`
+  ADD CONSTRAINT `teams_ibfk_2` FOREIGN KEY (`fk_group`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teams_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `users` (`login`) ON DELETE CASCADE ON UPDATE CASCADE;

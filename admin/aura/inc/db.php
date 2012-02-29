@@ -8,6 +8,8 @@ namespace Aura;
 
 class Db {
 	const TABLE_COMMANDS 		= "commands";
+	const TABLE_USERS 			= "users";
+	const TABLE_TEAMS 			= "teams";
 	const TABLE_TASKS 			= "tasks";
 	const TABLE_TASKS_LOG 		= "tasks_log";
 	const TABLE_DEVICES 		= "devices";
