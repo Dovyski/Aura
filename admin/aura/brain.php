@@ -13,7 +13,14 @@
 	if($aInfoDevice !== null) {
 		switch($aMethod) {
 			case 'ping':
-				// TODO: log ping requests
+				if(!empty($_REQUEST['data'])) {
+					$_REQUEST['data'] = @urldecode($_REQUEST['data']);
+				}
+				
+				$_REQUEST['client'] = $_SERVER['HTTP_USER_AGENT'];
+				 
+				$aRet = Aura\Pings::add($aInfoDevice['id'], $_REQUEST);
+				$aRet = $aRet ? array('success' => true) : array('error' => true, 'msg' => 'Dados inválidos no ping.');
 				break;
 					
 			case 'tasks':

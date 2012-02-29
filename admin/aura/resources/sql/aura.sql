@@ -6,28 +6,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 
-CREATE TABLE IF NOT EXISTS `tasks` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `time` int(10) unsigned NOT NULL,
-  `priority` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  `exec` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `priority` (`priority`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `tasks_log` (
-  `fk_command` int(10) unsigned NOT NULL,
-  `fk_device` int(10) unsigned NOT NULL DEFAULT '0',
-  `time_start` int(10) unsigned NOT NULL DEFAULT '0',
-  `time_end` int(10) unsigned NOT NULL DEFAULT '0',
-  `result` text NOT NULL,
-  PRIMARY KEY (`fk_command`,`fk_device`),
-  KEY `fk_device` (`fk_device`),
-  KEY `fk_command` (`fk_command`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
@@ -38,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   PRIMARY KEY (`id`),
   KEY `hash` (`hash`),
   KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 CREATE TABLE IF NOT EXISTS `grooming` (
   `fk_group` int(10) unsigned NOT NULL,
@@ -57,20 +35,39 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `pings` (
   `fk_device` int(10) unsigned NOT NULL,
   `time` int(10) unsigned NOT NULL,
+  `client` varchar(255) NOT NULL DEFAULT '',
   `data` text NOT NULL,
-  PRIMARY KEY (`fk_device`),
-  KEY `time` (`time`)
+  KEY `time` (`time`),
+  KEY `fk_device` (`fk_device`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `tasks` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` int(10) unsigned NOT NULL,
+  `priority` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `exec` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `priority` (`priority`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
-ALTER TABLE `tasks_log`
-  ADD CONSTRAINT `tasks_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tasks_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE TABLE IF NOT EXISTS `tasks_log` (
+  `fk_command` int(10) unsigned NOT NULL,
+  `fk_device` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_start` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_end` int(10) unsigned NOT NULL DEFAULT '0',
+  `result` text NOT NULL,
+  PRIMARY KEY (`fk_command`,`fk_device`),
+  KEY `fk_device` (`fk_device`),
+  KEY `fk_command` (`fk_command`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE `grooming`
   ADD CONSTRAINT `grooming_ibfk_1` FOREIGN KEY (`fk_group`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -78,3 +75,7 @@ ALTER TABLE `grooming`
 
 ALTER TABLE `pings`
   ADD CONSTRAINT `pings_ibfk_1` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `tasks_log`
+  ADD CONSTRAINT `tasks_log_ibfk_1` FOREIGN KEY (`fk_command`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tasks_log_ibfk_2` FOREIGN KEY (`fk_device`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

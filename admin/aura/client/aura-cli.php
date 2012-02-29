@@ -28,7 +28,7 @@
 	$aOs	   	= '';
 	$aOsName   	= '';
 	$aOsVersion = '';
-	
+
 	if(stristr(PHP_OS, 'win') !== false) {
 		// Windows
 		$aHostname 	= trim(shell_exec('hostname'));
@@ -79,6 +79,8 @@
 			logMsg('Erro na solicitacao de dados!');
 		}
 
+		pingBrain();
+		
 		logMsg('Dormindo ate a proxima requisicao...');
 		sleep(5);
 	}

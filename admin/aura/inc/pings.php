@@ -19,7 +19,7 @@ class Pings {
 	public static function add($theDeviceId, $theInfos) {
 		$theDeviceId = (int)$theDeviceId;
 		
-		if(empty($theInfos['data'])) {
+		if(empty($theInfos) || empty($theInfos['data'])) {
 			throw new \Exception('Ping sem qualquer informação.');
 		}
 		
@@ -31,6 +31,7 @@ class Pings {
 		$aInfo['fk_device'] = $theDeviceId; 
 		
 		Db::execute("INSERT INTO ".Db::TABLE_PINGS." (`".implode("`,`", array_keys($aInfo))."`) VALUES (".implode(',', $aInfo).")");
+		return true;
 	}
 
 	/** 
