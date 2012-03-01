@@ -17,7 +17,9 @@ var AURA = new function() {
 			  data: 	$('#formAura').serialize(),
 			  
 			  success: function(data){
+				  $('#auraPainelResposta').fadeOut();
 				  $('#auraPainelResposta').html(data);
+				  $('#auraPainelResposta').fadeIn();
 			  },
 			  error: function() {
 				  $('#auraPainelResposta').html("Erro ao enviar ordem. Tente de novo.");  
@@ -26,6 +28,15 @@ var AURA = new function() {
 		
 	    $(':input','#formAura').val('');
 		return false;
+	};
+	
+	/**
+	 * Imita a interação humana com o console da aura, colocando o texto
+	 * informado dentro do console e pressionando o botão de enviar.
+	 */
+	this.typeConsoleCommand = function(theCommand) {
+	    $(':input','#formAura').val(theCommand);
+	    AURA.submitOrder();
 	};
 
 	this.init = function() {

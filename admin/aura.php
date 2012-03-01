@@ -49,7 +49,7 @@
 							echo '<div class="btn-group">';
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
-									echo '<li><a href="#"><i class="icon-off"></i> Desligar todos</a></li>';
+									echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Desligue todos os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
 								echo '</ul>';
 							echo '</div>';
 						echo '</ul>';
@@ -69,7 +69,7 @@
 							echo '<div class="btn-group">';
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
-									echo '<li><a href="#"><i class="icon-remove"></i> Deslogar todos</a></li>';
+									echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="icon-remove"></i> Deslogar todos</a></li>';
 								echo '</ul>';
 							echo '</div>';
 						echo '</ul>';
@@ -96,9 +96,9 @@
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
 									if($aReport['internet']) {
-										echo '<li><a href="#"><i class="icon-ban-circle"></i> Desativar internet</a></li>';									
+										echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';									
 									} else {
-										echo '<li><a href="#"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
+										echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
 									}
 								echo '</ul>';
 							echo '</div>';
