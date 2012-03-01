@@ -1,6 +1,6 @@
 <?php 
 
-function shutdownDevices($theGroupName) {
+function logoffUsers($theGroupName) {
 	$aGroup = Aura\Groups::getByClue($theGroupName);
 
 	if($aGroup === null) {
@@ -16,8 +16,8 @@ function shutdownDevices($theGroupName) {
 
 		if(count($aReport['computers']) > 0) {
 			$aCommand = array(
-				'win' 	=> 'shutdown -s -t 30 -c "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
-				'linux' => 'shutdown -h -t 30 "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
+				'win' 	=> 'logoff /n /f',
+				'linux' => 'skill -KILL -v /dev/pts/*',
 				'mac' 	=> '',
 			);
 			$aTask = array(
@@ -27,15 +27,15 @@ function shutdownDevices($theGroupName) {
 				'exec' 		=> serialize($aCommand)
 			);
 			Aura\Tasks::add($aTask, $aReport['computers']);
-			echo 'Ok, os computadores serão desligados em 30 segundos.';
+			echo 'Ok, todos os usuários serão deslogados agora.';
 		} else {
-			echo 'Todos os computadores já estão desligados.';
+			echo 'Não há gente para deslogar porque todos os computadores estão desligados.';
 		}
 	} else {
 		echo 'O grupo '.$theGroupName.' não tem computadores.';
 	}
 }
 
-Aura\Interpreter::addSentenseHandler('shutdownDevices', '/(desligue|desligar?|apagar?|apague)(todos |todas )?( os?| as?)?( computadores| computador| aparelhos| dispositivos| pcs| máquinas| equipamentos| coisos| coisas)?( da| do)? ([\w\W]*)/', array(6));
+Aura\Interpreter::addSentenseHandler('logoffUsers', '/(deslogue|faça logoff|faça logout|logout)(todos |todas )?( os| as)? (usuários|pessoas|alunos|coisos|coisas|viventes)? d(a|o) ([\w\W]*)/', array(6));
 
 ?>
