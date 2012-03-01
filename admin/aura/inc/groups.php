@@ -140,6 +140,20 @@ class Groups {
 		return $aRet;
 	}
 	
+	public static function findByName($theName) {
+		$aRet	 = array();
+		$theName = addslashes($theName);
+		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_GROUPS." WHERE name LIKE '".$theName."' OR alias LIKE '".$theName."'");
+	
+		if(Db::numRows($aResult) > 0) {
+			while($aRow = Db::fetchAssoc($aResult)) {
+				$aRet[] = $aRow;
+			}
+		}
+	
+		return $aRet;
+	}
+	
 	/**
 	 * Remove um grupo do banco de dados, com base em uma pista. Se a pista for
 	 * um número, ela será tratada como o id; se for uma string, será considerada o nome.

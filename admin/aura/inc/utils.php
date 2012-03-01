@@ -50,6 +50,49 @@ class Utils {
 		return $aRet;
 	}
 	
+	public static function generateLabReport($thePingData) {
+		$aRet = array(
+			'computers' => array(), 
+			'users'	 	=> array(),
+			'internet' 	=> null,
+		);
+		
+		if(!empty($thePingData)) {
+			foreach($thePingData as $aIdDevice => $aPingsDevice) {
+				
+				$aRet['computers'][] = $aIdDevice;
+				
+				if(count($aPingsDevice) > 0) {
+					foreach($aPingsDevice as $aInfo) {
+						$aData = @unserialize($aInfo['data']);
+						
+						if($aData !== false) {
+							if($aData['ping_ip'] <= 10) {
+								$aRet['internet'] = true;
+							}
+							
+							if(!empty($aData['users'])) {
+								$aUsers = unserialize($aData['users']);
+								
+								if($aUsers !== false) {
+									foreach($aUsers as $aUser) {
+										$aRet['users'][$aUser['name']] = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(count($aRet['users']) > 0) {
+			$aRet['users'] = array_keys($aRet['users']);
+		}
+		
+		return $aRet;
+	}
+	
 	public static function generateUpdateStatement($theArray) {
 		$aRet = "";
 		$aEscaped = self::prepareForSql($theArray);

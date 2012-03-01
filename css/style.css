@@ -72,6 +72,12 @@ body {
   /*font-weight: bold;*/
 }
 
+.aura-bloco-opts {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .aura-resposta-console {
   text-align: left;
   padding: 10px;

@@ -46,11 +46,13 @@ class Pings {
 		$aIds 				= Utils::prepareForSql($theIds);
 		$theSinceUnixtime 	= (int)$theSinceUnixtime;
 		
-		$aResult 			= Db::execute("SELECT * FROM ".Db::TABLE_PINGS." WHERE fk_device IN (".implode(',', $aIds).") AND time >= " . $theSinceUnixtime);
-		
-		if(Db::numRows($aResult) > 0) {
-			while($aRow = Db::fetchAssoc($aResult)) {
-				$aRet[$aRow['fk_device']][] = $aRow;
+		if(!empty($aIds)) {
+			$aResult = Db::execute("SELECT * FROM ".Db::TABLE_PINGS." WHERE fk_device IN (".implode(',', $aIds).") AND time >= " . $theSinceUnixtime);
+			
+			if(Db::numRows($aResult) > 0) {
+				while($aRow = Db::fetchAssoc($aResult)) {
+					$aRet[$aRow['fk_device']][] = $aRow;
+				}
 			}
 		}
 		
