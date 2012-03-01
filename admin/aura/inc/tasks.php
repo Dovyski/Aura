@@ -28,15 +28,15 @@ class Tasks {
 	 */
 	public static function add($theTask, $theDevices = array()) {
 		if(!is_array($theTask) || count($theTask) == 0) {
-			throw new \Exception('Informações inválidas para criação de um comando.');
+			throw new \Exception('Informações inválidas para criação de uma tarefa.');
 		}
 		
 		if(!isset($theTask['status']) || !in_array($theTask['status'], self::$mKnownStatus)) {
-			throw new \Exception('O status "'.$theTask['status'].'" é inválido para um comando.');
+			throw new \Exception('O status "'.$theTask['status'].'" é inválido para uma tarefa.');
 		}
 		
 		if(empty($theTask['exec'])) {
-			throw new \Exception('Nenhuma ordem atribuida ao comando.');
+			throw new \Exception('Nenhuma ordem atribuida à tarefa.');
 		}
 		
 		$aDevices = Devices::findByIds($theDevices);

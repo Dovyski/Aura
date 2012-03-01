@@ -49,7 +49,7 @@
 							echo '<div class="btn-group">';
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
-									echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Desligue todos os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
+									echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
 								echo '</ul>';
 							echo '</div>';
 						echo '</ul>';

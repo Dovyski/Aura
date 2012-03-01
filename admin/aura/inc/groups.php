@@ -130,7 +130,7 @@ class Groups {
 	
 	public static function getByClue($theClue) {
 		$aRet	 = null;
-		$aWhere  = is_numeric($theClue) ? "id = ".$theClue : "name like '".addslashes($theClue)."'";
+		$aWhere  = is_numeric($theClue) ? "id = ".$theClue : "name LIKE '".addslashes($theClue)."' OR alias LIKE '%".addslashes($theClue)."%'";
 		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_GROUPS." WHERE ". $aWhere);
 		
 		if(Db::numRows($aResult) == 1) {
