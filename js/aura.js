@@ -17,6 +17,8 @@ var AURA = new function() {
 			  data: 	$('#formAura').serialize(),
 			  
 			  success: function(data){
+				  $('html,body').animate({scrollTop: $("#linhaConsoleAura").offset().top - 60}, 'slow');
+				  
 				  $('#auraPainelResposta').fadeOut('fast', function() {
 					  $('#auraPainelResposta').html(data);
 					  $('#auraPainelResposta').fadeIn();					  

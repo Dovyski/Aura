@@ -10,7 +10,7 @@
 		echo '<p>Assistente virtual do NCC.</p>';
 	echo '</div>';
 
-	echo '<div class="row">';
+	echo '<div class="row" id="linhaConsoleAura">';
 		echo '<div class="span12">';
 			echo '<p>Envie ordens para a Aura usando o console abaixo.</p>';
 			echo '<div class="controls">';
@@ -30,7 +30,7 @@
 	if(count($aLabs) > 0) {
 		foreach($aLabs as $aLab) {
 			$aDevices = Aura\Groups::findDevices($aLab['id']);
-			$aPings	  = Aura\Pings::findByDevices($aDevices, /*time() - 60*60*10 */ 0);
+			$aPings	  = Aura\Pings::findByDevices($aDevices, time() - 60*10);
 			$aReport  = Aura\Utils::generateLabReport($aPings);
 
 			echo '<div class="row" style="margin-top: 30px;">';
@@ -49,7 +49,7 @@
 							echo '<div class="btn-group">';
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
-									echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
+									echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
 								echo '</ul>';
 							echo '</div>';
 						echo '</ul>';
@@ -69,7 +69,7 @@
 							echo '<div class="btn-group">';
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
-									echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="icon-remove"></i> Deslogar todos</a></li>';
+									echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="icon-remove"></i> Deslogar todos</a></li>';
 								echo '</ul>';
 							echo '</div>';
 						echo '</ul>';
@@ -96,9 +96,9 @@
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
 									if($aReport['internet']) {
-										echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';									
+										echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';									
 									} else {
-										echo '<li><a href="#" onclick="AURA.typeConsoleCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
 									}
 								echo '</ul>';
 							echo '</div>';
