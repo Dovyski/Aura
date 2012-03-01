@@ -17,9 +17,10 @@ var AURA = new function() {
 			  data: 	$('#formAura').serialize(),
 			  
 			  success: function(data){
-				  $('#auraPainelResposta').fadeOut();
-				  $('#auraPainelResposta').html(data);
-				  $('#auraPainelResposta').fadeIn();
+				  $('#auraPainelResposta').fadeOut('fast', function() {
+					  $('#auraPainelResposta').html(data);
+					  $('#auraPainelResposta').fadeIn();					  
+				  });
 			  },
 			  error: function() {
 				  $('#auraPainelResposta').html("Erro ao enviar ordem. Tente de novo.");  
