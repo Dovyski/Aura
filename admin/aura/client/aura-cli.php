@@ -1,3 +1,4 @@
+#!/usr/bin/php -q
 <?php
 
 	/**
@@ -23,6 +24,8 @@
 	ini_set('display_errors', 1);
 	ini_set('logMsg_errors', 0);
 	ini_set('html_errors', 0);
+	
+	loadConfigFile();
 	
 	$aHostname 	= '';
 	$aOs	   	= '';
@@ -82,6 +85,6 @@
 		pingBrain();
 		
 		logMsg('Dormindo ate a proxima requisicao...');
-		sleep(5);
+		sleep(PING_INTERVAL);
 	}
 ?>

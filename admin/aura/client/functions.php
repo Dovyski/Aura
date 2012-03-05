@@ -3,10 +3,13 @@
 	/**
 	 * Funções do cliente. 
 	 */
+	
+	function loadConfigFile() {
+		$aIniArray = parse_ini_file(dirname(__FILE__) . "/config.ini");
 
-	// TODO: pegar isso de um arquivo ini? 
-	define('BRAIN_URL', 		'http://localhost/ncc.cc.uffs.edu.br/admin/aura/brain.php');
-	define('PING_INTERVAL', 	60);
+		define('BRAIN_URL', 		$aIniArray['brain_url']);
+		define('PING_INTERVAL', 	$aIniArray['brain_pulling_interval']);		
+	}
 
 	function getUrl($theUrl) {
 		$aUserAgent = 'Aura Client/1.0 ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';

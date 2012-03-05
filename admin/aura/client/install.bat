@@ -1,0 +1,1 @@
+schtasks /Create /RU "NT AUTHORITY\NETWORKSERVICE" /SC ONSTART /TN "Cliente Aura" /TR "c:\aura-cli\aura-cli.bat" /RL HIGHEST 
