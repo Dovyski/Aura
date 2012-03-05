@@ -50,7 +50,10 @@
 		}
 		
 		if(isset($aCommand[AURA_OS])) {
+			ob_start();
 			$aOut = trim(shell_exec($aCommand[AURA_OS]));
+			$aRet = empty($aOut) ? ob_get_contents() : $aOut;
+			ob_end_clean(); 
 		} else {
 			$aRet = 'Nao suportado em '.AURA_OS.':' . print_r($theCommand, true);
 		}
