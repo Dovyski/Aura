@@ -16,7 +16,7 @@ function logoffUsers($theGroupName) {
 
 		if(count($aReport['computers']) > 0) {
 			$aCommand = array(
-				'win' 	=> 'shutdown /l /f',
+				'win' 	=> 'shutdown /r /t 0',
 				'linux' => 'skill -KILL -v /dev/pts/*',
 				'mac' 	=> '',
 			);
