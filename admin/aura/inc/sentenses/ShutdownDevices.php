@@ -4,7 +4,7 @@ function shutdownDevices($theGroupName) {
 	$aGroup = Aura\Groups::getByClue($theGroupName);
 
 	if($aGroup === null) {
-		echo 'Não conheço o grupo ' . $theGroupName.'.';
+		echo 'Não conheço o grupo <strong>' . $theGroupName.'<strong>.';
 		return;
 	}
 
@@ -36,6 +36,6 @@ function shutdownDevices($theGroupName) {
 	}
 }
 
-Aura\Interpreter::addSentenseHandler('shutdownDevices', '/(desligue|desligar?|apagar?|apague)(todos |todas )?( os?| as?)?( computadores| computador| aparelhos| dispositivos| pcs| máquinas| equipamentos| coisos| coisas)?( da| do)? ([\w\W]*)/', array(6));
+Aura\Interpreter::addSentenseHandler('shutdownDevices', '/(desligue|desligar?|apagar?|apague)(todos |todas )?( os?| as?)?( computadores| computador| aparelhos| dispositivos| pcs| máquinas| equipamentos| coisos| coisas)( da| do)? ([\w\W]*)/', array(6));
 
 ?>

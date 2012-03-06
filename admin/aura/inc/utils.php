@@ -69,6 +69,8 @@ class Utils {
 						if($aData !== false) {
 							if($aData['ping_ip'] <= 10) {
 								$aRet['internet'] = true;
+							} else if($aData['ping_ip'] >= 70) {
+								$aRet['internet'] = false;
 							}
 							
 							if(!empty($aData['users'])) {
