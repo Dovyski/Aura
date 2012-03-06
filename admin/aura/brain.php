@@ -43,7 +43,7 @@
 				echo 'Método inválido.';
 		}
 	} else {
-		if(AURA_AUTO_INCLUDE_DEVICES) {
+		if(AURA_AUTO_INCLUDE_DEVICES && !empty($aDevice)) {
 			Aura\Devices::update(array('name' => $aDevice, 'desc' => 'Adicionado automaticamente vindo de '.$_SERVER['REMOTE_ADDR'].'.'));
 		} else {
 			$aRet = array('error' => true, 'msg' => 'Dispositivo '.$aDevice.' desconhecido.');
