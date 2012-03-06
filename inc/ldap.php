@@ -3,12 +3,12 @@
 require_once dirname(__FILE__).'/config.php';
 
 /** 
- * Conecta ao LDAP e tenta fazer uma ligação de um usuário com uma senha. Se
- * o usuário e a senha forem corretas, então quer dizer que esse usuário é válido. 
+ * Conecta ao LDAP e tenta fazer uma ligaï¿½ï¿½o de um usuï¿½rio com uma senha. Se
+ * o usuï¿½rio e a senha forem corretas, entï¿½o quer dizer que esse usuï¿½rio ï¿½ vï¿½lido. 
  * 
- * @param string $theUsuario nome do usuário, ex.: fernando
- * @param string $theSenha senha do usuário.
- * @return bool <code>true</code> se o usuário foi autenticado com sucesso, ou <code>false</code> caso contrário.
+ * @param string $theUsuario nome do usuï¿½rio, ex.: fernando
+ * @param string $theSenha senha do usuï¿½rio.
+ * @return bool <code>true</code> se o usuï¿½rio foi autenticado com sucesso, ou <code>false</code> caso contrï¿½rio.
  */
 function ldapBindUsuario($theUsuario, $theSenha) {
 	// TODO: proteger os dados com algum escape?
@@ -31,11 +31,11 @@ function ldapBindUsuario($theUsuario, $theSenha) {
 }
 
 /** 
- * Faz uma busca na base de dados LDAP. A conexão com a base é feita
- * de forma anônima (bind sem usuário e senha).
+ * Faz uma busca na base de dados LDAP. A conexï¿½o com a base ï¿½ feita
+ * de forma anï¿½nima (bind sem usuï¿½rio e senha).
  * 
- * @param string $theBaseDN DN básico do diretório LDAP. Ex.: ou=Groups,dc=central,dc=inf,dc=uffs,dc=edu,dc=br
- * @param string $theFiltro filtro que será aplicado à busca ao LDAP. Ex.: (CN=Fulano).
+ * @param string $theBaseDN DN bï¿½sico do diretï¿½rio LDAP. Ex.: ou=Groups,dc=central,dc=inf,dc=uffs,dc=edu,dc=br
+ * @param string $theFiltro filtro que serï¿½ aplicado ï¿½ busca ao LDAP. Ex.: (CN=Fulano).
  * @return array array de elementos relacionados com a busca.
  */
 function ldapFind($theBaseDN, $theFiltro = '(CN=*)') {
@@ -53,6 +53,29 @@ function ldapFind($theBaseDN, $theFiltro = '(CN=*)') {
 	
 	ldap_unbind($aAd);
 	return $aEntradas;
+}
+
+/**
+* Atualiza os dados de um usuÃ¡rio na base de dados. Por questÃµes de simplicidade, todos
+* os dados de um usuÃ¡rio sÃ£o
+* de forma anï¿½nima (bind sem usuï¿½rio e senha).
+*
+* @param string $theBaseDN DN bï¿½sico do diretï¿½rio LDAP. Ex.: ou=Groups,dc=central,dc=inf,dc=uffs,dc=edu,dc=br
+* @param string $theFiltro filtro que serï¿½ aplicado ï¿½ busca ao LDAP. Ex.: (CN=Fulano).
+* @return array array de elementos relacionados com a busca.
+*/
+function ldapUpdateUser($theUser, $theData) {
+	$aAd = ldap_connect(NCC_LDAP_SERVIDOR);
+
+	// Set some variables
+	ldap_set_option($aAd, LDAP_OPT_PROTOCOL_VERSION, 3);
+	ldap_set_option($aAd, LDAP_OPT_REFERRALS, 0);
+	
+	$aBind 		= @ldap_bind($aAd, NCC_LDAP_ROOT_DN, NCC_LDAP_ROOT_DN_PASSWD);
+	$aResult	= ldap_modify($aAd, sprintf(NCC_LDAP_BIND_RDN, $theUser), array('description' => $theData));
+	
+	ldap_unbind($aAd);
+	return $aResult;
 }
 
 function ldapGetUsuarioByLogin($theUsuario) {
