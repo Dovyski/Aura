@@ -59,6 +59,63 @@ class Pings {
 		return $aRet;
 	}
 	
+	/**
+	* Obtem informações de pings.
+	*
+	* @param int $theSinceUnixtime timestamp a partir do qual os logs serão buscados.
+	* @return array array assossiativo com informações dos pings, no formato [id_device] => array(pings).
+	*/
+	public static function find($theSinceUnixtime) {
+		$aRet	 			= array();
+		$theSinceUnixtime 	= (int)$theSinceUnixtime;
+
+		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_PINGS." WHERE time >= " . $theSinceUnixtime . " ORDER BY time DESC");
+			
+		if(Db::numRows($aResult) > 0) {
+			while($aRow = Db::fetchAssoc($aResult)) {
+				$aRet[$aRow['fk_device']][] = $aRow;
+			}
+		}
+	
+		return $aRet;
+	}
+	
+   /**
+	* Obtem os usuários ativos nesse instante.
+	*
+	* @return array array assossiativo com informações dos usuários ativos, no formato [nome_user] => array(devices).
+	*/
+	public static function findActiveUsers() {
+		$aRet	 = array();
+		$aResult = Db::execute("SELECT fk_device, user_name FROM ".Db::TABLE_ACTIVE_USERS." WHERE 1");
+			
+		if(Db::numRows($aResult) > 0) {
+			while($aRow = Db::fetchAssoc($aResult)) {
+				$aRet[$aRow['user_name']][] = $aRow['fk_device'];
+			}
+		}
+	
+		return $aRet;
+	}
+	
+	/**
+	* Obtem os dispositivos ativos nesse instante.
+	*
+	* @return array array assossiativo com informações dos dispositivos ativos, no formato [id] => array_assoc(infos).
+	*/
+	public static function findActiveDevices() {
+		$aRet	 = array();
+		$aResult = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE 1");
+			
+		if(Db::numRows($aResult) > 0) {
+			while($aRow = Db::fetchAssoc($aResult)) {
+				$aRet[$aRow['fk_device']] = $aRow;
+			}
+		}
+	
+		return $aRet;
+	}
+	
 	public static function remove($theOlderThanTimestamp) {
 		$theOlderThanTimestamp = (int)$theOlderThanTimestamp;
 		return Db::execute("DELETE FROM ".Db::TABLE_PINGS." WHERE time <= " . $theOlderThanTimestamp);

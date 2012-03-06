@@ -16,6 +16,8 @@ class Db {
 	const TABLE_GROUPS 			= "groups";
 	const TABLE_GROOMING 		= "grooming";
 	const TABLE_PINGS 			= "pings";
+	const TABLE_ACTIVE_USERS 	= "monitor_active_users";
+	const TABLE_ACTIVE_DEVICES 	= "monitor_active_devices";
 	
 	private static $mConnection = null;	
 	
