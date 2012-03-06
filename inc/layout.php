@@ -24,9 +24,8 @@ function barraNavegacao() {
 						echo '<li '.($aPagina == 'sobre.php' 			? 'class="active"' : '').'><a href="sobre.php">Sobre</a></li>';
 					echo '</ul>';
 					
-					if(authIsLogado()) {
-						layoutBarraUsuarioLogado();						
-					}
+					layoutBarraUsuarioLogado();
+											
 				echo '</div><!--/.nav-collapse -->';
 			echo '</div>';
 		echo '</div>';
@@ -61,16 +60,21 @@ function barraNavegacaoAdmin() {
 }
 
 function layoutBarraUsuarioLogado() {
-	$aLinkProfile = utilIsNavegandoIntranet() ? './' : './admin/';
+	$aLinkProfile = utilIsNavegandoIntranet() ? '../conta.php' : './conta.php';
+	$aClassLink	  = authIsAdmin() ? 'btn-danger' : 'btn-primary';
 	
 	echo '<ul class="nav pull-right">';
 		echo '<div class="btn-group">';
-			echo '<a class="btn btn-primary" href="'.$aLinkProfile.'"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
-			echo '<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
-			
-			echo '<ul class="dropdown-menu">';
-				echo '<li><a href="../logout.php"><i class="icon-remove"></i> Sair</a></li>';
-			echo '</ul>';
+			if(authIsLogado()) {
+				echo '<a class="btn '.$aClassLink.'" href="'.$aLinkProfile.'"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
+				echo '<a class="btn '.$aClassLink.' dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
+					
+				echo '<ul class="dropdown-menu">';
+				echo '<li><a href="'.(utilIsNavegandoIntranet() ? '../logout.php' : './logout.php').'"><i class="icon-remove"></i> Sair</a></li>';
+				echo '</ul>';				
+			} else {
+				echo '<a class="btn '.$aClassLink.'" href="login.php"><i class="icon-user icon-white"></i> Login</a>';
+			}
 		echo '</div>';
 	echo '</ul>';
 }

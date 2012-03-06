@@ -8,7 +8,7 @@
 		if(isset($_POST['usuario'], $_POST['senha']) && authIsUsuarioValido($_POST['usuario'], $_POST['senha'])) {
 			authLogin($_POST['usuario']);
 			
-			header('Location: admin/');
+			header('Location: ' . (authIsAdmin() ? 'admin/' : 'index.php'));
 			exit();
 		} else {
 			$aErroLogin = true;

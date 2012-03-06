@@ -25,7 +25,7 @@
 		echo '</div>';
 		
 		echo '<div class="span1">';
-			echo '<p><img src="./img/os/windows_small.png" border="" title="Ubuntu"></p>';
+			echo '<p><img src="./img/os/windows_small.png" border="" title="Windows"></p>';
 		echo '</div>';
 		echo '<div class="span5">';
 			echo '<h1>Windows</h1>';
