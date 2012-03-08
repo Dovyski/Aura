@@ -34,14 +34,12 @@
 
 	if(stristr(PHP_OS, 'win') !== false) {
 		// Windows
-		$aHostname 	= trim(shell_exec('hostname'));
 		$aOs		= 'win';
-		$aTemp 		= explode("\n", shell_exec('systeminfo | findstr /B /C:"OS Name" /C:"OS Version"'));
-		$aParts		= explode(':', $aTemp[0]);
-		$aParts2	= explode(':', $aTemp[1]);
+		$aWin		= getMachineInfoWindows();
 		
-		$aOsName	= trim($aParts[1]);
-		$aOsVersion	= trim($aParts2[1]);		
+		$aHostname 	= $aWin['hostname'];
+		$aOsName	= $aWin['os_name'];
+		$aOsVersion	= $aWin['os_version'];		
 	} else {
 		// Linux
 		$aOs		= 'linux';

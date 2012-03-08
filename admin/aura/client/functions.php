@@ -15,10 +15,11 @@
 		$aUserAgent = 'Aura Client/1.0 ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
 		
 		$aCh = curl_init($theUrl);
-		curl_setopt($aCh, CURLOPT_USERAGENT, $aUserAgent);
-		curl_setopt($aCh, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($aCh,CURLOPT_CONNECTTIMEOUT, 10);
-		curl_setopt($aCh, CURLOPT_FAILONERROR, 1);
+		curl_setopt($aCh, CURLOPT_SSL_VERIFYPEER, 	false);
+		curl_setopt($aCh, CURLOPT_USERAGENT, 		$aUserAgent);
+		curl_setopt($aCh, CURLOPT_RETURNTRANSFER, 	1);
+		curl_setopt($aCh, CURLOPT_CONNECTTIMEOUT, 	10);
+		curl_setopt($aCh, CURLOPT_FAILONERROR, 		1);
 		
 		$aResult = curl_exec($aCh);
 		$aRet	 = curl_errno($aCh) ? false : $aResult; 
@@ -96,8 +97,9 @@
 		// Pings
 		$aOut 				= trim(shell_exec('ping -n 5 -w 1000 8.8.8.8'));
 		$aMatches 			= array();
-		preg_match_all('/([\w\W]) = [0-9]+, ([\w\W]*) = [0-9]+, ([\w\W]*) = [0-9]+ \(([0-9]+)+.*\)/', $aOut, $aMatches);
-		$aData['ping_ip'] 	= $aMatches[4][0];
+		
+		preg_match_all('/ \(([0-9]+)%/', $aOut, $aMatches);
+		$aData['ping_ip'] 	= isset($aMatches[1][0]) ? $aMatches[1][0] : NULL;
 
 		// Espaço no HD
 		$aMatches 					= array();
@@ -123,5 +125,20 @@
 		$aData['users'] = serialize($aUsers);
 		
 		return $aData;
+	}
+	
+	function getMachineInfoWindows() {
+		$aRet = array();
+		
+		$aRet['hostname'] = trim(shell_exec('hostname'));
+		
+		$aInfos 			= explode("\n", shell_exec('systeminfo'));
+		$aTemp				= explode(':', $aInfos[2], 2);
+		$aRet['os_name']	= trim($aTemp[1]);
+		
+		$aTemp				= explode(':', $aInfos[3], 2);
+		$aRet['os_version']	= trim($aTemp[1]);
+		
+		return $aRet;
 	}
 ?>

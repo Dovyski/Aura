@@ -1,1 +1,1 @@
-php %~dp0aura-cli.php >> %~dp0aura-cli.log
+php "%~dp0aura-cli.php" >> "%~dp0aura-cli.log"
