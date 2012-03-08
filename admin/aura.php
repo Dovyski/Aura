@@ -30,7 +30,7 @@
 	if(count($aLabs) > 0) {
 		foreach($aLabs as $aLab) {
 			$aDevices = Aura\Groups::findDevices($aLab['id']);
-			$aPings	  = Aura\Pings::findByDevices($aDevices, time() - 60*10);
+			$aPings	  = Aura\Pings::findByDevices($aDevices, time() - 60*1);
 			$aReport  = Aura\Utils::generateLabReport($aPings);
 
 			echo '<div class="row" style="margin-top: 30px;">';
