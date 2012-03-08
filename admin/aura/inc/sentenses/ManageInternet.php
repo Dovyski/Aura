@@ -42,6 +42,6 @@ function manageInternet($theDeactivate, $theActivate, $theGroupName) {
 	}
 }
 
-Aura\Interpreter::addSentenseHandler('manageInternet', '/(desligue|desligar?|apagar?|apague|corte|cortar?|cancele|cancelar?|suspender?|suspenda|mate|matar?|desabilite|desabilitar?|desconectar?|desconecte)?(ligar?|ligue|ativar?|ative|reconecte|reconectar?|habilite|habilitar?)?( os?| as?)?( internet| net| redes?| conexão| conexões | comunicação| comunicações)?( dos?)?( computadores| computador| aparelhos| dispositivos| pcs| máquinas| equipamentos| coisos| coisas)?( da| do)? ([\w\W]*)/', array(1, 2, 8));
+Aura\Interpreter::addSentenseHandler('manageInternet', '/(desligue|desligar?|apagar?|apague|corte|cortar?|cancele|cancelar?|suspender?|suspenda|mate|matar?|desabilite|desabilitar?|desconectar?|desconecte)?(ligar?|ligue|ativar?|ative|reconecte|reconectar?|habilite|habilitar?)?( os?| as?)?( internet| net| redes?| conexão| conexões | comunicação| comunicações)( dos?)?( computadores| computador| aparelhos| dispositivos| pcs| máquinas| equipamentos| coisos| coisas)?( da| do)? ([\w\W]*)/', array(1, 2, 8));
 
 ?>

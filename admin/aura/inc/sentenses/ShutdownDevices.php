@@ -16,7 +16,7 @@ function shutdownDevices($theGroupName) {
 
 		if(count($aReport['computers']) > 0) {
 			$aCommand = array(
-				'win' 	=> 'shutdown -s -t 30 -c "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
+				'win' 	=> 'shutdown -s -t 30 & msg * "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
 				'linux' => 'shutdown -h -t 30 "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
 				'mac' 	=> '',
 			);
