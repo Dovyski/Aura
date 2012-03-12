@@ -1,4 +1,3 @@
-#!/usr/bin/php -q
 <?php
 
 	/**
@@ -43,6 +42,11 @@
 	} else {
 		// Linux
 		$aOs		= 'linux';
+		$aUnix		= getMachineInfoLinux();
+		
+		$aHostname 	= $aUnix['hostname'];
+		$aOsName	= $aUnix['os_name'];
+		$aOsVersion	= $aUnix['os_version'];
 	}
 	
 	define('AURA_HOSTNAME',		$aHostname);
