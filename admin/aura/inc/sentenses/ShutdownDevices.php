@@ -16,8 +16,8 @@ function shutdownDevices($theGroupName) {
 
 		if(count($aReport['computers']) > 0) {
 			$aCommand = array(
-				'win' 	=> 'shutdown -s -t 30 & msg * "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
-				'linux' => 'shutdown -h -t 30 "O computador vai desligar em 30 segundos. Salve tudo aberto agora!"',
+				'win' 	=> 'shutdown -s -t 60 & msg * "O computador vai desligar em 1 minuto. Salve tudo aberto agora!"',
+				'linux' => 'shutdown -h +1 "O computador vai desligar em 1 minuto. Salve tudo aberto agora!"',
 				'mac' 	=> '',
 			);
 			$aTask = array(
@@ -27,7 +27,7 @@ function shutdownDevices($theGroupName) {
 				'exec' 		=> serialize($aCommand)
 			);
 			Aura\Tasks::add($aTask, $aReport['computers']);
-			echo 'Ok, os computadores serão desligados em 30 segundos.';
+			echo 'Ok, os computadores serão desligados em 1 minuto.';
 		} else {
 			echo 'Todos os computadores já estão desligados.';
 		}
