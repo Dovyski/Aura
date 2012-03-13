@@ -88,16 +88,18 @@ class Pings {
 	*/
 	public static function findActiveUsers($theDevices = null) {
 		$aRet	 = array();
-		$aWhere	 = " 1 ";
+		$aResult = null;
 		
-		if(isset($theDevices) && is_array($theDevices)) {
-			$aDevicesIds = Utils::prepareForSql($theDevices);
-			$aWhere	 	 = " fk_device IN (".implode(', ', $aDevicesIds).")";
+		if(isset($theDevices)) {
+			if(is_array($theDevices) && count($theDevices) > 0) {
+				$aDevicesIds = Utils::prepareForSql($theDevices);
+				$aResult	 = Db::execute("SELECT fk_device, user_name FROM ".Db::TABLE_ACTIVE_USERS." WHERE fk_device IN (".implode(', ', $aDevicesIds).")");
+			}
+		} else {
+			$aResult = Db::execute("SELECT fk_device, user_name FROM ".Db::TABLE_ACTIVE_USERS." WHERE 1");
 		}
 		
-		$aResult = Db::execute("SELECT fk_device, user_name FROM ".Db::TABLE_ACTIVE_USERS." WHERE " . $aWhere);
-			
-		if(Db::numRows($aResult) > 0) {
+		if($aResult !== null && Db::numRows($aResult) > 0) {
 			while($aRow = Db::fetchAssoc($aResult)) {
 				$aRet[$aRow['user_name']][] = $aRow['fk_device'];
 			}
@@ -114,16 +116,18 @@ class Pings {
 	*/
 	public static function findActiveDevices($theIdsFilter = null) {
 		$aRet	 = array();
-		$aWhere	 = " 1 ";
+		$aResult = null;
 		
-		if(isset($theIdsFilter) && is_array($theIdsFilter)) {
-			$aDevicesIds = Utils::prepareForSql($theIdsFilter);
-			$aWhere	 	 = " fk_device IN (".implode(', ', $theIdsFilter).")";
+		if(isset($theIdsFilter)) {
+			if(is_array($theIdsFilter) && count($theIdsFilter) > 0) {
+				$aDevicesIds = Utils::prepareForSql($theIdsFilter);
+				$aResult 	 = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE  fk_device IN (".implode(', ', $theIdsFilter).")");
+			}
+		} else {
+			$aResult = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE 1");
 		}
-		
-		$aResult = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE " . $aWhere);
 			
-		if(Db::numRows($aResult) > 0) {
+		if($aResult !== null && Db::numRows($aResult) > 0) {
 			while($aRow = Db::fetchAssoc($aResult)) {
 				$aRet[$aRow['fk_device']] = $aRow;
 			}

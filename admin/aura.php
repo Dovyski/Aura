@@ -2,7 +2,7 @@
 	require_once dirname(__FILE__).'/../inc/globals.php';
 	require_once dirname(__FILE__).'/aura/globals.php';
 
-	authRestritoAdmin();
+	//authRestritoAdmin();
 	cabecalho('Inicial', '../');
 	
 	echo '<div class="hero-unit">';
@@ -29,9 +29,10 @@
 	
 	if(count($aLabs) > 0) {
 		foreach($aLabs as $aLab) {
-			$aDevices = Aura\Groups::findDevices($aLab['id']);
-			$aPings	  = Aura\Pings::findByDevices($aDevices, time() - 60*1);
-			$aReport  = Aura\Utils::generateLabReport($aPings);
+			$aDevices 		= Aura\Groups::findDevices($aLab['id']);
+			$aUsers	  		= Aura\Pings::findActiveUsers($aDevices);
+			$aActiveDevices = Aura\Pings::findActiveDevices($aDevices);
+			$aInternet		= Aura\Utils::hasInternetAccess($aActiveDevices);
 
 			echo '<div class="row" style="margin-top: 30px;">';
 				echo '<div class="span12">';
@@ -57,12 +58,18 @@
 
 					echo '<img src="../img/icos/computador.png" title="Computadores" />';
 					echo '<h2>Computadores</h2>';
-					echo '<p>Total <strong>'.count($aDevices).'</strong>, ligados <strong>'.count($aReport['computers']).'</strong></p>';
+					$aTotalDispositivos = count($aDevices);
+					if($aTotalDispositivos == 0) {
+						echo '<p>Nenhum cadastrado</p>';						
+					} else {
+						echo '<p>Total <strong>'.$aTotalDispositivos.'</strong>, ligados <strong>'.count($aActiveDevices).'</strong></p>';						
+					}
+
 				echo '</div>';
 				
 				// Usuários
 				echo '<div class="span4 aura-bloco">';
-					$aLogados = count($aReport['users']);
+					$aLogados = count($aUsers);
 					
 					if($aLogados > 0) {
 						echo '<ul class="aura-bloco-opts">';
@@ -90,12 +97,12 @@
 				
 				// Internet
 				echo '<div class="span4 aura-bloco">';
-					if($aReport['internet'] !== null) {
+					if($aInternet['status'] != 'desconhecida') {
 						echo '<ul class="aura-bloco-opts">';
 							echo '<div class="btn-group">';
 								echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 								echo '<ul class="dropdown-menu">';
-									if($aReport['internet']) {
+									if($aInternet['status'] == 'online') {
 										echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';									
 									} else {
 										echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
@@ -107,10 +114,10 @@
 				
 					echo '<img src="../img/icos/internet.png" title="Internet" />';
 					echo '<h2>Internet</h2>';
-					if($aReport['internet'] === null) {
+					if($aInternet['status'] == 'desconhecida') {
 						echo '<span class="label label-warning">Desconhecida</span>';
 					} else {
-						echo $aReport['internet'] ? '<span class="label label-success">Online</span>' : '<span class="label label-important">Offline</span>';
+						echo $aInternet['status'] == 'online' ? '<span class="label label-success">Online</span>' : '<span class="label label-important">Offline</span>';
 					}
 				echo '</div>';
 			echo '</div>';
