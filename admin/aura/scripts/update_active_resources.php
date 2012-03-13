@@ -44,8 +44,6 @@
 					
 					$aRet['computers'][$aIdDevice]['client'] 	= $aInfo['client'];
 					$aRet['computers'][$aIdDevice]['os'] 		= $aMatches[1][0];
-					
-					unset($aData['ping_ip']);
 					$aRet['computers'][$aIdDevice]['data'] 		= $aData;
 				}
 			}

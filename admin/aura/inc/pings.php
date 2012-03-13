@@ -83,11 +83,19 @@ class Pings {
    /**
 	* Obtem os usuários ativos nesse instante.
 	*
+	* @param array $theDevices array com os ids dos dispositivos que serão analisados. Se nada for informado (default), todos os usuários ativos, independente de dispositivo, serão retornados. 
 	* @return array array assossiativo com informações dos usuários ativos, no formato [nome_user] => array(devices).
 	*/
-	public static function findActiveUsers() {
+	public static function findActiveUsers($theDevices = null) {
 		$aRet	 = array();
-		$aResult = Db::execute("SELECT fk_device, user_name FROM ".Db::TABLE_ACTIVE_USERS." WHERE 1");
+		$aWhere	 = " 1 ";
+		
+		if(isset($theDevices) && is_array($theDevices)) {
+			$aDevicesIds = Utils::prepareForSql($theDevices);
+			$aWhere	 	 = " fk_device IN (".implode(', ', $aDevicesIds).")";
+		}
+		
+		$aResult = Db::execute("SELECT fk_device, user_name FROM ".Db::TABLE_ACTIVE_USERS." WHERE " . $aWhere);
 			
 		if(Db::numRows($aResult) > 0) {
 			while($aRow = Db::fetchAssoc($aResult)) {
@@ -101,11 +109,19 @@ class Pings {
 	/**
 	* Obtem os dispositivos ativos nesse instante.
 	*
+	* @param array $theIdsFilter array com os ids dos dispositivos que serão retornados com seu status. Se nada for informado (default), todos os dispositivo ativos serão retornados.
 	* @return array array assossiativo com informações dos dispositivos ativos, no formato [id] => array_assoc(infos).
 	*/
-	public static function findActiveDevices() {
+	public static function findActiveDevices($theIdsFilter = null) {
 		$aRet	 = array();
-		$aResult = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE 1");
+		$aWhere	 = " 1 ";
+		
+		if(isset($theIdsFilter) && is_array($theIdsFilter)) {
+			$aDevicesIds = Utils::prepareForSql($theIdsFilter);
+			$aWhere	 	 = " fk_device IN (".implode(', ', $theIdsFilter).")";
+		}
+		
+		$aResult = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE " . $aWhere);
 			
 		if(Db::numRows($aResult) > 0) {
 			while($aRow = Db::fetchAssoc($aResult)) {

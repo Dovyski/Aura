@@ -106,7 +106,7 @@ class Groups {
 		
 		if(Db::numRows($aResult) > 0) {
 			while($aRow = Db::fetchAssoc($aResult)) {
-				$aRet[] = $aRow['fk_device'];
+				$aRet[] = (int)$aRow['fk_device'];
 			}
 		}
 		

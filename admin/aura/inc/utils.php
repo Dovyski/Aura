@@ -95,6 +95,50 @@ class Utils {
 		return $aRet;
 	}
 	
+	/**
+	 * Analisa um array de dispositivos retornados por <code>Ping::findActiveDevices()</code>.
+	 * e diz se como é a  internet no local onde esses dispositivos estão (online, offline,
+	 * instável, etc).
+	 * 
+	 * @param array $theActiveDevices array de dispotivos retornado por <code>Ping::findActiveDevices()</code> 
+	 * @return array array assossiativo no formato ['status'] => 'online' (até 75% de perdas), 'offline' (100% de perda de pacotes), 'desconhecida' se não sabe informar; [lost_avg'] => float (número de 0.0 a 100.0 descrevendo a percentagem média de perda de pacotes na conexão à Internet). 
+	 */
+	public static function hasInternetAccess($theActiveDevices) {
+		$aRet = array(
+			'status' 	=> 'desconhecida',
+			'lost_avg'  => 0
+		);
+		$aHasInternet 	= null;
+		
+		if(is_array($theActiveDevices) && count($theActiveDevices) > 0) {
+			foreach($theActiveDevices as $aId => $aInfo) {
+				$aData = @unserialize($aInfo['data']);
+				
+				if($aData !== false && isset($aData['ping_ip'])) {
+					$aPingLost = (int)$aData['ping_ip'];
+					
+					if($aPingLost <= 75) {
+						$aHasInternet = true;
+					} else {
+						$aHasInternet = false;
+					}
+					
+					$aRet['lost_avg'] += $aPingLost; 
+				} else {
+					$aRet['lost_avg'] += 0;
+				}
+			}
+			
+			$aRet['lost_avg'] /= count($theActiveDevices);
+		}
+		
+		if($aHasInternet !== null) {
+			$aRet['status'] = $aHasInternet ? 'online' : 'offline';
+		}
+		
+		return $aRet;
+	}
+	
 	public static function generateUpdateStatement($theArray) {
 		$aRet = "";
 		$aEscaped = self::prepareForSql($theArray);
