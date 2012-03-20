@@ -7,13 +7,15 @@
 	require_once dirname(__FILE__).'/../globals.php';
 	require_once dirname(__FILE__).'/../../../inc/globals.php';
 
-	$aPings	= Aura\Pings::find(time() - 60*2);
+	define('REFRESH_TIME', 60);
+	
+	$aPings	= Aura\Pings::find(time() - REFRESH_TIME);
 	
 	$aRet = array(
 		'computers' => array(), 
 		'users'	 	=> array()
 	);
-	
+
 	echo "Updating active users/devices...\n";
 	
 	if(count($aPings) == 0) {
@@ -88,8 +90,8 @@
 	}
 	
 	echo "Removing old entries...";
-	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_DEVICES." WHERE time <= " . (time() - 120));
-	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_USERS." WHERE time <= " . (time() - 120));
+	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_DEVICES." WHERE time <= " . (time() - REFRESH_TIME));
+	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_USERS." WHERE time <= " . (time() - REFRESH_TIME));
 	echo "[OK]\n";	
 	
 	echo "All done, have a nice day!\n";
