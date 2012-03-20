@@ -66,7 +66,7 @@ class Tasks {
 			$aValuesDevices = "(".$aIdTask.", 0, 0, 0, '')";
 		}
 		
-		Db::execute("INSERT INTO ".Db::TABLE_TASKS_LOG." (fk_command, fk_device, time_start, time_end, result) VALUES ".$aValuesDevices);
+		Db::execute("INSERT INTO ".Db::TABLE_TASKS_LOG." (fk_task, fk_device, time_start, time_end, result) VALUES ".$aValuesDevices);
 	}
 	
 	public static function getById($theId) {
@@ -92,7 +92,7 @@ class Tasks {
 		$theId	 = (int)$theId;
 		
 		if(self::getById($theId) !== null) {
-			Db::execute("DELETE FROM ".Db::TABLE_TASKS_LOG." WHERE fk_command = " . $theId);
+			Db::execute("DELETE FROM ".Db::TABLE_TASKS_LOG." WHERE fk_task = " . $theId);
 			Db::execute("DELETE FROM ".Db::TABLE_TASKS." WHERE id = " . $theId);
 			$aRet = true;
 		}
@@ -116,7 +116,7 @@ class Tasks {
 		if(!is_array($theData) || count($theData) == 0) return false;
 		 
 		$aSets = Utils::generateUpdateStatement($theData);
-		$aRet  = Db::execute("UPDATE ".Db::TABLE_TASKS_LOG." SET ".$aSets." WHERE fk_command = ".$theIdTask." AND fk_device = ".$theIdDevice);
+		$aRet  = Db::execute("UPDATE ".Db::TABLE_TASKS_LOG." SET ".$aSets." WHERE fk_task = ".$theIdTask." AND fk_device = ".$theIdDevice);
 
 		if($aRet && $aCheck && self::countDevicesRunningTask($theIdTask) == 0) {
 			// Todos os envolvidos em executar uma tarefa completaram ela. Vamos
@@ -131,7 +131,7 @@ class Tasks {
 	private static function countDevicesRunningTask($theTaskId) {
 		$aRet	 		= 0;
 		$theTaskId	= (int)$theTaskId;
-		$aResult 		= Db::execute("SELECT COUNT(*) AS count FROM ".Db::TABLE_TASKS_LOG." WHERE time_end = 0 AND fk_command = ". $theTaskId);
+		$aResult 		= Db::execute("SELECT COUNT(*) AS count FROM ".Db::TABLE_TASKS_LOG." WHERE time_end = 0 AND fk_task = ". $theTaskId);
 		
 		if(Db::numRows($aResult) == 1) {
 			$aTemp = Db::fetchAssoc($aResult);
@@ -148,7 +148,7 @@ class Tasks {
 											c.id, c.priority, c.time, c.exec
 												
 									   FROM ".Db::TABLE_TASKS." AS c JOIN
-									   		".Db::TABLE_TASKS_LOG." AS l ON c.id = l.fk_command
+									   		".Db::TABLE_TASKS_LOG." AS l ON c.id = l.fk_task
 									    		
 									   WHERE l.fk_device = ".$theDeviceId." AND l.time_end = 0 AND c.status = " . self::STATUS_RUNNING . "
 									   ORDER BY c.priority ASC");
