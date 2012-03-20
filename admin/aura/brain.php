@@ -4,7 +4,7 @@
 
 	$aMethod = isset($_REQUEST['method']) ? $_REQUEST['method'] : '';
 	$aDevice = isset($_REQUEST['device']) ? $_REQUEST['device'] : 0;
-	$aRet	 = '';
+	$aRet	 = array();
 	
 	unset($_REQUEST['method'], $_REQUEST['device']);
 	
