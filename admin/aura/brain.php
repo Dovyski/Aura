@@ -4,14 +4,27 @@
 
 	$aMethod = isset($_REQUEST['method']) ? $_REQUEST['method'] : '';
 	$aDevice = isset($_REQUEST['device']) ? $_REQUEST['device'] : 0;
+	$aHash 	 = isset($_REQUEST['hash'])   ? $_REQUEST['hash']   : '';
 	$aRet	 = array();
 	
-	unset($_REQUEST['method'], $_REQUEST['device']);
+	unset($_REQUEST['method'], $_REQUEST['device'], $_REQUEST['hash']);
 	
-	$aInfoDevice = Aura\Devices::getByClue($aDevice);
+	$aInfoDevice = Aura\Devices::getByClue($aHash);
 	
 	if($aInfoDevice !== null) {
 		switch($aMethod) {
+			case 'check':
+				$aPossibleNames = $aInfoDevice['name'] . ' ' . $aInfoDevice['alias'];
+				  
+				if(strpos($aPossibleNames, $aDevice) === false) {
+					$aRet['exec'] = array(
+						'win' 	=> 'wmic1 computersystem where name="%COMPUTERNAME%" call rename name="W'.$aInfoDevice['name'].'" & shutdown1 -r -t 0',
+						'linux' => 'echo "U'.$aInfoDevice['name'].'" > /etc/hostname & shutdown -r now',
+						'mac' 	=> '',
+					);					
+				}
+				break;
+				
 			case 'ping':
 				if(!empty($_REQUEST['data'])) {
 					$_REQUEST['data'] = @urldecode($_REQUEST['data']);
@@ -43,8 +56,9 @@
 				echo 'Método inválido.';
 		}
 	} else {
-		if(AURA_AUTO_INCLUDE_DEVICES && !empty($aDevice)) {
-			Aura\Devices::update(array('name' => $aDevice, 'desc' => 'Adicionado automaticamente vindo de '.$_SERVER['REMOTE_ADDR'].'.'));
+		if(AURA_AUTO_INCLUDE_DEVICES && !empty($aHash)) {
+			Aura\Devices::update(array('name' => $aHash, 'hash' => $aHash, 'desc' => 'Adicionado automaticamente vindo de '.$aDevice.', IP '.$_SERVER['REMOTE_ADDR'].'.'));
+			$aRet = array('success' => true, 'msg' => 'Dispositivo '.$aDevice.' adicionado.');
 		} else {
 			$aRet = array('error' => true, 'msg' => 'Dispositivo '.$aDevice.' desconhecido.');
 		}

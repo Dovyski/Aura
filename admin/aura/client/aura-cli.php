@@ -30,6 +30,7 @@
 	$aOs	   	= '';
 	$aOsName   	= '';
 	$aOsVersion = '';
+	$aSerialHd 	= '';
 
 	if(stristr(PHP_OS, 'win') !== false) {
 		// Windows
@@ -38,7 +39,8 @@
 		
 		$aHostname 	= $aWin['hostname'];
 		$aOsName	= $aWin['os_name'];
-		$aOsVersion	= $aWin['os_version'];		
+		$aOsVersion	= $aWin['os_version'];
+		$aSerialHd 	= $aWin['serial_hd'];
 	} else {
 		// Linux
 		$aOs		= 'linux';
@@ -47,18 +49,21 @@
 		$aHostname 	= $aUnix['hostname'];
 		$aOsName	= $aUnix['os_name'];
 		$aOsVersion	= $aUnix['os_version'];
+		$aSerialHd 	= $aUnix['serial_hd'];
 	}
 	
 	define('AURA_HOSTNAME',		$aHostname);
 	define('AURA_OS_NAME',		$aOsName);
 	define('AURA_OS_VERSION',	$aOsVersion);
 	define('AURA_OS',			$aOs);
+	define('AURA_HASH',			md5($aSerialHd));
 	
-	logMsg('Iniciando atividades em '.AURA_HOSTNAME.', rodando '.AURA_OS_NAME.' ('.AURA_OS_VERSION.').');
+	logMsg('Iniciando atividades em '.AURA_HOSTNAME.' ('.AURA_HASH.'), rodando '.AURA_OS_NAME.' ('.AURA_OS_VERSION.').');
+	$aMachineOk = checkMachineIsOk();
 
-	while(1) {
+	while($aMachineOk) {
 		logMsg('Solicitando novos dados...');
-		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME);
+		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME.'&hash='.AURA_HASH);
 		
 		if($aResult !== false) {
 			logMsg('Ordens recebidas: ');
@@ -69,10 +74,10 @@
 			if($aData !== null) {
 				if(count($aData) > 0) {
 					foreach($aData as $aIdTask => $aInfos) {
-						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_start='.time());
+						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_start='.time());
 						
 						$aOut = runCommand($aInfos->exec);
-						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&time_end='.time().'&result=' . urlencode($aOut));
+						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=' . urlencode($aOut));
 	
 						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.$aOut);
 					}
