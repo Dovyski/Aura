@@ -3,7 +3,7 @@
 	require_once dirname(__FILE__).'/globals.php';
 
 	$aMethod = isset($_REQUEST['method']) ? $_REQUEST['method'] : '';
-	$aDevice = isset($_REQUEST['device']) ? $_REQUEST['device'] : 0;
+	$aDevice = isset($_REQUEST['device']) ? $_REQUEST['device'] : '';
 	$aHash 	 = isset($_REQUEST['hash'])   ? $_REQUEST['hash']   : '';
 	$aRet	 = array();
 	

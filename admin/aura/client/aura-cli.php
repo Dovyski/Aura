@@ -62,16 +62,15 @@
 	$aMachineOk = checkMachineIsOk();
 
 	while($aMachineOk) {
-		logMsg('Solicitando novos dados...');
+		logMsg('Solicitando novas ordens...');
 		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME.'&hash='.AURA_HASH);
 		
 		if($aResult !== false) {
-			logMsg('Ordens recebidas: ');
-			logMsg($aResult);
-			
 			$aData = @json_decode($aResult);
 			
 			if($aData !== null) {
+				logMsg('Ordens recebidas: ' . count($aData));
+				
 				if(count($aData) > 0) {
 					foreach($aData as $aIdTask => $aInfos) {
 						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_start='.time());
@@ -79,14 +78,14 @@
 						$aOut = runCommand($aInfos->exec);
 						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=' . urlencode($aOut));
 	
-						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.$aOut);
+						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.substr($aOut, 0, 5).'...');
 					}
 				}
 			} else {
-				logMsg('Erro na decodificacao.');
+				logMsg('Erro na decodificacao das ordens.');
 			}
 		} else {
-			logMsg('Erro na solicitacao de dados!');
+			logMsg('Erro na solicitacao de ordens!');
 		}
 
 		pingBrain();

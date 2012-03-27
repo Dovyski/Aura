@@ -10,6 +10,7 @@
 		define('BRAIN_URL', 		$aIniArray['brain_url']);
 		define('PING_INTERVAL', 	$aIniArray['brain_pulling_interval']);		
 		define('LOG_REQUESTS', 		$aIniArray['log_requests'] ? true : false);
+		define('LOG_EXECS', 		$aIniArray['log_execs'] ? true : false);
 	}
 
 	function getUrl($theUrl) {
@@ -62,13 +63,14 @@
 		}
 
 		if($aCommand != '') {
-			logMsg('Exec: ' . $aCommand);
+			logMsg('Exec: ' . (LOG_EXECS ? $aCommand : substr($aCommand, 0, 6).'...'));
+							
 			ob_start();
 			$aOut = trim(shell_exec($aCommand));
 			$aRet = empty($aOut) ? ob_get_contents() : $aOut;
 			ob_end_clean(); 
 		} else {
-			echo 'Nao suportado em '.AURA_OS.':' . print_r($theCommand, true);
+			logMsg('Comando nao suportado em '.AURA_OS);
 		}
 		
 		return $aRet;
@@ -139,7 +141,7 @@
 			
 			if($aData !== null) {
 				if(count($aData) > 0) {
-					logMsg('Cerebro mandou ajustes: ' . print_r($aData, true));
+					logMsg('Cerebro mandou ajustes');
 			
 					$aOut = runCommand($aData->exec);
 					logMsg('Ajustes feitos: ' . $aOut);
