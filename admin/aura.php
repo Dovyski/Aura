@@ -2,7 +2,7 @@
 	require_once dirname(__FILE__).'/../inc/globals.php';
 	require_once dirname(__FILE__).'/aura/globals.php';
 
-	//authRestritoAdmin();
+	authRestritoAdmin();
 	cabecalho('Inicial', '../');
 	
 	echo '<div class="hero-unit">';
