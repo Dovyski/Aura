@@ -59,9 +59,10 @@
 	define('AURA_HASH',			md5($aSerialHd));
 	
 	logMsg('Iniciando atividades em '.AURA_HOSTNAME.' ('.AURA_HASH.'), rodando '.AURA_OS_NAME.' ('.AURA_OS_VERSION.').');
-	$aMachineOk = checkMachineIsOk();
 
-	while($aMachineOk) {
+	while(1) {
+		checkMachineIsOk();
+		
 		logMsg('Solicitando novas ordens...');
 		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME.'&hash='.AURA_HASH);
 		
