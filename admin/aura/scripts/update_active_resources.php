@@ -7,7 +7,7 @@
 	require_once dirname(__FILE__).'/../globals.php';
 	require_once dirname(__FILE__).'/../../../inc/globals.php';
 
-	define('REFRESH_TIME', 60);
+	define('REFRESH_TIME', 30);
 	
 	$aPings	= Aura\Pings::find(time() - REFRESH_TIME);
 	
@@ -17,6 +17,11 @@
 	);
 
 	echo "Updating active users/devices...\n";
+	
+	echo "Removing old entries...";
+	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_DEVICES." WHERE time <= " . (time() - REFRESH_TIME));
+	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_USERS." WHERE time <= " . (time() - REFRESH_TIME));
+	echo "[OK]\n";
 	
 	if(count($aPings) == 0) {
 		echo "No recent data found, aborting.\n";
@@ -35,7 +40,9 @@
 
 					if($aUsers !== false) {
 						foreach($aUsers as $aUser) {
-							$aRet['users'][$aUser['name']][$aIdDevice] = $aIdDevice;
+							if(strlen($aUser['name']) > 0) {
+								$aRet['users'][$aUser['name']][$aIdDevice] = $aIdDevice;								
+							}
 						}
 					}
 				}
@@ -51,7 +58,7 @@
 			}
 		}
 	}
-	//var_dump($aRet);exit();
+
 	echo "Adding devices:\n";
 	if(count($aRet['computers']) > 0) {
 		foreach($aRet['computers'] as $aIdDevice => $aInfo) {
@@ -88,11 +95,6 @@
 	} else {
 		echo " No users found.\n";
 	}
-	
-	echo "Removing old entries...";
-	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_DEVICES." WHERE time <= " . (time() - REFRESH_TIME));
-	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_USERS." WHERE time <= " . (time() - REFRESH_TIME));
-	echo "[OK]\n";	
 	
 	echo "All done, have a nice day!\n";
 ?>
