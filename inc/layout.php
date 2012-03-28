@@ -93,9 +93,11 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>';
 		echo '<![endif]-->';
 		
+		$aRandURLs = MODO_DEBUG ? '?'.rand(20, 9999) : '';
+		
 		echo '<!-- Le styles -->';
 		echo '<link href="'.$theBaseUrl.'/css/bootstrap.css" rel="stylesheet">';
-		echo '<link href="'.$theBaseUrl.'/css/style.css" rel="stylesheet">';
+		echo '<link href="'.$theBaseUrl.'/css/style.css'.$aRandURLs.'" rel="stylesheet">';
 		
 		if(LAYOUT_RESPONSIVE) {
 			echo '<link href="'.$theBaseUrl.'/css/bootstrap-responsive.css" rel="stylesheet">';
@@ -107,9 +109,9 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png">';
 		echo '<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png">';
 		
-		echo '<script src="'.$theBaseUrl.'/js/jquery.js"></script>';
-		echo '<script src="'.$theBaseUrl.'/js/bootstrap.js"></script>';
-		echo '<script src="'.$theBaseUrl.'/js/aura.js"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/jquery.js'.$aRandURLs.'"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/bootstrap.js'.$aRandURLs.'"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/aura.js'.$aRandURLs.'"></script>';
 	echo '</head>';
 	
 	echo '<body>';

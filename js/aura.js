@@ -41,6 +41,34 @@ var AURA = new function() {
 	    $(':input','#formAura').val(theCommand);
 	    AURA.submitOrder();
 	};
+	
+	this.refreshLabsDashboard = function(theIdsLabs) {
+		var aId = '';
+		
+		for(var i = 0; i < theIdsLabs.length; i++) {
+			aId = theIdsLabs[i];
+			
+			var aFunc = function() {
+				$.ajax({
+					  url: 		"lab-stats-ajax.php",
+					  context: 	document.body,
+					  data: 	'lab=' + aId,
+					  
+					  success: function(data){
+						 $('#lab' + aId).fadeOut('fast', function() {
+							  $('#lab' + aId).html(data);
+							  $('#lab' + aId).fadeIn();					  
+						 });
+					  },
+					  error: function() {
+						  $('#lab' + aId).html("Erro ao obter dados. Tente recarregar a página.");  
+					  }
+				});
+			}
+			aFunc();
+			setInterval(aFunc, 30000);
+		}
+	};
 
 	this.init = function() {
 		$('#formAura').submit(AURA.submitOrder);	
