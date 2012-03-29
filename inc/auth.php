@@ -28,25 +28,25 @@ function authLogin($theUsuario) {
 
 function authRestritoNaoLogado() {
 	if(authIsLogado()) {
-		header('Location: ' . (authIsAdmin() ? 'admin/' : 'index.php'));
+		header('Location: ' . (authIsAdmin() ? 'admin.index.php' : 'index.php'));
 		exit();
 	}
 }
 
 function authRestritoAdmin() {
 	if(!authIsLogado()) {
-		header('Location: '.(utilIsNavegandoIntranet() ? '../login.php' : 'login.php'));
+		header('Location: login.php');
 		exit();
 		
 	} else if(!authIsAdmin()){
-		header('Location: '.(utilIsNavegandoIntranet() ? 'restrito.php' : 'admin/restrito.php'));
+		header('Location: restrito.php');
 		exit();
 	}
 }
 
 function authRestritoLogado() {
 	if(!authIsLogado()) {
-		header('Location: ' . (utilIsNavegandoIntranet() ? '../login.php' : 'index.php'));
+		header('Location: login.php');
 		exit();
 	}
 }

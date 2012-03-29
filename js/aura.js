@@ -50,7 +50,7 @@ var AURA = new function() {
 			
 			var aFunc = function() {
 				$.ajax({
-					  url: 		"lab-stats-ajax.php",
+					  url: 		"admin.lab-stats-ajax.php",
 					  context: 	document.body,
 					  data: 	'lab=' + aId,
 					  
@@ -66,7 +66,7 @@ var AURA = new function() {
 				});
 			}
 			aFunc();
-			setInterval(aFunc, 30000);
+			setInterval(aFunc, 60000);
 		}
 	};
 

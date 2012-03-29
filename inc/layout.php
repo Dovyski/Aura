@@ -25,7 +25,10 @@ function barraNavegacao() {
 					echo '</ul>';
 					
 					layoutBarraUsuarioLogado();
-											
+					
+					if(authIsLogado()) {
+						barraNavegacaoAdmin();
+					}
 				echo '</div><!--/.nav-collapse -->';
 			echo '</div>';
 		echo '</div>';
@@ -34,43 +37,31 @@ function barraNavegacao() {
 
 function barraNavegacaoAdmin() {
 	$aPagina = basename($_SERVER['PHP_SELF']);
-
-	echo '<div class="navbar navbar-fixed-top">';
-		echo '<div class="navbar-inner">';
-			echo '<div class="container">';
-				echo '<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">';
-					echo '<span class="icon-bar"></span>';
-					echo '<span class="icon-bar"></span>';
-					echo '<span class="icon-bar"></span>';
-				echo '</a>';
-				echo '<a class="brand" href="index.php">Intranet</a>';
-				
-				echo '<div class="nav-collapse">';
-					echo '<ul class="nav">';
-						echo '<li '.($aPagina == 'index.php' 			? 'class="active"' : '').'><a href="index.php">Inicial</a></li>';
-						echo '<li '.($aPagina == 'aura.php' 			? 'class="active"' : '').'><a href="aura.php">Aura</a></li>';
-					echo '</ul>';
-					
-					layoutBarraUsuarioLogado();
-					
-				echo '</div><!--/.nav-collapse -->';
-			echo '</div>';
-		echo '</div>';
-	echo '</div>';
+	
+	echo '<ul class="nav pull-right">';
+		echo '<li class="dropdown pull-right">';
+			echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administração <b class="caret"></b></a>';
+			echo '<ul class="dropdown-menu">';
+				echo '<li><a href="admin.index.php">Dashboard</a></li>';
+				echo '<li><a href="admin.aura.php">Aura</a></li>';
+				//echo '<li class="divider"></li>';
+				//echo '<li><a href="#">Separated link</a></li>';
+			echo '</ul>';
+		echo '</li>';
+	echo '</ul>';
 }
 
 function layoutBarraUsuarioLogado() {
-	$aLinkProfile = utilIsNavegandoIntranet() ? '../conta.php' : './conta.php';
 	$aClassLink	  = authIsAdmin() ? 'btn-danger' : 'btn-primary';
 	
 	echo '<ul class="nav pull-right">';
 		echo '<div class="btn-group">';
 			if(authIsLogado()) {
-				echo '<a class="btn '.$aClassLink.'" href="'.$aLinkProfile.'"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
+				echo '<a class="btn '.$aClassLink.'" href="conta.php"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
 				echo '<a class="btn '.$aClassLink.' dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
 					
 				echo '<ul class="dropdown-menu">';
-				echo '<li><a href="'.(utilIsNavegandoIntranet() ? '../logout.php' : './logout.php').'"><i class="icon-remove"></i> Sair</a></li>';
+				echo '<li><a href="logout.php"><i class="icon-remove"></i> Sair</a></li>';
 				echo '</ul>';				
 			} else {
 				echo '<a class="btn '.$aClassLink.'" href="login.php"><i class="icon-user icon-white"></i> Login</a>';
@@ -116,11 +107,7 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 	
 	echo '<body>';
 	
-	if(authIsLogado() && utilIsNavegandoIntranet()) {
-		barraNavegacaoAdmin();
-	} else {
-		barraNavegacao();
-	}
+	barraNavegacao();
 	
 	echo '<div class="container">';
 }
@@ -130,11 +117,6 @@ function rodape($theBaseUrl = '.') {
 		
 		echo '<footer>';
 			echo '<p style="float:left;">NCC - Ciência da Computação - UFFS</p>';
-			if(utilIsNavegandoIntranet()) {
-				echo '<p style="float:right;"><a href="../" title="Acesso à área pública do site do NCC.">Site</a></p>';
-			} else {
-				echo '<p style="float:right;"><a href="./admin" title="Acesso à intranet do NCC.">Intranet</a></p>';
-			}
 		echo '</footer>';
 		
 	if(MODO_DEBUG) {
