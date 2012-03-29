@@ -23,7 +23,7 @@
 			echo '<div class="btn-group">';
 			echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 			echo '<ul class="dropdown-menu">';
-			echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
 			echo '</ul>';
 			echo '</div>';
 			echo '</ul>';
@@ -48,7 +48,7 @@
 				echo '<div class="btn-group">';
 					echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 					echo '<ul class="dropdown-menu">';
-						echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="icon-remove"></i> Deslogar todos</a></li>';
+						echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="icon-remove"></i> Deslogar todos</a></li>';
 					echo '</ul>';
 				echo '</div>';
 			echo '</ul>';
@@ -74,9 +74,9 @@
 					echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 					echo '<ul class="dropdown-menu">';
 						if($aInternet['status'] == 'online') {
-							echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';
+							echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';
 						} else {
-							echo '<li><a href="javascript:void(0)" onclick="AURA.typeConsoleCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
+							echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
 						}
 					echo '</ul>';
 				echo '</div>';

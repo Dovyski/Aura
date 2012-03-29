@@ -5,14 +5,14 @@
 var AURA = new function() {
 	var showLoading = function() {
 	    $('#auraPainelResposta').slideDown();
-	    $('#auraPainelResposta').html('<img src="../img/ajax-loader.gif" align="absmiddle" title="Pensando..."/> <small>Pensando...</small>');
+	    $('#auraPainelResposta').html('<img src="./img/ajax-loader.gif" align="absmiddle" title="Pensando..."/> <small>Pensando...</small>');
 	};
 	
 	this.submitOrder = function() {
 		showLoading();
 		
 		$.ajax({
-			  url: 		"aura-ajax.php?action=order",
+			  url: 		"admin.aura-ajax.php?action=order",
 			  context: 	document.body,
 			  data: 	$('#formAura').serialize(),
 			  
@@ -40,6 +40,25 @@ var AURA = new function() {
 	this.typeConsoleCommand = function(theCommand) {
 	    $(':input','#formAura').val(theCommand);
 	    AURA.submitOrder();
+	};
+	
+	/**
+	 * Envia um comando para a Aura, mostrando o resultado desse comando
+	 * como um popup na tela. 
+	 */
+	this.sendCommand = function(theCommand) {
+		$.ajax({
+			  url: 		"admin.aura-ajax.php?action=order",
+			  context: 	document.body,
+			  data: 	'command=' + theCommand,
+			  
+			  success: function(data){
+				  alert(data);
+			  },
+			  error: function() {
+				  alert('Não foi possível executar a ação!');  
+			  }
+		});
 	};
 	
 	this.refreshLabsDashboard = function(theIdsLabs) {
