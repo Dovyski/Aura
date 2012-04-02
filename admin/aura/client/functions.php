@@ -28,7 +28,12 @@
 		curl_setopt($aCh, CURLOPT_FAILONERROR, 		1);
 		
 		$aResult = curl_exec($aCh);
-		$aRet	 = curl_errno($aCh) ? false : $aResult; 
+		$aRet	 = $aResult === false ? false : $aResult;
+
+		if($aRet === false) {
+			logMsg('[CURL_E] ' . curl_error($aCh));			
+		}
+
 		curl_close($aCh);
 		
 		return $aRet;
@@ -120,39 +125,36 @@
 		
 		logMsg('Checando com cerebro se a maquina esta OK...');
 		
-		// Enviamos um probe para termos certeza que estamos cadastrados. Se nao
+		// Enviamos um check para termos certeza que estamos cadastrados. Se nao
 		// estamos, o cerebro vai nos cadastrar automaticamente (e nao retornara erros)
 		// ou nao vai nos cadastrar e vai retornar um erro, dizendo que nao somos
 		// cadastrados.
-		logMsg('Enviando probe...');
-		$aData = @json_decode(getUrl(BRAIN_URL . '?method=probe&device='.AURA_HOSTNAME.'&hash='.AURA_HASH));
+		logMsg('Enviando check...');
+		$aData = @json_decode(getUrl(BRAIN_URL . '?method=check&device='.AURA_HOSTNAME.'&hash='.AURA_HASH));
 		
 		if($aData !== null && isset($aData->error)) {
 			// Nao estamos cadastrados e o cerebro mandou pastarmos. 
 			// Nao há nada mais que possamos fazer.
-			logMsg('Erro recebido do probe: ' . $aData->msg);
+			logMsg('Erro recebido do check: ' . $aData->msg);
 			
-		} else {
-			// Nao recebemos erro no probe, o que indica que já estamos cadastrados
+		} else if($aData !== null){
+			// Nao recebemos erro no check, o que indica que já estamos cadastrados
 			// ou fomos cadastrados automaticamente. Podemos pedir para o cerebro
 			// se somos uma máquina ok então.
-			logMsg('Enviando check...');
-			$aData = @json_decode(getUrl(BRAIN_URL . '?method=check&device='.AURA_HOSTNAME.'&hash='.AURA_HASH));
-			
-			if($aData !== null) {
-				if(count($aData) > 0) {
+			if(count($aData) > 0) {
+				if(isset($aData->exec)) {
 					logMsg('Cerebro mandou ajustes');
-			
 					$aOut = runCommand($aData->exec);
-					logMsg('Ajustes feitos: ' . $aOut);
-			
+					logMsg('Ajustes feitos: ' . $aOut);					
 				} else {
-					logMsg('Tudo certo, cerebro nao mandou comandos para ajuste.');
-					$aRet = true;
+					logMsg('Cerebro mandou ajustar, mas nao disse o que fazer...aff.');
 				}
 			} else {
-				logMsg('Respostas do cerebro indefinida para o check.');
+				logMsg('Tudo certo, cerebro nao mandou comandos para ajuste.');
+				$aRet = true;
 			}
+		} else {
+			logMsg('Respostas do cerebro indefinida para o check.');
 		}
 
 		return $aRet;
@@ -241,6 +243,22 @@
 		$aInfos 			= trim(shell_exec('wmic diskdrive get serialnumber'));
 		$aTemp 				= explode("\n", $aInfos);
 		$aRet['serial_hd']  = trim($aTemp[1]);
+		
+		$aInfos 			= trim(shell_exec('wmic nic get MACAddress, ProductName'));
+		$aMatches 			= array();
+		preg_match_all('/(([0-9A-F]{2}[:-]){5}([0-9A-F]{2})) (.*)/', $aInfos, $aMatches);
+		
+		foreach($aMatches[1] as $aKey => $aValue) {
+			$aMac  = strtoupper(trim($aMatches[1][$aKey]));
+			$aDesc = trim($aMatches[4][$aKey]);
+		
+			if(preg_match('/(WiFi|Wireless|Virtual|Bluetooth)/i', $aDesc) == 0) {
+				$aRet['mac_eth0'] = $aMac;
+				logMsg('[OK] '.$aMac . " ".$aDesc);
+			} else {
+				logMsg('[IG] '.$aMac . " ".$aDesc);
+			}
+		}
 
 		return $aRet;
 	}
@@ -263,6 +281,12 @@
 		$aInfos 			= explode("\n", shell_exec('hdparm -I /dev/sda | grep Serial'));
 		$aTemp				= explode(':', $aInfos[0], 2);
 		$aRet['serial_hd']	= trim($aTemp[1]);
+		
+		$aInfos 			= explode("\n", shell_exec('ifconfig eth0'));
+		$aTemp				= explode(' ', trim($aInfos[0]));
+		$aRet['mac_eth0']	= strtoupper(trim($aTemp[count($aTemp) - 1]));
+		
+		logMsg('[OK] '.$aRet['mac_eth0']);
 	
 		return $aRet;
 	}
