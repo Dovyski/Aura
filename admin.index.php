@@ -6,8 +6,8 @@
 	cabecalho('Inicial');
 	
 	echo '<div class="hero-unit">';
-		echo '<h1>Intranet</h1>';
-		echo '<p>O centro de controle do NCC.</p>';
+		echo '<h1>Dashboard</h1>';
+		echo '<p>Visão geral dos laboratórios do NCC.</p>';
 	echo '</div>';
 
 	$aLabs = Aura\Groups::findByName('lab-ncc-%');

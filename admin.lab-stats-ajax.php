@@ -16,8 +16,8 @@
 
 	// Computadores
 	echo '<div class="span4 aura-bloco">';
-		$aAtivos = count($aDevices);
-			
+		$aAtivos = count($aActiveDevices);
+
 		if($aAtivos > 0) {
 			echo '<ul class="aura-bloco-opts">';
 			echo '<div class="btn-group">';
