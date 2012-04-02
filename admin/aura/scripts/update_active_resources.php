@@ -11,6 +11,12 @@
 	
 	$aPings	= Aura\Pings::find(time() - REFRESH_TIME);
 	
+	$aIgnoredUsers = array(
+		'>services',
+		'services',
+		'root'
+	);
+	
 	$aRet = array(
 		'computers' => array(), 
 		'users'	 	=> array()
@@ -40,7 +46,7 @@
 
 					if($aUsers !== false) {
 						foreach($aUsers as $aUser) {
-							if(strlen($aUser['name']) > 0) {
+							if(strlen($aUser['name']) > 0 && !in_array($aUser['name'], $aIgnoredUsers)) {
 								$aRet['users'][$aUser['name']][$aIdDevice] = $aIdDevice;								
 							}
 						}
