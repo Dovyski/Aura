@@ -19,7 +19,7 @@
 				if(strpos($aPossibleNames, $aDevice) === false) {
 					$aRet['exec'] = array(
 						'win' 	=> 'wmic1 computersystem where name="%COMPUTERNAME%" call rename name="W'.$aInfoDevice['name'].'" & shutdown1 -r -t 0',
-						'linux' => 'echo "U'.$aInfoDevice['name'].'" > /etc/hostname & shutdown -r now',
+						'linux' => '#echo "U'.$aInfoDevice['name'].'" > /etc/hostname & shutdown -r now',
 						'mac' 	=> '',
 					);					
 				}
