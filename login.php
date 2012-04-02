@@ -48,8 +48,8 @@
 		
 		echo '<div class="span3">';
 			echo '<h2>Atenção</h2>';
-			echo '<p>Para efetuar login na intranet, você precisa fazer parte da equipe do NCC.</p>';
-			echo '<p>Se quiser fazer parte da equipe, dê uma olhada <a href="sobre.php">aqui</a>.</p>';
+			echo '<p>Para efetuar login, você precisa de uma conta NCC.</p>';
+			echo '<p>Obtenha a sua conta gratuitamente com algum membro da equipe NCC.</p>';
 		echo '</div>';
 	echo '</div>';
 	
