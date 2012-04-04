@@ -14,18 +14,25 @@
 	}
 
 	function getUrl($theUrl) {
-		$aUserAgent = 'Aura Client/1.5 ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
+		static $aCh = null;
+		$aUserAgent = 'Aura Client/1.5.1 ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
 		
 		if(LOG_REQUESTS) {
 			logMsg('[URL] ' . $theUrl);
 		}
 		
-		$aCh = curl_init($theUrl);
-		curl_setopt($aCh, CURLOPT_SSL_VERIFYPEER, 	false);
-		curl_setopt($aCh, CURLOPT_USERAGENT, 		$aUserAgent);
-		curl_setopt($aCh, CURLOPT_RETURNTRANSFER, 	1);
-		curl_setopt($aCh, CURLOPT_CONNECTTIMEOUT, 	10);
-		curl_setopt($aCh, CURLOPT_FAILONERROR, 		1);
+		if($aCh == null) {
+			$aCh = curl_init();
+			curl_setopt($aCh, CURLOPT_SSL_VERIFYPEER, 	false);
+			curl_setopt($aCh, CURLOPT_USERAGENT, 		$aUserAgent);
+			curl_setopt($aCh, CURLOPT_RETURNTRANSFER, 	1);
+			curl_setopt($aCh, CURLOPT_CONNECTTIMEOUT, 	10);
+			curl_setopt($aCh, CURLOPT_TIMEOUT, 			10);
+			curl_setopt($aCh, CURLOPT_DNS_CACHE_TIMEOUT,3600);
+			curl_setopt($aCh, CURLOPT_FAILONERROR, 		1);
+		}
+		
+		curl_setopt($aCh, CURLOPT_URL, $theUrl);
 		
 		$aResult = curl_exec($aCh);
 		$aRet	 = $aResult === false ? false : $aResult;
@@ -33,8 +40,6 @@
 		if($aRet === false) {
 			logMsg('[CURL_E] ' . curl_error($aCh));			
 		}
-
-		curl_close($aCh);
 		
 		return $aRet;
 	}
