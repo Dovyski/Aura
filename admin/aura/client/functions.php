@@ -3,6 +3,8 @@
 	/**
 	 * Funções do cliente. 
 	 */
+
+	define('AURA_CLI_VERSION', '1.6.0');
 	
 	function loadConfigFile() {
 		$aIniArray = parse_ini_file(dirname(__FILE__) . "/config.ini");
@@ -15,7 +17,7 @@
 
 	function getUrl($theUrl) {
 		static $aCh = null;
-		$aUserAgent = 'Aura Client/1.5.1 ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
+		$aUserAgent = 'Aura Client/'.AURA_CLI_VERSION.' ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
 		
 		if(LOG_REQUESTS) {
 			logMsg('[URL] ' . $theUrl);
@@ -49,18 +51,19 @@
 	}
 	
 	/**
-	 * Executa os comandos recebidos do cérebro. Os comandos devem vir no seguinte formato:
-	 * 
+	 * Analisa uma ordem do cérebro (que pode possuir mais de um OS relacionado) e gera um comando
+	 * que pode ser executado no OS atual. Os comandos devem vir no seguinte formato:
+	 *
 	 * array(
-	 * 		'win' 	=> 'versão windows do comando' 
-	 * 		'mac' 	=> 'versão mac do comando' 
-	 * 		'linux' => 'versão linux do comando' 
-	 * 	) 
-	 * @param array $theCommand comando a ser executado, indexado pela plataforma, que poder 'win', 'mac' ou 'linux'. 
+	 * 		'win' 	=> 'versão windows do comando'
+	 * 		'mac' 	=> 'versão mac do comando'
+	 * 		'linux' => 'versão linux do comando'
+	 * 	)
+	 * @param array $theCommand comando a ser executado, indexado pela plataforma, que poder 'win', 'mac' ou 'linux'.
+	 * @return string comando a ser executado, ou uma string vazia, se não conseguiu decodificar o que o cérebro enviou.s
 	 */
-	function runCommand($theCommand) {
-		$aRet 		= '';
-		$aCommand 	= '';
+	function getCommandAccordingOS($theCommand) {
+		$aCommand = '';
 		
 		if(is_string($theCommand)) {
 			$aVet 		= @unserialize($theCommand);
@@ -70,7 +73,124 @@
 		if(is_object($theCommand)) {
 			$aProp		= AURA_OS;
 			$aCommand 	= isset($theCommand->$aProp) ? $theCommand->$aProp : '';
+		}	
+		
+		return $aCommand;
+	}
+	
+	/**
+	 * Verifica se uma tarefa possui um comando único para ser executado ou se, na verdade, existe
+	 * um lote de comandos associados a ela.
+	 * 
+	 * @param array $theTask dados da tarefa que terá seus comandos enfileirados.
+	 * @return boolean <code>true</code> se a tarefa possui um lote de comandos (vários comandos), ou false se ela possui um único comando pronto para ser executado.
+	 */
+	function hasBatchCommands($theTask) {
+		$aCommand = getCommandAccordingOS($theTask->exec);
+		return is_array(@unserialize($aCommand));	
+	}
+	
+	/**
+	 * Coloca em uma fila os comandos de um determinada tarefa, assim os comandos serão executados
+	 * de forma "offline".
+	 * 
+	 * @param array $theTask dados da tarefa que terá seus comandos enfileirados.
+	 */
+	function enqueBatchCommands($theTask) {
+		$aCommand = @unserialize(getCommandAccordingOS($theTask->exec));
+		
+		if($aCommand !== false) {
+			$aCount = count($aCommand);
+			logMsg('Enfileirando '.$aCount.' comandos da tarefa '.$theTask->id.' para execucao posterior.');
+			
+			for($i = 0; $i < $aCount; $i++) {
+				file_put_contents(dirname(__FILE__).'/bc-'.$theTask->id.'-'.$i, $aCommand[$i]);
+			}
+		} else {
+			logMsg('Nao foi possivel enfileirar comandos da tarefa '.$theTask->id);
 		}
+	}
+	
+	/**
+	 * Moe os comandos que foram salvos no disco para serem executados de forma
+	 * sequencial. Esses comandos são ditos batch porque podem ser muitos e podem
+	 * ser executados depois de um reboot, por exemplo.
+	 * 
+	 * Os comandos ficam guardados como arquivo na mesma pasta do aura-cli, com o formato bc-$taskId-$num.
+	 */
+	function processEnquedBatchCommands() {
+		$aTasks = array();
+		
+		foreach (glob(dirname(__FILE__).'/bc-*') as $aFile) {
+			$aTemp		= explode('-', $aFile);
+			$aIdTask 	= $aTemp[1];
+			$aIdCommand = $aTemp[2];
+			
+			logMsg('Batch adicionado: '.$aFile);
+
+			$aTasks[$aIdTask][] = array(
+				'file'		=> $aFile,
+				'content' 	=> file_get_contents($aFile),
+				'id'		=> $aIdCommand 	
+			);
+		}
+		
+		if(count($aTasks) > 0) {
+			logMsg('Um total de '.count($aTasks).' tarefas com comandos batch foram encontradas no disco.');
+			
+			foreach($aTasks as $aId => $aCommands) {
+				foreach($aCommands as $aCom) {
+					unlink($aCom['file']);
+					$aOut = runCommand($aCom['content'], false);
+			
+					logMsg('Comando batch '.$aCom['id'].' da tarefa '.$aId.' executado: '.substr($aOut, 0, 5).'...');
+				}
+
+				logMsg('Todos os comandos batch da tarefa '.$aId.' foram executados, avisando o cerebro...');
+				getUrl(BRAIN_URL . '?method=tasklog&task='.$aId.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=***BATCH***');
+				logMsg('Cerebro foi avisado!');
+			}	
+		}
+	}
+	
+	/**
+	 * Processa e executa o(s) comando(s) enviados pelo cérebro, notificando ele quando
+	 * o comando é iniciado e quando ele é finalizado.
+	 * 
+	 * @param array $theInfos informações da tarefa enviadaa pelo cérebro. 
+	 */
+	function processBrainTask($theTask) {
+		getUrl(BRAIN_URL . '?method=tasklog&task='.$theTask->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_start='.time());
+		
+		if(hasBatchCommands($theTask)) {
+			// A tarefa possui um lote de comandos. Colocamos eles em disco e executamos
+			// um por um.
+			enqueBatchCommands($theTask);
+			
+		} else {
+			// A tarefa possui apenas um comando. Moemos ele aqui mesmo.
+			$aOut = runCommand($theTask->exec);
+			getUrl(BRAIN_URL . '?method=tasklog&task='.$theTask->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=' . urlencode($aOut));
+			
+			logMsg('Comando '.$theTask->id.' executado, saida enviada para o cerebro. Saida: '.substr($aOut, 0, 5).'...');
+		}
+		
+	}
+	
+	/**
+	 * Executa os comandos recebidos do cérebro. Os comandos devem vir no seguinte formato:
+	 * 
+	 * array(
+	 * 		'win' 	=> 'versão windows do comando' 
+	 * 		'mac' 	=> 'versão mac do comando' 
+	 * 		'linux' => 'versão linux do comando' 
+	 * 	) 
+	 * @param array|string $theCommand comando a ser executado, indexado pela plataforma, que poder 'win', 'mac' ou 'linux'. 
+	 * @param bool $theDecideUsingOS se <code>true</code> (default), a função irá tratar <code>$theCommand</code> como um array de comandos indexado pelo sistema operacional. Se for false, a função entenderá que o comando já está pronto para ser executado no sistema operacional local.
+	 */
+	function runCommand($theCommand, $theDecideUsingOS = true) {
+		$aRet 		= '';
+		$aCommand 	= $theDecideUsingOS ? getCommandAccordingOS($theCommand) : $theCommand;
 
 		if($aCommand != '') {
 			logMsg('Exec: ' . (LOG_EXECS ? $aCommand : substr($aCommand, 0, 6).'...'));
@@ -257,7 +377,7 @@
 			$aMac  = strtoupper(trim($aMatches[1][$aKey]));
 			$aDesc = trim($aMatches[4][$aKey]);
 		
-			if(preg_match('/(WiFi|Wireless|Virtual|Bluetooth)/i', $aDesc) == 0) {
+			if(preg_match('/(WiFi|Wireless|Virtual|Bluetooth|802\.1)/i', $aDesc) == 0) {
 				$aRet['mac_eth0'] = $aMac;
 				logMsg('[OK] '.$aMac . " ".$aDesc);
 			} else {

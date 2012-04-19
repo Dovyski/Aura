@@ -65,6 +65,7 @@
 
 	while(1) {
 		checkMachineIsOk();
+		processEnquedBatchCommands();
 		
 		logMsg('Solicitando novas ordens...');
 		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME.'&hash='.AURA_HASH);
@@ -80,12 +81,7 @@
 				
 				if(count($aData) > 0) {
 					foreach($aData as $aIdTask => $aInfos) {
-						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_start='.time());
-						
-						$aOut = runCommand($aInfos->exec);
-						getUrl(BRAIN_URL . '?method=tasklog&task='.$aInfos->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=' . urlencode($aOut));
-	
-						logMsg('Comando '.$aInfos->id.' executado, saida enviada para o cerebro. Saida: '.substr($aOut, 0, 5).'...');
+						processBrainTask($aInfos);
 					}
 				}
 			} else {
