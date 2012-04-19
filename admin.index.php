@@ -30,15 +30,17 @@
 		echo '<div class="row" style="margin-top: 10px;">';
 			echo '<div class="span12">';
 				echo '<h2>Nenhum laboratório</h2>';
-				echo '<p>Não há laboratório com nomes <strong>lab-ncc-*</strong>.</p>';
+				echo '<p>Não há laboratório com nome <strong>lab-ncc-*</strong>.</p>';
 			echo '</div>';
 		echo '</div>';
 	}
 	
-	echo '<script type="text/javascript">
-			$(function() {
-				AURA.refreshLabsDashboard(['.implode(',', $aIdsLabs).']);
-			});
-		  </script>';
+	if(isset($aIdsLabs)) {
+		echo '<script type="text/javascript">
+				$(function() {
+					AURA.refreshLabsDashboard(['.implode(',', $aIdsLabs).']);
+				});
+			  </script>';
+	}
 	rodape();
 ?>
