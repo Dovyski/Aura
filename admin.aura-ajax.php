@@ -6,6 +6,30 @@
 
 	authRestritoAdmin();
 
+	/*Aura\Tasks::add(
+		array(
+			'time' => time(),
+			'status' => Aura\Tasks::STATUS_RUNNING,	
+			'exec' => serialize(array(
+				'win' => serialize(array('dir', 'php -v', 'javac -version')),
+				'linux' => 'sdddd',
+				'mac' => 'dsdsd'
+			))
+		),
+		array(1));
+	*/
+	Aura\Tasks::add(
+			array(
+					'time' => time(),
+					'status' => Aura\Tasks::STATUS_RUNNING,
+					'exec' => serialize(array(
+							'win' => 'php -v',
+							'linux' => 'sdddd',
+							'mac' => 'dsdsd'
+					))
+			),
+			array(1));
+	
 	Aura\Interpreter::loadSentenseHandlers();
 	$aReturn = Aura\Interpreter::process($_REQUEST['command']);
 	
