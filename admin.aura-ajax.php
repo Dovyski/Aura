@@ -18,6 +18,7 @@
 		),
 		array(1));
 	*/
+    /*
 	Aura\Tasks::add(
 			array(
 					'time' => time(),
@@ -29,7 +30,7 @@
 					))
 			),
 			array(1));
-	
+    */	
 	Aura\Interpreter::loadSentenseHandlers();
 	$aReturn = Aura\Interpreter::process($_REQUEST['command']);
 	

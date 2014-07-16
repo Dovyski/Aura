@@ -55,8 +55,8 @@
 				
 				if(!isset($aRet['computers'][$aIdDevice])) {
 					$aMatches = array();
-					preg_match_all('/.*\/.* \((.*);(.*)\)/', $aInfo['client'], $aMatches);
-					
+					preg_match_all('/.*\/.* \((.*);.*/', $aInfo['client'], $aMatches);
+
 					$aRet['computers'][$aIdDevice]['client'] 	= $aInfo['client'];
 					$aRet['computers'][$aIdDevice]['os'] 		= $aMatches[1][0];
 					$aRet['computers'][$aIdDevice]['data'] 		= $aData;
