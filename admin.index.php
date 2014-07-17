@@ -10,7 +10,7 @@
 		echo '<p>Visão geral dos laboratórios do NCC.</p>';
 	echo '</div>';
 
-	$aLabs = Aura\Groups::findByName('lab-ncc-%');
+	$aLabs = Aura\Groups::findByName('lab-%');
 	
 	if(count($aLabs) > 0) {
 		$aIdsLabs = array();
