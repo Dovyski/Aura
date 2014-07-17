@@ -26,8 +26,8 @@ class Db {
 	}
 	
 	private static function connect() {
-		self::$mConnection = mysql_connect(AURA_DB_HOST, AURA_DB_USER, AURA_DB_PASSWD) or self::error();
-		mysql_select_db(AURA_DB_NAME) or self::error();
+		self::$mConnection = mysql_connect(AURA_DB_HOST, AURA_DB_USER, AURA_DB_PASSWD) or self::error('connect');
+		mysql_select_db(AURA_DB_NAME) or self::error('select_db');
 		mysql_set_charset("utf8", self::$mConnection);
 	}
 	

@@ -1,5 +1,5 @@
 <?php 
-
+@include_once dirname(__FILE__).'/config.local.php';
 require_once dirname(__FILE__).'/config.php';
 
 require_once dirname(__FILE__).'/inc/utils.php';
