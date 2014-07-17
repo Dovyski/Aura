@@ -14,6 +14,9 @@
 	$aActiveDevices = Aura\Pings::findActiveDevices($aDevices);
 	$aInternet		= Aura\Utils::hasInternetAccess($aActiveDevices);
 
+	// Improve that!
+	echo '<!-- id: '.$aLabId.' -->';
+	
 	// Computadores
 	echo '<div class="span4 aura-bloco">';
 		$aAtivos = count($aActiveDevices);

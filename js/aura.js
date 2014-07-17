@@ -74,9 +74,12 @@ var AURA = new function() {
 					  data: 	'lab=' + aId,
 					  
 					  success: function(data){
-						 $('#lab' + aId).fadeOut('fast', function() {
-							  $('#lab' + aId).html(data);
-							  $('#lab' + aId).fadeIn();					  
+						 var aReg = /<!-- id: (.*) -->/g;
+						 var aLabId = aReg.exec(data)[1];
+
+						 $('#lab' + aLabId).fadeOut('fast', function() {
+							  $('#lab' + aLabId).html(data);
+							  $('#lab' + aLabId).fadeIn();					  
 						 });
 					  },
 					  error: function() {
