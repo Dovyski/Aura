@@ -121,10 +121,10 @@ class Pings {
 		if(isset($theIdsFilter)) {
 			if(is_array($theIdsFilter) && count($theIdsFilter) > 0) {
 				$aDevicesIds = Utils::prepareForSql($theIdsFilter);
-				$aResult 	 = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE  fk_device IN (".implode(', ', $theIdsFilter).")");
+				$aResult 	 = Db::execute("SELECT fk_device, client, os, data, time FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE  fk_device IN (".implode(', ', $theIdsFilter).")");
 			}
 		} else {
-			$aResult = Db::execute("SELECT fk_device, client, os, data FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE 1");
+			$aResult = Db::execute("SELECT fk_device, client, os, data, time FROM ".Db::TABLE_ACTIVE_DEVICES." WHERE 1");
 		}
 			
 		if($aResult !== null && Db::numRows($aResult) > 0) {

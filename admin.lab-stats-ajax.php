@@ -95,5 +95,77 @@
 		}
 	echo '</div>';
 	
+	echo '<div class="span12" style="margin-top: 10px;">';
+		$aTotalDispositivos = count($aDevices);
+
+		if($aTotalDispositivos != 0) {
+			$aDevicesList = Aura\Devices::findByIds($aDevices);
+
+			echo '<table class="table table-hover">';
+				echo '<thead>';
+					echo '<tr>';
+						echo '<th>Id</th>';
+						echo '<th>Nome</th>';
+						echo '<th>Status</th>';
+						echo '<th></th>';
+					echo '</tr>';
+				echo '</thead>';
+
+				echo '<tbody>';
+					foreach($aDevicesList as $aDevice) {
+						echo '<tr class="error">';
+							echo '<td>'.$aDevice['id'].'</td>';
+							echo '<td style="width: 60%;">'.$aDevice['name'].' <sub>'.$aDevice['hash'].'</sub></td>';
+							echo '<td>';
+								$aPowerStatus 		= 'important';
+								$aInternetStatus 	= 'important';
+								$aHdStats 			= '';
+								$aLastPing			= '';
+								$aUsers				= '';
+								
+								if (isset($aActiveDevices[$aDevice['id']])) {
+									$aInfos 			= unserialize($aActiveDevices[$aDevice['id']]['data']);
+
+									$aPowerStatus 		= 'success';
+									$aInternetStatus 	= $aInfos['ping_ip'] <= 50 ? 'success' : 'important';
+									$aHdStats 			= (int)($aInfos['storage_total'] / $aInfos['storage_available']) . '%';
+									$aLastPing			= $aActiveDevices[$aDevice['id']]['time'];
+									$aLastPing			= '0:' . (time() - $aLastPing); // TODO: make human readable
+
+									$aUsers				= unserialize($aInfos['users']);
+									$aUsers				= count($aUsers) > 0 ? count($aUsers) : '';
+								}
+								
+								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="icon-off icon-white"></i></span> ';
+								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="icon-signal icon-white"></i></span> ';
+								if($aHdStats != '') {
+									echo '<span class="label label-default" style="padding:5px;"><i class="icon-th-large icon-white"></i> '.$aHdStats.'</span> ';
+								}
+								
+								if($aUsers != '') {
+									echo '<span class="label label-default" style="padding:5px;"><i class="icon-user icon-white"></i> '.$aUsers.'</span> ';
+								}
+								
+								echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white"></i> '.$aLastPing.'</span> ';
+							echo '</td>';
+							echo '<td>';
+								echo '<div class="btn-group">';
+									echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
+									echo '<ul class="dropdown-menu">';
+										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Reiniciar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Desligar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Bloquear internet</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Deslogar usuários</a></li>';
+									echo '</ul>';
+								echo '</div>';
+							echo '</td>';
+						echo '</tr>';
+					}
+				echo '</tbody>';
+			echo '</table>';
+		}
+
+	echo '</div>';
+	
 	exit();
 ?>
