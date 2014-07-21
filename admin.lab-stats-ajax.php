@@ -106,6 +106,7 @@
 					echo '<tr>';
 						echo '<th>Id</th>';
 						echo '<th>Nome</th>';
+						echo '<th>OS</th>';
 						echo '<th>Status</th>';
 						echo '<th></th>';
 					echo '</tr>';
@@ -115,10 +116,11 @@
 					foreach($aDevicesList as $aDevice) {
 						echo '<tr class="error">';
 							echo '<td>'.$aDevice['id'].'</td>';
-							echo '<td style="width: 60%;">'.$aDevice['name'].' <sub>'.$aDevice['hash'].'</sub></td>';
+							echo '<td style="width: 40%;">'.$aDevice['name'].' <sub>'.$aDevice['hash'].'</sub></td>';
+							echo '<td>'.(isset($aActiveDevices[$aDevice['id']]) ? substr($aActiveDevices[$aDevice['id']]['os'], 0, 35) : '?').'</td>';
 							echo '<td>';
 								$aPowerStatus 		= 'important';
-								$aInternetStatus 	= 'important';
+								$aInternetStatus 	= 'default';
 								$aHdStats 			= '';
 								$aLastPing			= '';
 								$aUsers				= '';
@@ -136,17 +138,17 @@
 									$aUsers				= count($aUsers) > 0 ? count($aUsers) : '';
 								}
 								
-								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="icon-off icon-white"></i></span> ';
-								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="icon-signal icon-white"></i></span> ';
+								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="icon-off icon-white" title="Ligado/Desligado"></i></span> ';
+								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="icon-signal icon-white" title="Conexão com a Internet"></i></span> ';
 								if($aHdStats != '') {
-									echo '<span class="label label-default" style="padding:5px;"><i class="icon-th-large icon-white"></i> '.$aHdStats.'</span> ';
+									echo '<span class="label label-default" style="padding:5px;"><i class="icon-th-large icon-white" title="Uso do disco"></i> '.$aHdStats.'</span> ';
 								}
 								
 								if($aUsers != '') {
-									echo '<span class="label label-default" style="padding:5px;"><i class="icon-user icon-white"></i> '.$aUsers.'</span> ';
+									echo '<span class="label label-default" style="padding:5px;"><i class="icon-user icon-white" title="Usuários ativos"></i> '.$aUsers.'</span> ';
 								}
 								
-								echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white"></i> '.$aLastPing.'</span> ';
+								echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Tempo desde a última atualização com a Aura."></i> '.$aLastPing.'</span> ';
 							echo '</td>';
 							echo '<td>';
 								echo '<div class="btn-group">';
