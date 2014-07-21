@@ -100,7 +100,7 @@
 		}
 	echo '</div>';
 	
-	echo '<div id="'.$aDevicesBlockName.'" class="span12" style="margin-top: 10px; display: none;">';
+	echo '<div id="'.$aDevicesBlockName.'" class="span12 aura-bloco-devices">';
 		$aTotalDispositivos = count($aDevices);
 
 		if($aTotalDispositivos != 0) {
