@@ -17,6 +17,9 @@
 	// Improve that!
 	echo '<!-- id: '.$aLabId.' -->';
 	
+	// Id of the block containing the devices list.
+	$aDevicesBlockName = 'devices-'.$aLabId;
+	
 	// Computadores
 	echo '<div class="span4 aura-bloco">';
 		$aAtivos = count($aActiveDevices);
@@ -32,7 +35,9 @@
 			echo '</ul>';
 		}
 	
-		echo '<img src="./img/icos/computador.png" title="Computadores" />';
+		// TODO: fix this in-line javascript
+		echo '<a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><img src="./img/icos/computador.png" title="Computadores" border="0" /></a>';
+		
 		echo '<h2>Computadores</h2>';
 		$aTotalDispositivos = count($aDevices);
 		if($aTotalDispositivos == 0) {
@@ -95,7 +100,7 @@
 		}
 	echo '</div>';
 	
-	echo '<div class="span12" style="margin-top: 10px;">';
+	echo '<div id="'.$aDevicesBlockName.'" class="span12" style="margin-top: 10px; display: none;">';
 		$aTotalDispositivos = count($aDevices);
 
 		if($aTotalDispositivos != 0) {
@@ -166,6 +171,7 @@
 				echo '</tbody>';
 			echo '</table>';
 		}
+		echo '<p class="pull-right"><a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><i class="icon-eye-close"></i> Ocultar</a></p>';
 
 	echo '</div>';
 	
