@@ -116,7 +116,7 @@
 					foreach($aDevicesList as $aDevice) {
 						echo '<tr class="error">';
 							echo '<td>'.$aDevice['id'].'</td>';
-							echo '<td style="width: 40%;">'.$aDevice['name'].' <sub>'.$aDevice['hash'].'</sub></td>';
+							echo '<td style="width: 40%;">'.$aDevice['name'].' <small class="fraco">'.$aDevice['hash'].'</small></td>';
 							echo '<td>'.(isset($aActiveDevices[$aDevice['id']]) ? substr($aActiveDevices[$aDevice['id']]['os'], 0, 35) : '?').'</td>';
 							echo '<td>';
 								$aPowerStatus 		= 'important';

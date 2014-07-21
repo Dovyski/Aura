@@ -87,3 +87,8 @@ body {
   -moz-border-radius: 6px;
   border-radius: 6px; 
 }
+
+.fraco {
+	color: #9f9f9f;
+	font-size: 10px;
+}
