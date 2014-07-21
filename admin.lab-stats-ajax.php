@@ -129,7 +129,7 @@
 									$aInfos 			= unserialize($aActiveDevices[$aDevice['id']]['data']);
 
 									$aPowerStatus 		= 'success';
-									$aInternetStatus 	= $aInfos['ping_ip'] <= 50 ? 'success' : 'important';
+									$aInternetStatus 	= $aInfos['ping_ip'] <= 75 ? 'success' : 'important';
 									$aHdStats 			= (int)($aInfos['storage_total'] / $aInfos['storage_available']) . '%';
 									$aLastPing			= $aActiveDevices[$aDevice['id']]['time'];
 									$aLastPing			= '0:' . (time() - $aLastPing); // TODO: make human readable
