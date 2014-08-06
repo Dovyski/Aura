@@ -75,7 +75,7 @@ class Interpreter {
 		$aPlugins = scandir($aPath);
 
 		foreach($aPlugins as $aFile) {
-			if($aFile != '.' && $aFile != '..') {
+			if($aFile != '.' && $aFile != '..' && !is_dir($aPath . $aFile)) {
 				require $aPath . $aFile;
 			}
 		}
