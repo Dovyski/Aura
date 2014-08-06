@@ -2,13 +2,28 @@
 
 function shutdownDevices($theGroupName) {
 	$aGroup = Aura\Groups::getByClue($theGroupName);
+	$aDevices = null;
 
-	if($aGroup === null) {
-		echo 'Não conheço o grupo <strong>' . $theGroupName.'<strong>.';
-		return;
+	if ($aGroup === null) {
+		// The target name is not a group, so it must be a specific device.
+		$aDevice = Aura\Devices::getByClue($theGroupName);
+		
+		if ($aDevice === null) {
+			// Target name is not a device either. We couldn't figure out what
+			// it was, so it ends here.
+			echo 'Não conheço o grupo ou dispositivo <strong>' . $theGroupName.'<strong>.';
+			return;
+			
+		} else {
+			// Target name is a device! Let's add it to the list of devices the command
+			// will work on.
+			$aDevices = array($aDevice['id']);
+		}
+	} else {
+		// The target name is an existing group. Let's collect the devices
+		// members of that group
+		$aDevices = Aura\Groups::findDevices($aGroup['id']);
 	}
-
-	$aDevices = Aura\Groups::findDevices($aGroup['id']);
 
 	if(count($aDevices) > 0) {
 		$aPings  = Aura\Pings::findByDevices($aDevices, time() - 60 * 3);
