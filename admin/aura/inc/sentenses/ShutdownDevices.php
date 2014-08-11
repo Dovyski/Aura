@@ -12,7 +12,7 @@ function shutdownDevices($theGroupName) {
 		if($aHowManyDevices > 0) {
 			$aCommand = array(
 				'win' 	=> 'shutdown -s -t 60 & msg * "O computador vai desligar em 1 minuto. Salve tudo aberto agora!"',
-				'linux' => 'shutdown -h +1 "O computador vai desligar em 1 minuto. Salve tudo aberto agora!" &',
+				'linux' => 'shutdown -h +1 "O computador vai desligar em 1 minuto. Salve tudo aberto agora!" 2>&1',
 				'mac' 	=> '',
 			);
 			$aTask = array(
