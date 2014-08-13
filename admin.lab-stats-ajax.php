@@ -30,6 +30,9 @@
 			echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 			echo '<ul class="dropdown-menu">';
 			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie os computadores do '.$aLab['name'].'\');"><i class="icon-repeat"></i> Reiniciar todos</a></li>';
+			echo '<li class="divider"></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate os computadores do '.$aLab['name'].'\');"><i class="icon-fire"></i> Formatar todos</a></li>';
 			echo '</ul>';
 			echo '</div>';
 			echo '</ul>';
@@ -76,20 +79,15 @@
 
 	// Internet
 	echo '<div class="span4 aura-bloco">';
-		if($aInternet['status'] != 'desconhecida') {
-			echo '<ul class="aura-bloco-opts">';
-				echo '<div class="btn-group">';
-					echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
-					echo '<ul class="dropdown-menu">';
-						if($aInternet['status'] == 'online') {
-							echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';
-						} else {
-							echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
-						}
-					echo '</ul>';
-				echo '</div>';
-			echo '</ul>';
-		}
+		echo '<ul class="aura-bloco-opts">';
+			echo '<div class="btn-group">';
+				echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
+				echo '<ul class="dropdown-menu">';
+					echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';
+					echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
+				echo '</ul>';
+			echo '</div>';
+		echo '</ul>';
 
 		echo '<img src="./img/icos/internet.png" title="Internet" />';
 		echo '<h2>Internet</h2>';
@@ -159,10 +157,13 @@
 								echo '<div class="btn-group">';
 									echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
 									echo '<ul class="dropdown-menu">';
-										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Reiniciar</a></li>';
-										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Desligar</a></li>';
-										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Bloquear internet</a></li>';
-										echo '<li><a href="javascript:void(0)" onclick=""><i class="icon-ban-circle"></i> Deslogar usuários</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue o computador '.$aDevice['name'].'\');"><i class="icon-off"></i> Desligar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie o computador '.$aDevice['name'].'\');"><i class="icon-repeat"></i> Reiniciar</a></li>';
+										echo '<li class="divider"></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do computador '.$aDevice['name'].'\');"><i class="icon-signal"></i> Bloquear internet</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuarios do computador '.$aDevice['name'].'\');"><i class="icon-user"></i> Deslogar usuários</a></li>';
+										echo '<li class="divider"></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate o computador '.$aDevice['name'].'\');"><i class="icon-fire"></i> Formatar</a></li>';
 									echo '</ul>';
 								echo '</div>';
 							echo '</td>';
