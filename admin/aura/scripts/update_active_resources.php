@@ -8,8 +8,7 @@
 	require_once dirname(__FILE__).'/../../../inc/globals.php';
 
 	define('REFRESH_TIME', 30);
-	
-	$aPings	= Aura\Pings::find(time() - REFRESH_TIME);
+	define('LOG_DATE_FORMAT', '[d/m/Y - h:i:s] ');
 	
 	$aIgnoredUsers = array(
 		'>services',
@@ -22,15 +21,21 @@
 		'users'	 	=> array()
 	);
 
-	echo "Updating active users/devices...\n";
-	
-	echo "Removing old entries...";
+	echo date(LOG_DATE_FORMAT) . "Removing old user and device entries...";
 	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_DEVICES." WHERE time <= " . (time() - REFRESH_TIME));
 	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_ACTIVE_USERS." WHERE time <= " . (time() - REFRESH_TIME));
 	echo "[OK]\n";
 	
+	echo date(LOG_DATE_FORMAT) . "Removing old pings...";
+	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_PINGS." WHERE time <= " . (time() - 2*60*60));
+	echo "[OK]\n";
+	
+	echo date(LOG_DATE_FORMAT) . "Updating active users/devices...\n";	
+	
+	$aPings	= Aura\Pings::find(time() - REFRESH_TIME);
+	
 	if(count($aPings) == 0) {
-		echo "No recent data found, aborting.\n";
+		echo date(LOG_DATE_FORMAT) . "No recent data found, aborting.\n";
 		return;
 	}
 
@@ -65,7 +70,7 @@
 		}
 	}
 
-	echo "Adding devices:\n";
+	echo date(LOG_DATE_FORMAT) . "Adding devices:\n";
 	if(count($aRet['computers']) > 0) {
 		foreach($aRet['computers'] as $aIdDevice => $aInfo) {
 			$aInfo['time'] 			= time();
@@ -83,7 +88,7 @@
 		echo " No devices found.\n";
 	}
 	
-	echo "Adding users:\n";
+	echo date(LOG_DATE_FORMAT) . "Adding users:\n";
 	if(count($aRet['users']) > 0) {
 		foreach($aRet['users'] as $aUserName => $aDevices) {
 			$aValues = "";
@@ -102,5 +107,5 @@
 		echo " No users found.\n";
 	}
 	
-	echo "All done, have a nice day!\n";
+	echo date(LOG_DATE_FORMAT) . "All done, have a nice day!\n";
 ?>
