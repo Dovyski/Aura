@@ -23,7 +23,7 @@ class Pings {
 			throw new \Exception('Ping sem qualquer informação.');
 		}
 
-		if(Devices::getByClue($theDeviceId) == null) {
+		if(Devices::getById($theDeviceId) == null) {
 			throw new \Exception('O dispositivo informado não existe (id = '.$theDeviceId.').');
 		}
 		

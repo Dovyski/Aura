@@ -22,8 +22,20 @@ class Devices {
 
 	public static function getByClue($theClue) {
 		$aRet	 = null;
-		$aWhere  = is_numeric($theClue) ? "id = ".$theClue : "name LIKE '".addslashes($theClue)."' OR alias LIKE '%".addslashes($theClue)."%' OR hash LIKE '".addslashes($theClue)."'";
+		$aWhere  = "name LIKE '".addslashes($theClue)."' OR alias LIKE '%".addslashes($theClue)."%' OR hash LIKE '".addslashes($theClue)."'";
 		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_DEVICES." WHERE ". $aWhere);
+
+		if(Db::numRows($aResult) == 1) {
+			$aRet = Db::fetchAssoc($aResult);
+		}
+		
+		return $aRet;
+	}
+	
+	public static function getById($theId) {
+		$aRet	 = null;
+		$theId	 = (int)$theId;
+		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_DEVICES." WHERE id = ". $theId);
 
 		if(Db::numRows($aResult) == 1) {
 			$aRet = Db::fetchAssoc($aResult);
