@@ -27,7 +27,7 @@
 	echo "[OK]\n";
 	
 	echo date(LOG_DATE_FORMAT) . "Removing old pings...";
-	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_PINGS." WHERE time <= " . (time() - 2*60*60));
+	Aura\Db::execute("DELETE FROM ".Aura\Db::TABLE_PINGS." WHERE time < " . (time() - REFRESH_TIME));
 	echo "[OK]\n";
 	
 	echo date(LOG_DATE_FORMAT) . "Updating active users/devices...\n";	
