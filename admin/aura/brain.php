@@ -30,7 +30,9 @@
 					$_REQUEST['data'] = @urldecode($_REQUEST['data']);
 				}
 				
+				// TODO: sanitize fields coming from the client.
 				$_REQUEST['client'] = $_SERVER['HTTP_USER_AGENT'];
+				$_REQUEST['time'] 	= time();
 				 
 				$aRet = Aura\Pings::add($aInfoDevice['id'], $_REQUEST);
 				$aRet = $aRet ? array('success' => true) : array('error' => true, 'msg' => 'Dados inválidos no ping.');
