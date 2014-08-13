@@ -48,7 +48,7 @@ class Pings {
 		
 		if(!empty($aIds)) {
 			$aResult = Db::execute("SELECT * FROM ".Db::TABLE_PINGS." WHERE fk_device IN (".implode(',', $aIds).") AND time >= " . $theSinceUnixtime);
-			
+
 			if(Db::numRows($aResult) > 0) {
 				while($aRow = Db::fetchAssoc($aResult)) {
 					$aRet[$aRow['fk_device']][] = $aRow;
@@ -63,13 +63,14 @@ class Pings {
 	* Obtem informações de pings.
 	*
 	* @param int $theSinceUnixtime timestamp a partir do qual os logs serão buscados.
+	* @param bool $theGroupByDevice informa se o resultado deve ser agrupado por dispositovo ou não. Se for <code>true</code> (default), apenas uma tupla de ping será retornada por dispotivo. Se for <code>false</code>, várias tuplas de ping podem ser retornadas por dispositivo.
 	* @return array array assossiativo com informações dos pings, no formato [id_device] => array(pings).
 	*/
-	public static function find($theSinceUnixtime) {
+	public static function find($theSinceUnixtime, $theGroupByDevice = true) {
 		$aRet	 			= array();
 		$theSinceUnixtime 	= (int)$theSinceUnixtime;
 
-		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_PINGS." WHERE time >= " . $theSinceUnixtime . " ORDER BY time DESC");
+		$aResult = Db::execute("SELECT * FROM ".Db::TABLE_PINGS." WHERE time >= " . $theSinceUnixtime . " " . ($theGroupByDevice ? "GROUP BY fk_device " : "") . " ORDER BY time DESC");
 			
 		if(Db::numRows($aResult) > 0) {
 			while($aRow = Db::fetchAssoc($aResult)) {
