@@ -1,15 +1,8 @@
 <?php 
 
 function manageInternet($theDeactivate, $theActivate, $theGroupName) {
-	$aGroup = Aura\Groups::getByClue($theGroupName);
-
-	if($aGroup === null) {
-		echo 'Não conheço o grupo <strong>' . $theGroupName.'</strong>.';
-		return;
-	}
-
 	$aActivate = !empty($theActivate);
-	$aDevices  = Aura\Groups::findDevices($aGroup['id']);
+	$aDevices  = figureOutDevicesByClue($theGroupName);
 
 	if(count($aDevices) > 0) {
 		$aCommand = null;
@@ -17,13 +10,13 @@ function manageInternet($theDeactivate, $theActivate, $theGroupName) {
 		if($aActivate) {
 			$aCommand = array(
 				'win' 	=> 'netsh advfirewall firewall delete rule name="Aura: Block Internet" & msg * "A internet foi habilitada."',
-				'linux' => 'iptables -F & iptables -X whitelist & zenity --info --text="A internet foi habilitada."',
+				'linux' => 'iptables -F ; iptables -X whitelist',
 				'mac' 	=> '',
 			);
 		} else {
 			$aCommand = array(
 				'win' 	=> 'netsh advfirewall firewall add rule name="Aura: Block Internet" dir=out remoteip=0.0.0.0-172.20.0.0,172.21.0.0-192.168.0.0,192.169.0.0-255.255.255.255 action=block & msg * "A internet foi desligada."',
-				'linux' => 'iptables -N whitelist & iptables -A whitelist -p tcp -m multiport --sports 80,443 -s cc.uffs.edu.br -j ACCEPT & iptables -A whitelist -p tcp -m multiport --sports 80,443 -s www.uffs.edu.br -j ACCEPT & iptables -A whitelist -p tcp -m multiport --sports 80,443 -s moodle.uffs.edu.br -j ACCEPT & iptables -I INPUT 1 -j whitelist & iptables -I INPUT 2 -p tcp -m multiport --sports 80,443 -j DROP & iptables -A OUTPUT -p icmp --icmp-type echo-request -j DROP & zenity --info --text="A internet foi desligada."',
+				'linux' => 'iptables -N whitelist ; iptables -A whitelist -p tcp -m multiport --sports 80,443 -s cc.uffs.edu.br -j ACCEPT ; iptables -A whitelist -p tcp -m multiport --sports 80,443 -s www.uffs.edu.br -j ACCEPT ; iptables -A whitelist -p tcp -m multiport --sports 80,443 -s moodle.uffs.edu.br -j ACCEPT ; iptables -A whitelist -p tcp -m multiport --sports 80,443 -s srv-ncc-cc-01.cc.cco.uffs.edu.br -j ACCEPT ; iptables -I INPUT 1 -j whitelist ; iptables -I INPUT 2 -p tcp -m multiport --sports 80,443 -j DROP ; iptables -A OUTPUT -p icmp --icmp-type echo-request -j DROP',
 				'mac' 	=> '',
 			);
 		}
