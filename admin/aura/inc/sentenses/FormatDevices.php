@@ -16,7 +16,7 @@ function formatDevices($theUseCustomImage, $theImageName, $theGroupName) {
 			$aCustomImg = '';
 			
 			if ($aUseCustomImage) {
-				$aCustomImg = ';s/.*didatica-ultima.*/'.$theImageName.'/';
+				$aCustomImg = ';s/didatica-ultima/'.$theImageName.'/';
 			}
 		
 			$aCommand = array(
@@ -24,7 +24,7 @@ function formatDevices($theUseCustomImage, $theImageName, $theGroupName) {
 				'linux' => 'sed \'s/.*set default=\"[0-9]\".*/   set default=\"3\"/'.$aCustomImg.'\' /boot/grub/grub.cfg > /boot/grub/grub.cfg.tmp ; cat /boot/grub/grub.cfg.tmp > /boot/grub/grub.cfg ; shutdown -r +1 >/dev/null 2>/dev/null &',
 				'mac' 	=> '',
 			);
-			var_dump($aCommand);
+
 			$aTask = array(
 				'time' 		=> time(),
 				'priority' 	=> 1,
