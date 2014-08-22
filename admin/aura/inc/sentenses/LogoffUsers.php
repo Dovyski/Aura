@@ -1,20 +1,13 @@
 <?php 
 
 function logoffUsers($theGroupName) {
-	$aGroup = Aura\Groups::getByClue($theGroupName);
-
-	if($aGroup === null) {
-		echo 'Não conheço o grupo ' . $theGroupName.'.';
-		return;
-	}
-
-	$aDevices = Aura\Groups::findDevices($aGroup['id']);
+	$aDevices = figureOutDevicesByClue($theGroupName);
 
 	if(count($aDevices) > 0) {
-		$aPings  = Aura\Pings::findByDevices($aDevices, time() - 60 * 3);
-		$aReport = Aura\Utils::generateLabReport($aPings); 
+		$aPoweredOnDevices 	= findPoweredOnDevicesByIds($aDevices);
+		$aHowManyDevices 	= count($aPoweredOnDevices);
 
-		if(count($aReport['computers']) > 0) {
+		if($aHowManyDevices > 0) {
 			$aCommand = array(
 				'win' 	=> 'shutdown /r /t 0',
 				'linux' => 'shutdown -r now',
@@ -26,7 +19,7 @@ function logoffUsers($theGroupName) {
 				'status' 	=> Aura\Tasks::STATUS_RUNNING,
 				'exec' 		=> serialize($aCommand)
 			);
-			Aura\Tasks::add($aTask, $aReport['computers']);
+			Aura\Tasks::add($aTask, $aPoweredOnDevices);
 			echo 'Ok, todos os usuários serão deslogados agora.';
 		} else {
 			echo 'Não há gente para deslogar porque todos os computadores estão desligados.';
@@ -36,6 +29,6 @@ function logoffUsers($theGroupName) {
 	}
 }
 
-Aura\Interpreter::addSentenseHandler('logoffUsers', '/(deslogue|faça logoff|faça logout|logout)(todos |todas )?( os| as)? (usuários|pessoas|alunos|coisos|coisas|viventes)? d(a|o) ([\w\W]*)/', array(6));
+Aura\Interpreter::addSentenseHandler('logoffUsers', '/(deslogue|faça logoff dos?|faça logoff das?|faça logout|faça logout dos?|faça logout das?|logout|logout dos?|logout das?)( todos| todas)?( os| as)? (usuários|pessoas|alunos|coisos|coisas|viventes)? d(a|o) ([\w\W]*)/', array(6));
 
 ?>
