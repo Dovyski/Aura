@@ -1,4 +1,4 @@
-<?php 
+<?php
 @include_once dirname(__FILE__).'/config.local.php';
 require_once dirname(__FILE__).'/config.php';
 
@@ -11,5 +11,6 @@ require_once dirname(__FILE__).'/inc/pings.php';
 require_once dirname(__FILE__).'/inc/devices.php';
 require_once dirname(__FILE__).'/inc/groups.php';
 require_once dirname(__FILE__).'/inc/interpreter.php';
+require_once dirname(__FILE__).'/inc/spyglass.php';
 
 ?>
