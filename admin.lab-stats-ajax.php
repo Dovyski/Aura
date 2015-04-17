@@ -1,11 +1,11 @@
 <?php
 	header("Content-Type: text/html; charset=UTF-8");
-	
+
 	require_once dirname(__FILE__).'/inc/globals.php';
 	require_once dirname(__FILE__).'/admin/aura/globals.php';
 
 	authRestritoAdmin();
-	
+
 	$aLabId = isset($_REQUEST['lab']) ? (int)$_REQUEST['lab'] : 0;
 
 	$aLab			= Aura\Groups::getByClue($aLabId);
@@ -16,10 +16,10 @@
 
 	// Improve that!
 	echo '<!-- id: '.$aLabId.' -->';
-	
+
 	// Id of the block containing the devices list.
 	$aDevicesBlockName = 'devices-'.$aLabId;
-	
+
 	// Computadores
 	echo '<div class="span4 aura-bloco">';
 		$aAtivos = count($aActiveDevices);
@@ -37,10 +37,10 @@
 			echo '</div>';
 			echo '</ul>';
 		}
-	
+
 		// TODO: fix this in-line javascript
 		echo '<a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><img src="./img/icos/computador.png" title="Computadores" border="0" /></a>';
-		
+
 		echo '<h2>Computadores</h2>';
 		$aTotalDispositivos = count($aDevices);
 		if($aTotalDispositivos == 0) {
@@ -53,7 +53,7 @@
 	// Usuários
 	echo '<div class="span4 aura-bloco">';
 		$aLogados = count($aUsers);
-			
+
 		if($aLogados > 0) {
 			echo '<ul class="aura-bloco-opts">';
 				echo '<div class="btn-group">';
@@ -64,10 +64,10 @@
 				echo '</div>';
 			echo '</ul>';
 		}
-	
+
 		echo '<img src="./img/icos/pessoa.png" title="Usuários" />';
 		echo '<h2>Usuários</h2>';
-	
+
 		if($aLogados == 0) {
 			echo '<p>Ninguém logado</p>';
 		} else if($aLogados == 1) {
@@ -97,7 +97,7 @@
 			echo $aInternet['status'] == 'online' ? '<span class="label label-success">Online</span>' : '<span class="label label-important">Offline</span>';
 		}
 	echo '</div>';
-	
+
 	echo '<div id="'.$aDevicesBlockName.'" class="span12 aura-bloco-devices">';
 		$aTotalDispositivos = count($aDevices);
 
@@ -127,7 +127,7 @@
 								$aHdStats 			= '';
 								$aLastPing			= '';
 								$aUsers				= '';
-								
+
 								if (isset($aActiveDevices[$aDevice['id']])) {
 									$aInfos 			= unserialize($aActiveDevices[$aDevice['id']]['data']);
 
@@ -140,17 +140,17 @@
 									$aUsers				= unserialize($aInfos['users']);
 									$aUsers				= count($aUsers) > 0 ? count($aUsers) : '';
 								}
-								
+
 								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="icon-off icon-white" title="Ligado/Desligado"></i></span> ';
 								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="icon-signal icon-white" title="Conexão com a Internet"></i></span> ';
 								if($aHdStats != '') {
 									echo '<span class="label label-default" style="padding:5px;"><i class="icon-th-large icon-white" title="Uso do disco"></i> '.$aHdStats.'</span> ';
 								}
-								
+
 								if($aUsers != '') {
 									echo '<span class="label label-default" style="padding:5px;"><i class="icon-user icon-white" title="Usuários ativos"></i> '.$aUsers.'</span> ';
 								}
-								
+
 								echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Tempo desde a última atualização com a Aura."></i> '.$aLastPing.'</span> ';
 							echo '</td>';
 							echo '<td>';
@@ -159,6 +159,8 @@
 									echo '<ul class="dropdown-menu">';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue o computador '.$aDevice['name'].'\');"><i class="icon-off"></i> Desligar</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie o computador '.$aDevice['name'].'\');"><i class="icon-repeat"></i> Reiniciar</a></li>';
+										echo '<li class="divider"></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.spyglass(\''.$aDevice['hash'].'\');"><i class="icon-off"></i> Acesso remoto</a></li>';
 										echo '<li class="divider"></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do computador '.$aDevice['name'].'\');"><i class="icon-signal"></i> Bloquear internet</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuarios do computador '.$aDevice['name'].'\');"><i class="icon-user"></i> Deslogar usuários</a></li>';
@@ -175,6 +177,6 @@
 		echo '<p class="pull-right"><a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><i class="icon-eye-close"></i> Ocultar</a></p>';
 
 	echo '</div>';
-	
+
 	exit();
 ?>
