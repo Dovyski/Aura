@@ -5,3 +5,4 @@
 /img/Thumbs.db
 /admin/aura/client/aura-cli.log
 /admin/aura/config.local.php
+/admin/aura/client/spyglass/bin/*.class
