@@ -41,11 +41,51 @@ public class Spyglass {
             // when getInputStream() is called.
             System.out.println("Output:");
             for (String line = r.readLine(); line != null;  line = r.readLine()) {
-                System.out.println(line);
+                handleRemoteInteractions(line);
             }
 
             Thread.sleep(2000);
         }
+    }
+
+    private static void handleRemoteInteractions(String theRemote) throws Exception {
+        String aRemote = theRemote.replace('"', ' ').trim();
+        String[] aCommands = aRemote.split(";");
+
+        System.out.println("Remote: " + aRemote);
+
+        for(int i = 0; i < aCommands.length; i++) {
+            String[] aParts = ((String)aCommands[i]).split(":");
+
+            switch(aParts[0]) {
+                case "mv":
+                    handleMouseMovement(aParts);
+                    break;
+
+                case "mp":
+                    System.out.println("MP");
+                    break;
+
+                case "mr":
+                    System.out.println("MR");
+                    break;
+
+                case "kp":
+                    System.out.println("KP");
+                    break;
+
+                case "kr":
+                    System.out.println("KR");
+                    break;
+            }
+        }
+    }
+
+    private static void handleMouseMovement(String[] theParts) throws Exception {
+        String[] aCoords = theParts[1].split(",");
+
+        Robot aRobot = new Robot();
+        aRobot.mouseMove(Integer.parseInt(aCoords[0]), Integer.parseInt(aCoords[1]));
     }
 
     protected static long copy(InputStream input, OutputStream output) throws IOException {

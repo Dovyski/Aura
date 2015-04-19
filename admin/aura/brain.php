@@ -55,8 +55,7 @@
 				break;
 
 			case 'spyglass':
-				Aura\Spyglass::run($aInfoDevice);
-				$aRet = array('success' => true, 'msg' => '');
+				$aRet = Aura\Spyglass::run($aInfoDevice);
 				break;
 
 			default:
