@@ -2,6 +2,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
@@ -95,9 +96,14 @@ public class Spyglass {
 
     private void handleServerResponse(String theResponse) throws Exception {
         String aResponse = theResponse.replace('"', ' ').trim();
-        String[] aCommands = aResponse.split(";");
+
+        if(aResponse.length() == 0) {
+            System.out.println("No server response");
+            return;
+        }
 
         System.out.println("Server response: " + aResponse);
+        String[] aCommands = aResponse.split(";");
 
         for(int i = 0; i < aCommands.length; i++) {
             String[] aParts = ((String)aCommands[i]).split(":");
@@ -108,19 +114,19 @@ public class Spyglass {
                     break;
 
                 case "mp":
-                    System.out.println("MP");
+                    handleMouseClick(aParts, true);
                     break;
 
                 case "mr":
-                    System.out.println("MR");
+                    handleMouseClick(aParts, false);
                     break;
 
                 case "kp":
-                    System.out.println("KP");
+                    handleKey(aParts, true);
                     break;
 
                 case "kr":
-                    System.out.println("KR");
+                    handleKey(aParts, false);
                     break;
 
                 case "end":
@@ -140,6 +146,28 @@ public class Spyglass {
             aY = Integer.parseInt(aCoords[1]);
 
         mRobot.mouseMove(aX, aY);
+    }
+
+    private void handleMouseClick(String[] theParts, boolean thePress) throws Exception {
+        if(thePress) {
+            System.out.println("mousePress");
+            mRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        } else {
+            System.out.println("mouseRelease");
+            mRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+        }
+    }
+
+    private void handleKey(String[] theParts, boolean thePress) throws Exception {
+        int aKey = Integer.parseInt(theParts[1]);
+
+        if(thePress) {
+            System.out.println("keyPress - " + aKey);
+            mRobot.keyPress(aKey);
+        } else {
+            System.out.println("keyRelease - " + aKey);
+            mRobot.keyRelease(aKey);
+        }
     }
 
     // This code was copied from the Jacarta project.

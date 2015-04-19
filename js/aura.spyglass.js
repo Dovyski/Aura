@@ -58,7 +58,7 @@ AURA.spyglass = new function() {
 
 		mConfig = {
 			'refreshInterval': 	getURLParamByName('refreshInterval') 	|| 2000,
-			'saveInterval': 	getURLParamByName('saveInterval') 		|| 1000
+			'saveInterval': 	getURLParamByName('saveInterval') 		|| 3000
 		};
 
 		$('body').mousemove(function(theEvent) {
@@ -72,6 +72,14 @@ AURA.spyglass = new function() {
 
 		$('body').mouseup(function(theEvent) {
 			mInteractions.push('mv:'+mMouse.x+','+mMouse.y+';mr');
+		});
+
+		$('body').keydown(function(theEvent) {
+			mInteractions.push('kp:'+theEvent.keyCode);
+		});
+
+		$('body').keyup(function(theEvent) {
+			mInteractions.push('kr:'+theEvent.keyCode);
 		});
 
 		refreshScreenCanvas();
