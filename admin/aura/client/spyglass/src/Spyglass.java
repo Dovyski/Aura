@@ -12,47 +12,90 @@ import java.net.URLConnection;
 import java.net.HttpURLConnection;
 
 public class Spyglass {
-    public static void main(String args[]) throws Exception {
-        while(true) {
-            // capture the whole screen
-            BufferedImage screen = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+    private boolean mActive;
+    private String mWebEndpoint;
+    private String mDeviceHash;
+    private int mRefreshInterval;
+    private Robot mRobot;
 
-            // Save as JPEG
-            File file = new File("screencapture.jpg");
-            ImageIO.write(screen, "jpg", file);
+    public static void main(String theArgs[]) throws Exception {
+        if(theArgs.length < 3) {
+            System.out.println("Aura Spylass v1.0.0");
+            System.out.println("Usage:\n\t./spyglass <endpoint> <hash> <refresh>\n");
+            System.exit(1);
+        }
 
-            // TODO: get this URL from config/argv
-            URL url = new URL("http://dev.local.com/ncc.cc.uffs.edu.br/admin/aura/brain.php?method=spyglass&hash=153c40a61c60a0f1d42b01c679470cf5");
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setDoInput(true);
-            con.setDoOutput(true);
-            con.setUseCaches(false);
-            con.setRequestProperty("Content-Type", "image/jpeg");
-            con.setRequestMethod("POST");
-            InputStream in = new FileInputStream("screencapture.jpg");
-            OutputStream out = con.getOutputStream();
-            copy(in, con.getOutputStream());
-            out.flush();
-            out.close();
-            BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        Spyglass s = new Spyglass(theArgs);
+        s.run();
+    }
 
-            // obviously it is not required to print the response. But you have
-            // to call con.getInputStream(). The connection is really established only
-            // when getInputStream() is called.
-            System.out.println("Output:");
-            for (String line = r.readLine(); line != null;  line = r.readLine()) {
-                handleRemoteInteractions(line);
+    public Spyglass(String theArgs[]) throws Exception {
+        mActive             = true;
+        mWebEndpoint        = theArgs[0];
+        mDeviceHash         = theArgs[1];
+        mRefreshInterval    = Integer.parseInt(theArgs[2]);
+        mRobot              = new Robot();
+    }
+
+    private void captureCurrentScreenFrame() throws Exception {
+        // Capture the whole screen
+        BufferedImage aScreen = mRobot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+
+        // Save as JPEG
+        File aFile = new File("screencapture.jpg");
+        ImageIO.write(aScreen, "jpg", aFile);
+    }
+
+    private String sendCurrentScreenFrame() throws Exception {
+        URL aUrl = new URL(mWebEndpoint + "&hash=" + mDeviceHash);
+        HttpURLConnection aCon = (HttpURLConnection)aUrl.openConnection();
+
+        aCon.setDoInput(true);
+        aCon.setDoOutput(true);
+        aCon.setUseCaches(false);
+        aCon.setRequestProperty("Content-Type", "image/jpeg");
+        aCon.setRequestMethod("POST");
+
+        InputStream aIn = new FileInputStream("screencapture.jpg");
+        OutputStream aOut = aCon.getOutputStream();
+
+        copy(aIn, aCon.getOutputStream());
+
+        aOut.flush();
+        aOut.close();
+
+        BufferedReader aReader = new BufferedReader(new InputStreamReader(aCon.getInputStream()));
+
+        // Get the server response
+        String aLine, aReturn = "";
+
+        for (aLine = aReader.readLine(); aLine != null;  aLine = aReader.readLine()) {
+            aReturn += aLine;
+        }
+
+        return aReturn;
+    }
+
+    public void run() throws Exception {
+        while(mActive) {
+            String aResponse;
+
+            captureCurrentScreenFrame();
+            aResponse = sendCurrentScreenFrame();
+
+            if(aResponse != null) {
+                handleServerResponse(aResponse);
             }
 
-            Thread.sleep(2000);
+            Thread.sleep(mRefreshInterval);
         }
     }
 
-    private static void handleRemoteInteractions(String theRemote) throws Exception {
-        String aRemote = theRemote.replace('"', ' ').trim();
-        String[] aCommands = aRemote.split(";");
+    private void handleServerResponse(String theResponse) throws Exception {
+        String aResponse = theResponse.replace('"', ' ').trim();
+        String[] aCommands = aResponse.split(";");
 
-        System.out.println("Remote: " + aRemote);
+        System.out.println("Server response: " + aResponse);
 
         for(int i = 0; i < aCommands.length; i++) {
             String[] aParts = ((String)aCommands[i]).split(":");
@@ -81,13 +124,16 @@ public class Spyglass {
         }
     }
 
-    private static void handleMouseMovement(String[] theParts) throws Exception {
+    private void handleMouseMovement(String[] theParts) throws Exception {
         String[] aCoords = theParts[1].split(",");
 
-        Robot aRobot = new Robot();
-        aRobot.mouseMove(Integer.parseInt(aCoords[0]), Integer.parseInt(aCoords[1]));
+        int aX = Integer.parseInt(aCoords[0]),
+            aY = Integer.parseInt(aCoords[1]);
+
+        mRobot.mouseMove(aX, aY);
     }
 
+    // This code was copied from the Jacarta project.
     protected static long copy(InputStream input, OutputStream output) throws IOException {
         byte[] buffer = new byte[12288]; // 12K
         long count = 0L;
