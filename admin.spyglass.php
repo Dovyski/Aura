@@ -4,18 +4,27 @@
 
 	authRestritoAdmin();
 
+	$aRandURLs 	= MODO_DEBUG ? '?'.rand(20, 9999) : '';
+	$aHash		= $_REQUEST['hash']; // TODO: secure hash coming from URL
+
 	echo '<html>';
-	echo '<head><title>Spyglass</title></head>';
+	echo '<head>';
+		echo '<title>Spyglass</title>';
+		echo '<script src="./js/jquery.js'.$aRandURLs.'"></script>';
+		echo '<script src="./js/aura.js'.$aRandURLs.'"></script>';
+		echo '<script src="./js/aura.spyglass.js'.$aRandURLs.'"></script>';
+	echo '</head>';
 
 	echo '<body style="margin: 0;">';
 
-	// TODO: secure hash coming from URL
-	echo '<img src="admin.spyglass-feed.php?hash='.$_REQUEST['hash'].'&rand='.rand(0, 99999).'" />';
+	echo '<img id="screenCanvas" src="" />';
 
-	// TODO: create a proper JS method for this.
-	echo '<script type="text/javascript">
-			setTimeout(function() { location.reload(); }, 1000);
-		  </script>';
+	echo "
+		<script type=\"text/javascript\">
+			$(function() {
+				AURA.spyglass.init('" . $aHash . "');
+			});
+		</script>";
 
 	echo '</body>';
 	echo '</html>';
