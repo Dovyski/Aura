@@ -122,6 +122,13 @@ public class Spyglass {
                 case "kr":
                     System.out.println("KR");
                     break;
+
+                case "end":
+                    mActive = false;
+                    break;
+
+                default:
+                    System.out.println("Unknown op: " + aParts[0]);
             }
         }
     }
