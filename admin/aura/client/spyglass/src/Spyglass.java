@@ -37,16 +37,20 @@ public class Spyglass {
         mRobot              = new Robot();
     }
 
-    private void captureCurrentScreenFrame() throws Exception {
+    private InputStream captureCurrentScreenFrame() throws Exception {
         // Capture the whole screen
         BufferedImage aScreen = mRobot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
 
-        // Save as JPEG
-        File aFile = new File("screencapture.jpg");
-        ImageIO.write(aScreen, "jpg", aFile);
+        // Write the image bytes to an output stream
+        ByteArrayOutputStream aOs = new ByteArrayOutputStream();
+        ImageIO.write(aScreen, "jpg", aOs);
+
+        // Return an input stream that can be used to read our
+        // just saved image bytes.
+        return new ByteArrayInputStream(aOs.toByteArray());
     }
 
-    private String sendCurrentScreenFrame() throws Exception {
+    private String sendCurrentScreenFrame(InputStream theInput) throws Exception {
         URL aUrl = new URL(mWebEndpoint + "&hash=" + mDeviceHash);
         HttpURLConnection aCon = (HttpURLConnection)aUrl.openConnection();
 
@@ -56,10 +60,8 @@ public class Spyglass {
         aCon.setRequestProperty("Content-Type", "image/jpeg");
         aCon.setRequestMethod("POST");
 
-        InputStream aIn = new FileInputStream("screencapture.jpg");
         OutputStream aOut = aCon.getOutputStream();
-
-        copy(aIn, aCon.getOutputStream());
+        copy(theInput, aCon.getOutputStream());
 
         aOut.flush();
         aOut.close();
@@ -80,8 +82,8 @@ public class Spyglass {
         while(mActive) {
             String aResponse;
 
-            captureCurrentScreenFrame();
-            aResponse = sendCurrentScreenFrame();
+            InputStream aInput = captureCurrentScreenFrame();
+            aResponse = sendCurrentScreenFrame(aInput);
 
             if(aResponse != null) {
                 handleServerResponse(aResponse);
