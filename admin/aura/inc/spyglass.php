@@ -18,7 +18,20 @@ class Spyglass {
 	}
 
 	private static function getRemoteInteractions($theDeviceInfo) {
-		return "mv:20,45;mv:100,200";
+		$aActions = glob(AURA_SPYGLASS_WORKING_FOLDER . $theDeviceInfo['hash'] . '-interactions-*');
+		$aRet = '';
+
+		foreach($aActions as $aFile) {
+			$aRet .= file_get_contents($aFile);
+			unlink($aFile);
+		}
+		
+		return $aRet;
+	}
+
+	public static function saveInteractions($theDeviceInfo, $theRequest) {
+		file_put_contents(AURA_SPYGLASS_WORKING_FOLDER . $theDeviceInfo['hash'] .'-interactions-' . microtime(), $theRequest['interactions']);
+		return array('success' => true);
 	}
 
 	public static function getFrame($theDeviceHash) {

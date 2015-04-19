@@ -58,6 +58,10 @@
 				$aRet = Aura\Spyglass::run($aInfoDevice);
 				break;
 
+			case 'spyglass-save-interactions':
+				$aRet = Aura\Spyglass::saveInteractions($aInfoDevice, $_REQUEST);
+				break;
+
 			default:
 				echo 'Método inválido.';
 		}
