@@ -68,7 +68,7 @@
 		processEnquedBatchCommands();
 
 		logMsg('Solicitando novas ordens...');
-		$aResult = getUrl(BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME.'&hash='.AURA_HASH);
+		$aResult = getUrl(AURA_BRAIN_URL . '?method=tasks&device='.AURA_HOSTNAME.'&hash='.AURA_HASH);
 
 		if($aResult !== false) {
 			$aData = @json_decode($aResult);
@@ -78,7 +78,7 @@
 
 			} else if($aData !== null) {
 				logMsg('Ordens recebidas: ' . count($aData));
-				
+
 				if(count($aData) > 0) {
 					foreach($aData as $aIdTask => $aInfos) {
 						processBrainTask($aInfos);

@@ -4,22 +4,22 @@
 	 * Funções do cliente.
 	 */
 
-	define('AURA_CLI_VERSION', '1.6.1');
+	define('AURA_CLI_VERSION', '2.0.0');
 
 	function loadConfigFile() {
 		$aIniArray = parse_ini_file(dirname(__FILE__) . "/config.ini");
 
-		define('BRAIN_URL', 		$aIniArray['brain_url']);
-		define('PING_INTERVAL', 	$aIniArray['brain_pulling_interval']);
-		define('LOG_REQUESTS', 		$aIniArray['log_requests'] ? true : false);
-		define('LOG_EXECS', 		$aIniArray['log_execs'] ? true : false);
+		define('AURA_BRAIN_URL', 			$aIniArray['brain_url']);
+		define('AURA_PING_INTERVAL', 		$aIniArray['brain_pulling_interval']);
+		define('AURA_LOG_REQUESTS', 		$aIniArray['log_requests'] ? true : false);
+		define('AURA_LOG_EXECS', 			$aIniArray['log_execs'] ? true : false);
 	}
 
 	function getUrl($theUrl) {
 		static $aCh = null;
 		$aUserAgent = 'Aura Client/'.AURA_CLI_VERSION.' ('.AURA_OS_NAME.'; '.AURA_OS_VERSION.')';
 
-		if(LOG_REQUESTS) {
+		if(AURA_LOG_REQUESTS) {
 			logMsg('[URL] ' . $theUrl);
 		}
 
@@ -147,7 +147,7 @@
 				}
 
 				logMsg('Todos os comandos batch da tarefa '.$aId.' foram executados, avisando o cerebro...');
-				getUrl(BRAIN_URL . '?method=tasklog&task='.$aId.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=***BATCH***');
+				getUrl(AURA_BRAIN_URL . '?method=tasklog&task='.$aId.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=***BATCH***');
 				logMsg('Cerebro foi avisado!');
 			}
 		}
@@ -160,7 +160,7 @@
 	 * @param array $theInfos informações da tarefa enviadaa pelo cérebro.
 	 */
 	function processBrainTask($theTask) {
-		getUrl(BRAIN_URL . '?method=tasklog&task='.$theTask->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_start='.time());
+		getUrl(AURA_BRAIN_URL . '?method=tasklog&task='.$theTask->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_start='.time());
 
 		if(hasBatchCommands($theTask)) {
 			// A tarefa possui um lote de comandos. Colocamos eles em disco e executamos
@@ -170,11 +170,29 @@
 		} else {
 			// A tarefa possui apenas um comando. Moemos ele aqui mesmo.
 			$aOut = runCommand($theTask->exec);
-			getUrl(BRAIN_URL . '?method=tasklog&task='.$theTask->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=' . urlencode($aOut));
+			getUrl(AURA_BRAIN_URL . '?method=tasklog&task='.$theTask->id.'&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time_end='.time().'&result=' . urlencode($aOut));
 
 			logMsg('Comando '.$theTask->id.' executado, saida enviada para o cerebro. Saida: '.substr($aOut, 0, 5).'...');
 		}
 
+	}
+
+	/**
+	 * TODO: add docs
+	 */
+	function replaceAuraEnvVars($theString) {
+		$aConstants = get_defined_constants(true);
+		$aVars 	 	= array();
+		$aValues 	= array();
+
+		foreach($aConstants['user'] as $aName => $aValue) {
+			if(strpos($aName, 'AURA_') !== false) {
+				$aVars[] 	= '{@' . $aName .'}';
+				$aValues[] 	= $aValue;
+			}
+		}
+
+		return str_replace($aVars, $aValues, $theString);
 	}
 
 	/**
@@ -193,7 +211,9 @@
 		$aCommand 	= $theDecideUsingOS ? getCommandAccordingOS($theCommand) : $theCommand;
 
 		if($aCommand != '') {
-			logMsg('Exec: ' . (LOG_EXECS ? $aCommand : substr($aCommand, 0, 6).'...'));
+			logMsg('Exec: ' . (AURA_LOG_EXECS ? $aCommand : substr($aCommand, 0, 6).'...'));
+
+			$aCommand = replaceAuraEnvVars($aCommand);
 
 			ob_start();
 			$aOut = trim(shell_exec($aCommand));
@@ -227,7 +247,7 @@
 		}
 
 		logMsg('Enviando ping.');
-		getUrl(BRAIN_URL . '?method=ping&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time='.time().'&data='.urlencode(serialize($aData)));
+		getUrl(AURA_BRAIN_URL . '?method=ping&device='.AURA_HOSTNAME.'&hash='.AURA_HASH.'&time='.time().'&data='.urlencode(serialize($aData)));
 	}
 
 	/**
@@ -249,7 +269,7 @@
 		// ou nao vai nos cadastrar e vai retornar um erro, dizendo que nao somos
 		// cadastrados.
 		logMsg('Enviando check...');
-		$aData = @json_decode(getUrl(BRAIN_URL . '?method=check&device='.AURA_HOSTNAME.'&hash='.AURA_HASH));
+		$aData = @json_decode(getUrl(AURA_BRAIN_URL . '?method=check&device='.AURA_HOSTNAME.'&hash='.AURA_HASH));
 
 		if($aData !== null && isset($aData->error)) {
 			// Nao estamos cadastrados e o cerebro mandou pastarmos.
