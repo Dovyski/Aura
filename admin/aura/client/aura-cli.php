@@ -60,6 +60,7 @@
 	define('AURA_OS_VERSION',	$aOsVersion);
 	define('AURA_OS',			$aOs);
 	define('AURA_HASH',			md5($aMacEth0));
+	define('AURA_HOME',			dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
 	logMsg('Iniciando atividades em '.AURA_HOSTNAME.' ('.AURA_HASH.'), rodando '.AURA_OS_NAME.' ('.AURA_OS_VERSION.').');
 
