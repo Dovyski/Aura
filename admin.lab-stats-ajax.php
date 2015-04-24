@@ -13,6 +13,7 @@
 	$aUsers	  		= Aura\Pings::findActiveUsers($aDevices);
 	$aActiveDevices = Aura\Pings::findActiveDevices($aDevices);
 	$aInternet		= Aura\Utils::hasInternetAccess($aActiveDevices);
+	$aLastTask		= Aura\Tasks::findLastTaskByDevices($aDevices);
 
 	// Improve that!
 	echo '<!-- id: '.$aLabId.' -->';
@@ -109,7 +110,6 @@
 					echo '<tr>';
 						echo '<th>Id</th>';
 						echo '<th>Nome</th>';
-						echo '<th>OS</th>';
 						echo '<th>Status</th>';
 						echo '<th></th>';
 					echo '</tr>';
@@ -119,14 +119,16 @@
 					foreach($aDevicesList as $aDevice) {
 						echo '<tr class="error">';
 							echo '<td>'.$aDevice['id'].'</td>';
-							echo '<td style="width: 40%;">'.$aDevice['name'].' <small class="fraco">'.$aDevice['hash'].'</small></td>';
-							echo '<td>'.(isset($aActiveDevices[$aDevice['id']]) ? substr($aActiveDevices[$aDevice['id']]['os'], 0, 35) : '?').'</td>';
+							echo '<td style="width: 35%;">'.$aDevice['name'].' <small class="fraco">'.$aDevice['hash'].'</small></td>';
 							echo '<td>';
 								$aPowerStatus 		= 'important';
 								$aInternetStatus 	= 'default';
 								$aHdStats 			= '';
 								$aLastPing			= '';
 								$aUsers				= '';
+								$aOs				= isset($aActiveDevices[$aDevice['id']]) ? substr($aActiveDevices[$aDevice['id']]['os'], 0, 35) : '?';
+								$aOsStatus			= $aOs != '?' ? 'success' : 'default';
+								$Task				= isset($aLastTask[$aDevice['id']]) ? $aLastTask[$aDevice['id']] : null;
 
 								if (isset($aActiveDevices[$aDevice['id']])) {
 									$aInfos 			= unserialize($aActiveDevices[$aDevice['id']]['data']);
@@ -142,16 +144,21 @@
 								}
 
 								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="icon-off icon-white" title="Ligado/Desligado"></i></span> ';
+								echo '<span class="label label-'.$aOsStatus.'" style="padding:5px;"><i class="icon-th-large icon-white" title="'.$aOs.'"></i></span> ';
 								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="icon-signal icon-white" title="Conexão com a Internet"></i></span> ';
-								if($aHdStats != '') {
-									echo '<span class="label label-default" style="padding:5px;"><i class="icon-th-large icon-white" title="Uso do disco"></i> '.$aHdStats.'</span> ';
-								}
 
 								if($aUsers != '') {
 									echo '<span class="label label-default" style="padding:5px;"><i class="icon-user icon-white" title="Usuários ativos"></i> '.$aUsers.'</span> ';
 								}
 
 								echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Tempo desde a última atualização com a Aura."></i> '.$aLastPing.'</span> ';
+
+								if($Task != null) {
+									// TODO: show task output in a nice modal/tooltip instead of i#title.
+									echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Tarefa '.$Task['fk_task'].' | Data: '.($Task['time_end'] == '' ? 'Rodando' : date('d/m/Y h:i:s', $Task['time_end']))."\n".$Task['result'].'"></i></span> ';
+								} else {
+									echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Nenhuma tarefa pendente."></i></span> ';
+								}
 							echo '</td>';
 							echo '<td>';
 								echo '<div class="btn-group">';
