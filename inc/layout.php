@@ -5,49 +5,45 @@ require_once dirname(__FILE__).'/config.php';
 function barraNavegacao() {
 	$aPagina = basename($_SERVER['PHP_SELF']);
 
-	echo '<div class="navbar navbar-fixed-top">';
-		echo '<div class="navbar-inner">';
-			echo '<div class="container">';
-				echo '<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">';
+	echo '<nav class="navbar navbar-default navbar-fixed-top">';
+		echo '<div class="container">';
+			echo '<div class="navbar-header">';
+				echo '<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">';
+					echo '<span class="sr-only">Toggle navigation</span>';
 					echo '<span class="icon-bar"></span>';
 					echo '<span class="icon-bar"></span>';
-					echo '<span class="icon-bar"></span>';
-				echo '</a>';
-				echo '<a class="brand" href="index.php">A</a>';
+				echo '</button>';
+				echo '<a class="navbar-brand" href="index.php">A</a>';
+			echo '</div>';
 
-				echo '<div class="nav-collapse">';
-					echo '<ul class="nav">';
+			if(authIsLogado()) {
+				echo '<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
+					echo '<ul class="nav navbar-nav">';
 						echo '<li '.($aPagina == 'index.php' ? 'class="active"' : '').'><a href="index.php">Dashboard</a></li>';
 						echo '<li '.($aPagina == 'aura.php'  ? 'class="active"' : '').'><a href="aura.php">Aura</a></li>';
 					echo '</ul>';
 
-					layoutBarraUsuarioLogado();
-
+					echo '<ul class="nav navbar-nav navbar-right">';
+						layoutBarraUsuarioLogado();
+					echo '</ul>';
 				echo '</div><!--/.nav-collapse -->';
-			echo '</div>';
+			} else {
+				echo '<p class="navbar-text navbar-right"><a href="login.php" class="navbar-link">Login</a></p>';
+			}
 		echo '</div>';
-	echo '</div>';
+	echo '</nav>';
 }
 
 
 
 function layoutBarraUsuarioLogado() {
-	$aClassLink	  = authIsAdmin() ? 'btn-danger' : 'btn-primary';
+	echo '<li class="dropdown">';
+		echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User '.$_SESSION['usuario']['cn'].'</a>';
 
-	echo '<ul class="nav pull-right">';
-		echo '<div class="btn-group">';
-			if(authIsLogado()) {
-				echo '<a class="btn '.$aClassLink.'" href="user.php"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
-				echo '<a class="btn '.$aClassLink.' dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
-
-				echo '<ul class="dropdown-menu">';
-				echo '<li><a href="logout.php"><i class="icon-remove"></i> Sair</a></li>';
-				echo '</ul>';
-			} else {
-				echo '<a class="btn '.$aClassLink.'" href="login.php"><i class="icon-user icon-white"></i> Login</a>';
-			}
-		echo '</div>';
-	echo '</ul>';
+		echo '<ul class="dropdown-menu" role="menu">';
+			echo '<li><a href="logout.php">Sair</a></li>';
+		echo '</ul>';
+	echo '</li>';
 }
 
 function cabecalho($theTitulo, $theBaseUrl = '.') {
@@ -70,18 +66,14 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<link href="'.$theBaseUrl.'/css/bootstrap.css" rel="stylesheet">';
 		echo '<link href="'.$theBaseUrl.'/css/style.css'.$aRandURLs.'" rel="stylesheet">';
 
-		if(LAYOUT_RESPONSIVE) {
-			echo '<link href="'.$theBaseUrl.'/css/bootstrap-responsive.css" rel="stylesheet">';
-		}
-
 		echo '<!-- Le fav and touch icons -->';
 		echo '<link rel="shortcut icon" href="img/favicon.ico">';
 		echo '<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">';
 		echo '<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png">';
 		echo '<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png">';
 
-		echo '<script src="'.$theBaseUrl.'/js/jquery.js'.$aRandURLs.'"></script>';
-		echo '<script src="'.$theBaseUrl.'/js/bootstrap.js'.$aRandURLs.'"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/jquery.min.js'.$aRandURLs.'"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/bootstrap.min.js'.$aRandURLs.'"></script>';
 		echo '<script src="'.$theBaseUrl.'/js/aura.js'.$aRandURLs.'"></script>';
 	echo '</head>';
 

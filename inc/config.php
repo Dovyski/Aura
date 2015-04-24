@@ -8,8 +8,6 @@ define('DRIVE_HOME_WINDOWS',		'H:\\');
 define('PASTA_HOME_UBUNTU',			'Pasta pessoal');
 define('TEMP_WINDOWS',				'\\\central\temp');
 
-define('LAYOUT_RESPONSIVE',			false);
-
 // Informacoes do dominio 
 define('NOME_DOMINIO',				'ncc.lan');
 define('HOST_SERVIDOR',				'central.inf.uffs.edu.br');
