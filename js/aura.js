@@ -12,7 +12,7 @@ var AURA = new function() {
 		showLoading();
 
 		$.ajax({
-			  url: 		"admin.aura-ajax.php?action=order",
+			  url: 		"ajax-aura.php?action=order",
 			  context: 	document.body,
 			  data: 	$('#formAura').serialize(),
 
@@ -48,7 +48,7 @@ var AURA = new function() {
 	 */
 	this.sendCommand = function(theCommand) {
 		$.ajax({
-			  url: 		"admin.aura-ajax.php?action=order",
+			  url: 		"ajax-aura.php?action=order",
 			  context: 	document.body,
 			  data: 	'command=' + theCommand,
 
@@ -69,7 +69,7 @@ var AURA = new function() {
 
 			var aFunc = function() {
 				$.ajax({
-					  url: 		"admin.lab-stats-ajax.php",
+					  url: 		"ajax-lab-stats.php",
 					  context: 	document.body,
 					  data: 	'lab=' + aId,
 
@@ -96,7 +96,7 @@ var AURA = new function() {
 	 *
 	 */
 	this.spyglass = function(theDeviceHash) {
-		window.open('admin.spyglass.php?hash=' + theDeviceHash,'Spyglass','width=1920,height=1200,toolbar=0,menubar=0,location=0');
+		window.open('spyglass.php?hash=' + theDeviceHash,'Spyglass','width=1920,height=1200,toolbar=0,menubar=0,location=0');
 	};
 
 	this.init = function() {

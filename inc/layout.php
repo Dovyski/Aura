@@ -13,7 +13,7 @@ function barraNavegacao() {
 					echo '<span class="icon-bar"></span>';
 					echo '<span class="icon-bar"></span>';
 				echo '</a>';
-				echo '<a class="brand" href="index.php">NCC</a>';
+				echo '<a class="brand" href="index.php">A</a>';
 
 				echo '<div class="nav-collapse">';
 					echo '<ul class="nav">';
@@ -23,30 +23,13 @@ function barraNavegacao() {
 
 					layoutBarraUsuarioLogado();
 
-					if(authIsLogado()) {
-						barraNavegacaoAdmin();
-					}
 				echo '</div><!--/.nav-collapse -->';
 			echo '</div>';
 		echo '</div>';
 	echo '</div>';
 }
 
-function barraNavegacaoAdmin() {
-	$aPagina = basename($_SERVER['PHP_SELF']);
 
-	echo '<ul class="nav pull-right">';
-		echo '<li class="dropdown pull-right">';
-			echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administração <b class="caret"></b></a>';
-			echo '<ul class="dropdown-menu">';
-				echo '<li><a href="admin.index.php">Dashboard</a></li>';
-				echo '<li><a href="admin.aura.php">Aura</a></li>';
-				//echo '<li class="divider"></li>';
-				//echo '<li><a href="#">Separated link</a></li>';
-			echo '</ul>';
-		echo '</li>';
-	echo '</ul>';
-}
 
 function layoutBarraUsuarioLogado() {
 	$aClassLink	  = authIsAdmin() ? 'btn-danger' : 'btn-primary';
@@ -54,7 +37,7 @@ function layoutBarraUsuarioLogado() {
 	echo '<ul class="nav pull-right">';
 		echo '<div class="btn-group">';
 			if(authIsLogado()) {
-				echo '<a class="btn '.$aClassLink.'" href="conta.php"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
+				echo '<a class="btn '.$aClassLink.'" href="user.php"><i class="icon-user icon-white"></i> '.$_SESSION['usuario']['cn'].'</a>';
 				echo '<a class="btn '.$aClassLink.' dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>';
 
 				echo '<ul class="dropdown-menu">';
@@ -72,7 +55,7 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 	echo '<html lang="en">';
 	echo '<head>';
 		echo '<meta charset="utf-8">';
-		echo '<title>'.(empty($theTitulo) ? '' : $theTitulo).' | NCC - Ciência da Computação - UFFS</title>';
+		echo '<title>'.(empty($theTitulo) ? '' : $theTitulo).' | Aura</title>';
 		echo '<meta name="description" content="Nucleo de Ciência da Computação do curso de Ciencia da Computação da Universidade Federal da Fronteira Sul">';
 		echo '<meta name="author" content="NCC">';
 
@@ -113,7 +96,7 @@ function rodape($theBaseUrl = '.') {
 		echo '<hr>';
 
 		echo '<footer>';
-			echo '<p style="float:left;">NCC - Ciência da Computação - UFFS</p>';
+			echo '<p style="float:left;"></p>'; // TODO: add footnotes
 		echo '</footer>';
 
 	if(MODO_DEBUG) {
