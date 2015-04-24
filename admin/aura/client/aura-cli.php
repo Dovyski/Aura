@@ -94,6 +94,6 @@
 		pingBrain();
 
 		logMsg('Dormindo ate a proxima requisicao...');
-		sleep(PING_INTERVAL);
+		sleep(AURA_PING_INTERVAL);
 	}
 ?>

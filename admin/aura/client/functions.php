@@ -192,7 +192,7 @@
 			}
 		}
 
-		return str_replace($aVars, $aValues, $theString);
+		return str_ireplace($aVars, $aValues, $theString);
 	}
 
 	/**
