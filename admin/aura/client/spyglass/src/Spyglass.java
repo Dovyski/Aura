@@ -18,6 +18,8 @@ public class Spyglass {
     private String mDeviceHash;
     private int mRefreshInterval;
     private Robot mRobot;
+    private int mNoResponseCount;
+    private boolean mDebug;
 
     public static void main(String theArgs[]) throws Exception {
         if(theArgs.length < 3) {
@@ -36,6 +38,14 @@ public class Spyglass {
         mDeviceHash         = theArgs[1];
         mRefreshInterval    = Integer.parseInt(theArgs[2]);
         mRobot              = new Robot();
+        mNoResponseCount    = 0;
+        mDebug              = false;
+    }
+
+    private void debug(String theMsg) {
+        if(mDebug) {
+            debug(theMsg);
+        }
     }
 
     private InputStream captureCurrentScreenFrame() throws Exception {
@@ -98,13 +108,21 @@ public class Spyglass {
         String aResponse = theResponse.replace('"', ' ').trim();
 
         if(aResponse.length() == 0) {
-            System.out.println("No server response");
-            // TODO: no response for 5 min, kill spyglass.
+            debug("No server response");
+            mNoResponseCount++;
+
+            if(mNoResponseCount >= 10) {
+                // Web client probably disconnected. The party is over!
+                mActive = false;
+            }
+
             return;
         }
 
-        System.out.println("Server response: " + aResponse);
+        debug("Server response: " + aResponse);
         String[] aCommands = aResponse.split(";");
+
+        mNoResponseCount = 0;
 
         for(int i = 0; i < aCommands.length; i++) {
             String[] aParts = ((String)aCommands[i]).split(":");
@@ -135,7 +153,7 @@ public class Spyglass {
                     break;
 
                 default:
-                    System.out.println("Unknown op: " + aParts[0]);
+                    debug("Unknown op: " + aParts[0]);
             }
         }
     }
@@ -151,10 +169,10 @@ public class Spyglass {
 
     private void handleMouseClick(String[] theParts, boolean thePress) throws Exception {
         if(thePress) {
-            System.out.println("mousePress");
+            debug("mousePress");
             mRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         } else {
-            System.out.println("mouseRelease");
+            debug("mouseRelease");
             mRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         }
     }
@@ -163,10 +181,10 @@ public class Spyglass {
         int aKey = Integer.parseInt(theParts[1]);
 
         if(thePress) {
-            System.out.println("keyPress - " + aKey);
+            debug("keyPress - " + aKey);
             mRobot.keyPress(aKey);
         } else {
-            System.out.println("keyRelease - " + aKey);
+            debug("keyRelease - " + aKey);
             mRobot.keyRelease(aKey);
         }
     }
