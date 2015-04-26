@@ -22,25 +22,25 @@
 	$aDevicesBlockName = 'devices-'.$aLabId;
 
 	// Computadores
-	echo '<div class="span4 aura-bloco">';
+	echo '<div class="col-md-4 aura-bloco">';
 		$aAtivos = count($aActiveDevices);
 
 		if($aAtivos > 0) {
 			echo '<ul class="aura-bloco-opts">';
 			echo '<div class="btn-group">';
-			echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
+			echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 			echo '<ul class="dropdown-menu">';
-			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="icon-off"></i> Desligar todos</a></li>';
-			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie os computadores do '.$aLab['name'].'\');"><i class="icon-repeat"></i> Reiniciar todos</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="fa fa-power-off"></i> Desligar todos</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie os computadores do '.$aLab['name'].'\');"><i class="fa fa-refresh"></i> Reiniciar todos</a></li>';
 			echo '<li class="divider"></li>';
-			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate os computadores do '.$aLab['name'].'\');"><i class="icon-fire"></i> Formatar todos</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate os computadores do '.$aLab['name'].'\');"><i class="fa fa-fire"></i> Formatar todos</a></li>';
 			echo '</ul>';
 			echo '</div>';
 			echo '</ul>';
 		}
 
 		// TODO: fix this in-line javascript
-		echo '<a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><img src="./img/icos/computador.png" title="Computadores" border="0" /></a>';
+		echo '<a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><i class="fa fa-desktop fa-5x"></i></a>';
 
 		echo '<h2>Computadores</h2>';
 		$aTotalDispositivos = count($aDevices);
@@ -52,21 +52,21 @@
 	echo '</div>';
 
 	// Usuários
-	echo '<div class="span4 aura-bloco">';
+	echo '<div class="col-md-4 aura-bloco">';
 		$aLogados = count($aUsers);
 
 		if($aLogados > 0) {
 			echo '<ul class="aura-bloco-opts">';
 				echo '<div class="btn-group">';
-					echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
+					echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 					echo '<ul class="dropdown-menu">';
-						echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="icon-remove"></i> Deslogar todos</a></li>';
+						echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuários do '.$aLab['name'].'\');"><i class="fa fa-user-times"></i> Deslogar todos</a></li>';
 					echo '</ul>';
 				echo '</div>';
 			echo '</ul>';
 		}
 
-		echo '<img src="./img/icos/pessoa.png" title="Usuários" />';
+		echo '<i class="fa fa-users fa-5x"></i>';
 		echo '<h2>Usuários</h2>';
 
 		if($aLogados == 0) {
@@ -79,27 +79,27 @@
 	echo '</div>';
 
 	// Internet
-	echo '<div class="span4 aura-bloco">';
+	echo '<div class="col-md-4 aura-bloco">';
 		echo '<ul class="aura-bloco-opts">';
 			echo '<div class="btn-group">';
-				echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
+				echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 				echo '<ul class="dropdown-menu">';
-					echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="icon-ban-circle"></i> Desativar internet</a></li>';
-					echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="icon-ok-sign"></i> Ativar internet</a></li>';
+					echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do '.$aLab['name'].'\');"><i class="fa fa-ban"></i> Desativar internet</a></li>';
+					echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue a internet do '.$aLab['name'].'\');"><i class="fa fa-check-circle"></i> Ativar internet</a></li>';
 				echo '</ul>';
 			echo '</div>';
 		echo '</ul>';
 
-		echo '<img src="./img/icos/internet.png" title="Internet" />';
+		echo '<i class="fa fa-signal fa-5x"></i>';
 		echo '<h2>Internet</h2>';
 		if($aInternet['status'] == 'desconhecida') {
 			echo '<span class="label label-warning">Desconhecida</span>';
 		} else {
-			echo $aInternet['status'] == 'online' ? '<span class="label label-success">Online</span>' : '<span class="label label-important">Offline</span>';
+			echo $aInternet['status'] == 'online' ? '<span class="label label-success">Online</span>' : '<span class="label label-danger">Offline</span>';
 		}
 	echo '</div>';
 
-	echo '<div id="'.$aDevicesBlockName.'" class="span12 aura-bloco-devices">';
+	echo '<div id="'.$aDevicesBlockName.'" class="col-md-12 aura-bloco-devices">';
 		$aTotalDispositivos = count($aDevices);
 
 		if($aTotalDispositivos != 0) {
@@ -121,20 +121,21 @@
 							echo '<td>'.$aDevice['id'].'</td>';
 							echo '<td style="width: 35%;">'.$aDevice['name'].' <small class="fraco">'.$aDevice['hash'].'</small></td>';
 							echo '<td>';
-								$aPowerStatus 		= 'important';
+								$aPowerStatus 		= 'danger';
 								$aInternetStatus 	= 'default';
 								$aHdStats 			= '';
 								$aLastPing			= '';
 								$aUsers				= '';
 								$aOs				= isset($aActiveDevices[$aDevice['id']]) ? substr($aActiveDevices[$aDevice['id']]['os'], 0, 35) : '?';
 								$aOsStatus			= $aOs != '?' ? 'success' : 'default';
+								$aOsIcon			= strpos($aOs, 'Win') !== false ? 'windows' : 'linux';
 								$Task				= isset($aLastTask[$aDevice['id']]) ? $aLastTask[$aDevice['id']] : null;
 
 								if (isset($aActiveDevices[$aDevice['id']])) {
 									$aInfos 			= unserialize($aActiveDevices[$aDevice['id']]['data']);
 
 									$aPowerStatus 		= 'success';
-									$aInternetStatus 	= $aInfos['ping_ip'] <= 75 ? 'success' : 'important';
+									$aInternetStatus 	= $aInfos['ping_ip'] <= 75 ? 'success' : 'danger';
 									$aHdStats 			= (int)($aInfos['storage_total'] / $aInfos['storage_available']) . '%';
 									$aLastPing			= $aActiveDevices[$aDevice['id']]['time'];
 									$aLastPing			= '0:' . (time() - $aLastPing); // TODO: make human readable
@@ -143,36 +144,36 @@
 									$aUsers				= count($aUsers) > 0 ? count($aUsers) : '';
 								}
 
-								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="icon-off icon-white" title="Ligado/Desligado"></i></span> ';
-								echo '<span class="label label-'.$aOsStatus.'" style="padding:5px;"><i class="icon-th-large icon-white" title="'.$aOs.'"></i></span> ';
-								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="icon-signal icon-white" title="Conexão com a Internet"></i></span> ';
+								echo '<i class="fa fa-'.$aOsIcon.'" title="'.$aOs.'"></i> ';
+
+								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="fa fa-power-off" title="Ligado/Desligado"></i></span> ';
+								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="fa fa-signal" title="Conexão com a Internet"></i></span> ';
 
 								if($aUsers != '') {
-									echo '<span class="label label-default" style="padding:5px;"><i class="icon-user icon-white" title="Usuários ativos"></i> '.$aUsers.'</span> ';
+									echo '<span class="label label-default" style="padding:5px;"><i class="fa fa-user" title="Usuários ativos"></i> '.$aUsers.'</span> ';
 								}
 
-								echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Tempo desde a última atualização com a Aura."></i> '.$aLastPing.'</span> ';
+								//echo '<span class="label label-default" style="padding:5px;"><i class="fa fa-refresh" title="Tempo desde a última atualização com a Aura."></i> '.$aLastPing.'</span> ';
 
 								if($Task != null) {
 									// TODO: show task output in a nice modal/tooltip instead of i#title.
-									echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Tarefa '.$Task['fk_task'].' | Data: '.($Task['time_end'] == '' ? 'Rodando' : date('d/m/Y h:i:s', $Task['time_end']))."\n".$Task['result'].'"></i></span> ';
-								} else {
-									echo '<span class="label label-default" style="padding:5px;"><i class="icon-refresh icon-white" title="Nenhuma tarefa pendente."></i></span> ';
+									$aDateEnd = is_numeric($Task['time_end']) ? date('d/m/Y h:i:s', $Task['time_end']) : '?';
+									echo '<span class="label label-default" style="padding:5px;"><i class="fa '.(is_numeric($Task['time_end']) ? 'fa-check' : 'fa-cog fa-spin').'" title="Tarefa '.$Task['fk_task'].' | Data: '.($Task['time_end'] == '' ? 'Rodando' : $aDateEnd)."\n".$Task['result'].'"></i> </span> ';
 								}
 							echo '</td>';
 							echo '<td>';
 								echo '<div class="btn-group">';
-									echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog icon-black"></i><span class="caret"></span></a>';
+									echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 									echo '<ul class="dropdown-menu">';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue o computador '.$aDevice['name'].'\');"><i class="icon-off"></i> Desligar</a></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie o computador '.$aDevice['name'].'\');"><i class="icon-repeat"></i> Reiniciar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue o computador '.$aDevice['name'].'\');"><i class="fa fa-power-off"></i> Desligar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie o computador '.$aDevice['name'].'\');"><i class="fa fa-refresh"></i> Reiniciar</a></li>';
 										echo '<li class="divider"></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.spyglass(\''.$aDevice['hash'].'\');"><i class="icon-off"></i> Acesso remoto</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.spyglass(\''.$aDevice['hash'].'\');"><i class="fa fa-send"></i> Acesso remoto</a></li>';
 										echo '<li class="divider"></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do computador '.$aDevice['name'].'\');"><i class="icon-signal"></i> Bloquear internet</a></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuarios do computador '.$aDevice['name'].'\');"><i class="icon-user"></i> Deslogar usuários</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do computador '.$aDevice['name'].'\');"><i class="fa fa-signal"></i> Bloquear internet</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuarios do computador '.$aDevice['name'].'\');"><i class="fa fa-user"></i> Deslogar usuários</a></li>';
 										echo '<li class="divider"></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate o computador '.$aDevice['name'].'\');"><i class="icon-fire"></i> Formatar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate o computador '.$aDevice['name'].'\');"><i class="fa fa-fire"></i> Formatar</a></li>';
 									echo '</ul>';
 								echo '</div>';
 							echo '</td>';

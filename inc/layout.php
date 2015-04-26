@@ -38,7 +38,7 @@ function barraNavegacao() {
 
 function layoutBarraUsuarioLogado() {
 	echo '<li class="dropdown">';
-		echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User '.$_SESSION['usuario']['cn'].'</a>';
+		echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> Fernando '.$_SESSION['usuario']['cn'].'</a>';
 
 		echo '<ul class="dropdown-menu" role="menu">';
 			echo '<li><a href="logout.php">Sair</a></li>';
@@ -63,7 +63,8 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		$aRandURLs = MODO_DEBUG ? '?'.rand(20, 9999) : '';
 
 		echo '<!-- Le styles -->';
-		echo '<link href="'.$theBaseUrl.'/css/bootstrap.css" rel="stylesheet">';
+		echo '<link href="'.$theBaseUrl.'/css/bootstrap.min.css" rel="stylesheet">';
+		echo '<link href="'.$theBaseUrl.'/css/font-awesome.min.css" rel="stylesheet">';
 		echo '<link href="'.$theBaseUrl.'/css/style.css'.$aRandURLs.'" rel="stylesheet">';
 
 		echo '<!-- Le fav and touch icons -->';
