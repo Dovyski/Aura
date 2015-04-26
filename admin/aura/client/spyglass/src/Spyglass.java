@@ -52,7 +52,7 @@ public class Spyglass {
     }
 
     private String sendCurrentScreenFrame(InputStream theInput) throws Exception {
-        URL aUrl = new URL(mWebEndpoint + "&hash=" + mDeviceHash);
+        URL aUrl = new URL(mWebEndpoint + "?action=save-client-data&hash=" + mDeviceHash);
         HttpURLConnection aCon = (HttpURLConnection)aUrl.openConnection();
 
         aCon.setDoInput(true);
@@ -99,6 +99,7 @@ public class Spyglass {
 
         if(aResponse.length() == 0) {
             System.out.println("No server response");
+            // TODO: no response for 5 min, kill spyglass.
             return;
         }
 

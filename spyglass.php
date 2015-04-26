@@ -10,7 +10,7 @@
 	echo '<html>';
 	echo '<head>';
 		echo '<title>Spyglass</title>';
-		echo '<script src="./js/jquery.js'.$aRandURLs.'"></script>';
+		echo '<script src="./js/jquery.min.js'.$aRandURLs.'"></script>';
 		echo '<script src="./js/aura.js'.$aRandURLs.'"></script>';
 		echo '<script src="./js/aura.spyglass.js'.$aRandURLs.'"></script>';
 	echo '</head>';
@@ -18,6 +18,7 @@
 	echo '<body style="margin: 0;">';
 
 	echo '<img id="screenCanvas" src="" />';
+	echo '<div id="loading"></div>';
 
 	echo "
 		<script type=\"text/javascript\">

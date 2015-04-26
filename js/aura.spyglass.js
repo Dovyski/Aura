@@ -11,9 +11,9 @@ AURA.spyglass = new function() {
 
 	var sendInteractionsToServer = function(theInteractions) {
 		$.ajax({
-			url:  "./admin/aura/brain.php",
+			url:  "./spyglass-api.php",
 			data: {
-				method: 'spyglass-save-interactions',
+				action: 'save-web-interactions',
 				hash: mDeviceHash,
 				interactions: theInteractions
 			},
@@ -27,7 +27,7 @@ AURA.spyglass = new function() {
 	}
 
 	var refreshScreenCanvas = function() {
-	    $('#screenCanvas').attr('src', 'admin.spyglass-feed.php?hash=' + mDeviceHash + '&rand=' + Math.random());
+	    $('#screenCanvas').attr('src', 'spyglass-api.php?hash=' + mDeviceHash + '&action=feedrand=' + Math.random());
 	};
 
 	var saveInteraction = function() {
@@ -57,8 +57,8 @@ AURA.spyglass = new function() {
 		mDeviceHash = theDeviceHash;
 
 		mConfig = {
-			'refreshInterval': 	getURLParamByName('refreshInterval') 	|| 2000,
-			'saveInterval': 	getURLParamByName('saveInterval') 		|| 3000
+			'refreshInterval': 	getURLParamByName('refreshInterval') 	|| 100,
+			'saveInterval': 	getURLParamByName('saveInterval') 		|| 1000
 		};
 
 		$('body').mousemove(function(theEvent) {
