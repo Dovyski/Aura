@@ -5,6 +5,7 @@ AURA = AURA || {};
 AURA.spyglass = new function() {
 	var mDeviceHash;
 	var mConfig;
+	var mActive;
 	var mMouse = {x: 0, y: 0};
 	var mInteractions = [];
 	var mSelf = this;
@@ -27,7 +28,34 @@ AURA.spyglass = new function() {
 	}
 
 	var refreshScreenCanvas = function() {
-	    $('#screenCanvas').attr('src', 'spyglass-api.php?hash=' + mDeviceHash + '&action=feedrand=' + Math.random());
+		if(mActive) {
+	    	$('#screenCanvas').attr('src', 'spyglass-api.php?hash=' + mDeviceHash + '&action=feedrand=' + Math.random());
+		} else {
+			// Connection is not active just yet (client is probably connecting)
+			// Let's show a nice loading message
+			$('#loading').html('Establishing connection, please wait.' + ' ' + Math.random());
+
+			// Get client's connection info
+			$.ajax({
+				url:  "./spyglass-api.php",
+				data: { action: 'client-connection-info', hash: mDeviceHash},
+
+				success: function(theData){
+					var aDelay = theData.current_timestamp - theData.last_timestamp;
+
+					// If the difference between the last package received and the current
+					// timestamp is lass than 10, it means the client is active and
+					// broadcasting.
+					if(aDelay <= 10) {
+						mActive = true;
+						initInteractionsSaver();
+					}
+				},
+				error: function() {
+					// TODO: do something
+				}
+			});
+		}
 	};
 
 	var saveInteraction = function() {
@@ -53,14 +81,7 @@ AURA.spyglass = new function() {
 		return aResults === null ? "" : decodeURIComponent(aResults[1].replace(/\+/g, " "));
     };
 
-	this.init = function(theDeviceHash) {
-		mDeviceHash = theDeviceHash;
-
-		mConfig = {
-			'refreshInterval': 	getURLParamByName('refreshInterval') 	|| 100,
-			'saveInterval': 	getURLParamByName('saveInterval') 		|| 1000
-		};
-
+	var initInteractionsSaver = function() {
 		$('body').mousemove(function(theEvent) {
 		    mMouse.x = theEvent.pageX;
 		    mMouse.y = theEvent.pageY;
@@ -82,9 +103,18 @@ AURA.spyglass = new function() {
 			mInteractions.push('kr:'+theEvent.keyCode);
 		});
 
-		refreshScreenCanvas();
+		setInterval(saveInteraction, mConfig.saveInterval);
+	}
+
+	this.init = function(theDeviceHash) {
+		mDeviceHash = theDeviceHash;
+		mActive = false;
+
+		mConfig = {
+			'refreshInterval': 	getURLParamByName('refreshInterval') 	|| 100,
+			'saveInterval': 	getURLParamByName('saveInterval') 		|| 1000
+		};
 
 		setInterval(refreshScreenCanvas, mConfig.refreshInterval);
-		setInterval(saveInteraction, mConfig.saveInterval);
 	};
 };

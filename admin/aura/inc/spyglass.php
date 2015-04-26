@@ -44,10 +44,11 @@ class Spyglass {
 		return file_get_contents(self::getBasePath($theDeviceHash) .'.jpg');
 	}
 
+	// TODO: secure hash coming from URL
 	public static function getClientConnectionInfo($theDeviceHash) {
 		return array(
-			// TODO: secure hash coming from URL
-			'timestamp' => file_get_contents(self::getBasePath($theDeviceHash) .'-timestamp')
+			'current_timestamp' => time(),
+			'last_timestamp' 	=> file_get_contents(self::getBasePath($theDeviceHash) .'-timestamp') + 0
 		);
 	}
 }
