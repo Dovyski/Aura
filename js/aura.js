@@ -112,8 +112,8 @@ var AURA = new function() {
 	/**
 	 *
 	 */
-	this.spyglass = function(theDeviceHash) {
-		window.open('spyglass.php?hash=' + theDeviceHash,'Spyglass','width=1920,height=1200,toolbar=0,menubar=0,location=0');
+	this.spyglass = function(theDeviceHash, theDeviceName) {
+		window.open('spyglass.php?hash=' + theDeviceHash + '&name=' + encodeURIComponent(theDeviceName),'Spyglass','width=1920,height=1200,toolbar=0,menubar=0,location=0');
 	};
 
 	this.init = function() {

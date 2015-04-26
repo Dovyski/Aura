@@ -173,7 +173,7 @@
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue o computador '.$aDevice['name'].'\');"><i class="fa fa-power-off"></i> Desligar</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie o computador '.$aDevice['name'].'\');"><i class="fa fa-refresh"></i> Reiniciar</a></li>';
 										echo '<li class="divider"></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.spyglass(\''.$aDevice['hash'].'\');"><i class="fa fa-send"></i> Acesso remoto</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.spyglass(\''.$aDevice['hash'].'\', \''.$aDevice['name'].'\');"><i class="fa fa-send"></i> Acesso remoto</a></li>';
 										echo '<li class="divider"></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do computador '.$aDevice['name'].'\');"><i class="fa fa-signal"></i> Bloquear internet</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuarios do computador '.$aDevice['name'].'\');"><i class="fa fa-user"></i> Deslogar usuários</a></li>';

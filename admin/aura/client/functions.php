@@ -143,7 +143,7 @@
 					unlink($aCom['file']);
 					$aOut = runCommand($aCom['content'], false);
 
-					logMsg('Comando batch '.$aCom['id'].' da tarefa '.$aId.' executado: '.substr($aOut, 0, 5).'...');
+					logMsg('Comando batch '.$aCom['id'].' da tarefa '.$aId.' executado: '.(AURA_LOG_EXECS ? $aOut : substr($aOut, 0, 5).'...'));
 				}
 
 				logMsg('Todos os comandos batch da tarefa '.$aId.' foram executados, avisando o cerebro...');
@@ -211,9 +211,8 @@
 		$aCommand 	= $theDecideUsingOS ? getCommandAccordingOS($theCommand) : $theCommand;
 
 		if($aCommand != '') {
-			logMsg('Exec: ' . (AURA_LOG_EXECS ? $aCommand : substr($aCommand, 0, 6).'...'));
-
 			$aCommand = replaceAuraEnvVars($aCommand);
+			logMsg('Exec: ' . (AURA_LOG_EXECS ? $aCommand : substr($aCommand, 0, 6).'...'));
 
 			ob_start();
 			$aOut = trim(shell_exec($aCommand));

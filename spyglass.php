@@ -5,7 +5,8 @@
 	authRestritoAdmin();
 
 	$aRandURLs 	= MODO_DEBUG ? '?'.rand(20, 9999) : '';
-	$aHash		= $_REQUEST['hash']; // TODO: secure hash coming from URL
+	$aHash		= @$_REQUEST['hash']; // TODO: secure hash coming from URL
+	$aName		= @$_REQUEST['name']; // TODO: secure name coming from URL
 
 	echo '<html>';
 	echo '<head>';
@@ -23,7 +24,7 @@
 	echo "
 		<script type=\"text/javascript\">
 			$(function() {
-				AURA.spyglass.init('" . $aHash . "');
+				AURA.spyglass.init('" . $aHash . "', '" . $aName . "');
 			});
 		</script>";
 

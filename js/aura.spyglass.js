@@ -4,6 +4,7 @@ AURA = AURA || {};
 
 AURA.spyglass = new function() {
 	var mDeviceHash;
+	var mDeviceName;
 	var mConfig;
 	var mActive;
 	var mMouse = {x: 0, y: 0};
@@ -104,10 +105,17 @@ AURA.spyglass = new function() {
 		});
 
 		setInterval(saveInteraction, mConfig.saveInterval);
-	}
+	};
 
-	this.init = function(theDeviceHash) {
+	var startSpyglassOnDevice = function(theDeviceHash, theDeviceName) {
+		// TODO: get all command hard-coded values from config files
+		var aCmd = 'call java -jar {@AURA_HOME}spyglass/spyglass.jar http://dev.local.com/ncc.cc.uffs.edu.br/spyglass-api.php ' + theDeviceHash + '  ' + mConfig.refreshInterval;
+		AURA.sendCommand('Rode o comando "' + aCmd + '" no computador ' + theDeviceName);
+	};
+
+	this.init = function(theDeviceHash, theDeviceName) {
 		mDeviceHash = theDeviceHash;
+		mDeviceName = theDeviceName;
 		mActive = false;
 
 		mConfig = {
@@ -115,6 +123,7 @@ AURA.spyglass = new function() {
 			'saveInterval': 	getURLParamByName('saveInterval') 		|| 1000
 		};
 
+		startSpyglassOnDevice(mDeviceHash, mDeviceName);
 		setInterval(refreshScreenCanvas, mConfig.refreshInterval);
 	};
 };
