@@ -15,7 +15,7 @@
 
 			echo '<div class="row" style="margin-bottom: 30px;">';
 				echo '<div class="col-md-12">';
-					echo '<h2>'.$aLab['name'].' <small>'.$aLab['desc'].'</small></h2>';
+					echo '<h2><i class="fa fa-cube"></i> '.$aLab['name'].' <small>'.$aLab['desc'].'</small></h2>';
 				echo '</div>';
 			echo '</div>';
 
