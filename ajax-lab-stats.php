@@ -30,10 +30,14 @@
 			echo '<div class="btn-group">';
 			echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 			echo '<ul class="dropdown-menu">';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue os computadores do '.$aLab['name'].'\');"><i class="fa fa-plug"></i> Ligar todos</a></li>';
 			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue os computadores do '.$aLab['name'].'\');"><i class="fa fa-power-off"></i> Desligar todos</a></li>';
 			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie os computadores do '.$aLab['name'].'\');"><i class="fa fa-refresh"></i> Reiniciar todos</a></li>';
 			echo '<li class="divider"></li>';
-			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate os computadores do '.$aLab['name'].'\');"><i class="fa fa-fire"></i> Formatar todos</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate os computadores do '.$aLab['name'].'\');"><i class="fa fa-fire"></i> Formatar todos (usando última imagem)</a></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.formatUsingImage(\'os computadores do '.$aLab['name'].'\');"><i class="fa fa-fire"></i> Formatar todos (escolhendo img)</a></li>';
+			echo '<li class="divider"></li>';
+			echo '<li><a href="javascript:void(0)" onclick="AURA.runArbitraryCommand(\'nos computadores do '.$aLab['name'].'\');"><i class="fa fa-terminal"></i> Rodar comando em todos</a></li>';
 			echo '</ul>';
 			echo '</div>';
 			echo '</ul>';
@@ -165,6 +169,7 @@
 								echo '<div class="btn-group">';
 									echo '<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 									echo '<ul class="dropdown-menu">';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Ligue o computador '.$aDevice['name'].'\');"><i class="fa fa-plug"></i> Ligar</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue o computador '.$aDevice['name'].'\');"><i class="fa fa-power-off"></i> Desligar</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Reinicie o computador '.$aDevice['name'].'\');"><i class="fa fa-refresh"></i> Reiniciar</a></li>';
 										echo '<li class="divider"></li>';
@@ -173,7 +178,10 @@
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Desligue a internet do computador '.$aDevice['name'].'\');"><i class="fa fa-signal"></i> Bloquear internet</a></li>';
 										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Deslogue os usuarios do computador '.$aDevice['name'].'\');"><i class="fa fa-user"></i> Deslogar usuários</a></li>';
 										echo '<li class="divider"></li>';
-										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate o computador '.$aDevice['name'].'\');"><i class="fa fa-fire"></i> Formatar</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.sendCommand(\'Formate o computador '.$aDevice['name'].'\');"><i class="fa fa-fire"></i> Formatar com última img</a></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.formatUsingImage(\'o computador '.$aDevice['name'].'\');"><i class="fa fa-fire"></i> Formatar escolhendo img</a></li>';
+										echo '<li class="divider"></li>';
+										echo '<li><a href="javascript:void(0)" onclick="AURA.runArbitraryCommand(\'no computador '.$aDevice['name'].'\');"><i class="fa fa-terminal"></i> Rodar comando</a></li>';
 									echo '</ul>';
 								echo '</div>';
 							echo '</td>';

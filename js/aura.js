@@ -42,6 +42,23 @@ var AURA = new function() {
 	    AURA.submitOrder();
 	};
 
+
+	this.formatUsingImage = function(theMachines) {
+		var aImg = prompt('Qual o nome da imagem?');
+
+		if(aImg != '') {
+			AURA.sendCommand('Formate com a imagem "'+aImg+'" ' + theMachines);
+		}
+	};
+
+	this.runArbitraryCommand = function(theMachines) {
+		var aCommand = prompt('Qual o comando a ser executado?');
+
+		if(aCommand != '') {
+			AURA.sendCommand('Execute o comando "'+aCommand+'" ' + theMachines);
+		}
+	};
+
 	/**
 	 * Envia um comando para a Aura, mostrando o resultado desse comando
 	 * como um popup na tela.
