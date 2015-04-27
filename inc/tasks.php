@@ -22,6 +22,31 @@ class Tasks {
 
 	/**
 	 * Ordena que um grupo de dispositivos execute um determinado comando.
+	 * Exemplo:
+		Aura\Tasks::add(
+			array(
+				'time' => time(),
+				'status' => Aura\Tasks::STATUS_RUNNING,
+				'exec' => serialize(array(
+					'win' => serialize(array('dir', 'php -v', 'javac -version')),
+					'linux' => 'sdddd',
+					'mac' => 'dsdsd'
+				))
+			),
+			array(1));
+
+
+		Aura\Tasks::add(
+				array(
+						'time' => time(),
+						'status' => Aura\Tasks::STATUS_RUNNING,
+						'exec' => serialize(array(
+								'win' => 'php -v',
+								'linux' => 'sdddd',
+								'mac' => 'dsdsd'
+						))
+				),
+				array(1));
 	 *
 	 * @param array $theTask array assossiativo com os campos do comando em questão, no formato [campo] => valor.
 	 * @param array $theDevices array com os ids dos dispositivos que deverão executar o comando. Se esse parâmetro não for informado, entende-se que a ordem é para a Aura em si. O método *não* testa se os ids são válidos.

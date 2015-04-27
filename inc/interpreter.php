@@ -15,9 +15,10 @@ class Interpreter {
 	 * A análise das frases é feita com a ajuda de plugins.
 	 *
 	 * @param string $theSentense frase a ser interpretada.
+	 * @param boolean $theDebug if the interpreter should work in debug mode.
 	 * @return mixed false se não conseguiu interpretar e executar algo, ou algum texto (retorno do plugin) em caso de sucesso.
 	 */
-	public static function process($theSentense) {
+	public static function process($theSentense, $theDebug) {
 		$aRet = false;
 
 		if(!empty($theSentense)) {
@@ -46,7 +47,7 @@ class Interpreter {
 						echo 'Opa, algum erro acontenceu. '.$e->getMessage();
 					}
 
-					if(AURA_DEBUG) {
+					if($theDebug) {
 						echo '<br /><br /><small>Match para '.$aInfo['function'].'() - "'.$aInfo['pattern'].'"</small>';
 						var_dump($aMatchs);
 					}

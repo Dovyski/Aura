@@ -14,10 +14,10 @@ var AURA = new function() {
 	this.submitOrder = function() {
 		showLoading(true);
 
-		$('#auraPainelResposta').html('').slideUp();
+		$('#auraPainelResposta').html('').slideUp('fast');
 
 		$.ajax({
-			  url: 		"ajax-aura.php?action=order",
+			  url: 		"./api/",
 			  context: 	document.body,
 			  data: 	$('#formAura').serialize(),
 
@@ -25,7 +25,7 @@ var AURA = new function() {
 				  showLoading(false);
 
 				  $('html,body').animate({scrollTop: $("#linhaConsoleAura").offset().top - 60}, 'fast', function() {
-					  $('#auraPainelResposta').html(data).slideDown();
+					  $('#auraPainelResposta').html(data).slideDown('fast');
 				  });
 			  },
 			  error: function() {
