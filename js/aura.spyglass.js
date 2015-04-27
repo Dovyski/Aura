@@ -108,8 +108,15 @@ AURA.spyglass = new function() {
 	};
 
 	var startSpyglassOnDevice = function(theDeviceHash, theDeviceName) {
-		// TODO: get all command hard-coded values from config files
-		var aCmd = 'call java -jar {@AURA_HOME}spyglass/spyglass.jar http://dev.local.com/ncc.cc.uffs.edu.br/spyglass-api.php ' + theDeviceHash + '  ' + mConfig.refreshInterval;
+		var aParts, aApi, aUrl, aCmd;
+
+		aParts 	= window.location.pathname.split('/');
+		aParts.length = 2;
+
+		aApi	= aParts.join('/') + '/';
+		aUrl 	= window.location.protocol + '//' + window.location.host + aApi;
+		aCmd 	= 'call java -jar {@AURA_HOME}spyglass/spyglass.jar ' + aUrl + 'spyglass-api.php ' + theDeviceHash + '  ' + mConfig.refreshInterval;
+
 		AURA.sendCommand('Rode o comando "' + aCmd + '" no computador ' + theDeviceName);
 	};
 
