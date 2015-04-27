@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__FILE__).'/config.php';
-
 function barraNavegacao() {
 	$aPagina = basename($_SERVER['PHP_SELF']);
 
@@ -60,7 +58,7 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>';
 		echo '<![endif]-->';
 
-		$aRandURLs = MODO_DEBUG ? '?'.rand(20, 9999) : '';
+		$aRandURLs = AURA_DEBUG ? '?'.rand(20, 9999) : '';
 
 		echo '<!-- Le styles -->';
 		echo '<link href="'.$theBaseUrl.'/css/bootstrap.min.css" rel="stylesheet">';
@@ -92,7 +90,7 @@ function rodape($theBaseUrl = '.') {
 			echo '<p style="float:left;"></p>'; // TODO: add footnotes
 		echo '</footer>';
 
-	if(MODO_DEBUG) {
+	if(AURA_DEBUG) {
 		echo '<div class="row" style="margin-top: 80px;">';
 			echo '<div class="span12">';
 				echo '<h2>Debug</h2>';

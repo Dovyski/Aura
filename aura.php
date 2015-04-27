@@ -1,10 +1,9 @@
-<?php 
+<?php
 	require_once dirname(__FILE__).'/inc/globals.php';
-	require_once dirname(__FILE__).'/admin/aura/globals.php';
 
 	authRestritoAdmin();
 	cabecalho('Aura');
-	
+
 	echo '<div class="hero-unit">';
 		echo '<h1>Aura</h1>';
 		echo '<p>Assistente virtual do NCC.</p>';
@@ -24,7 +23,7 @@
             echo '</div>';
 		echo '</div>';
 	echo '</div>';
-	
+
 	echo '<script type="text/javascript">
 			$(function() {
 				AURA.init();

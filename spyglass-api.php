@@ -1,6 +1,5 @@
 <?php
 	require_once dirname(__FILE__).'/inc/globals.php';
-	require_once dirname(__FILE__).'/admin/aura/globals.php';
 
 	$aAction 		= isset($_REQUEST['action']) 	? $_REQUEST['action'] 	: 'feed';
 	$aHash	 		= isset($_REQUEST['hash']) 		? $_REQUEST['hash'] 	: ''; // TODO: secure/sanitize HASH!

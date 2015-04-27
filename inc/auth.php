@@ -1,10 +1,8 @@
 <?php
 
-require_once dirname(__FILE__).'/config.php';
-
 /** 
  * Efetua login de um usuário no domínio do NCC utilizando LDAP.
- * 
+ *
  * @param string $theUsuario nome do usuário, ex.: fernando
  * @param string $theSenha senha do usuário.
  * @return bool <code>true</code> se o usuário foi autenticado com sucesso, ou <code>false</code> caso contrário.
@@ -20,7 +18,7 @@ function authLogin($theUsuario) {
 
 	$_SESSION['logado'] = true;
 	$_SESSION['usuario'] = $aInfos;
-	
+
 	//if(in_array($theUsuario, $aAdmins)) {
 		$_SESSION['admin'] = true;
 	//}
@@ -37,7 +35,7 @@ function authRestritoAdmin() {
 	if(!authIsLogado()) {
 		header('Location: login.php');
 		exit();
-		
+
 	} else if(!authIsAdmin()){
 		header('Location: restrito.php');
 		exit();

@@ -6,3 +6,4 @@
 /admin/aura/client/aura-cli.log
 /admin/aura/config.local.php
 /admin/aura/client/spyglass/bin/*.class
+/config.local.php

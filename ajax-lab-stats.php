@@ -2,7 +2,6 @@
 	header("Content-Type: text/html; charset=UTF-8");
 
 	require_once dirname(__FILE__).'/inc/globals.php';
-	require_once dirname(__FILE__).'/admin/aura/globals.php';
 
 	authRestritoAdmin();
 
