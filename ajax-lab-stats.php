@@ -190,7 +190,7 @@
 				echo '</tbody>';
 			echo '</table>';
 		}
-		echo '<p class="pull-right"><a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><i class="icon-eye-close"></i> Ocultar</a></p>';
+		echo '<p class="pull-right"><a href="javascript:void(0)" onclick="$(\'#'.$aDevicesBlockName.'\').slideToggle();"><i class="fa fa-eye-slash"></i> Ocultar</a></p>';
 
 	echo '</div>';
 
