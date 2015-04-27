@@ -67,18 +67,22 @@ var AURA = new function() {
 	 * Envia um comando para a Aura, mostrando o resultado desse comando
 	 * como um popup na tela.
 	 */
-	this.sendCommand = function(theCommand) {
+	this.sendCommand = function(theCommand, theCallback) {
 		$.ajax({
-			  url: 		"ajax-aura.php?action=order",
-			  context: 	document.body,
-			  data: 	'command=' + theCommand,
+			url: 		"./api/",
+			context: 	document.body,
+			data: 	{command: theCommand},
 
-			  success: function(data){
-				  alert(data);
-			  },
-			  error: function() {
-				  alert('Não foi possível executar a ação!');
-			  }
+			success: function(theData){
+				if(theCallback) {
+					theCallback(theData);
+				} else {
+					alert(theData);
+				}
+			},
+			error: function() {
+				alert('Não foi possível executar a ação!');
+			}
 		});
 	};
 
