@@ -5,6 +5,8 @@
 
 	authRestritoAdmin();
 
+	$aDebug = isset($_REQUEST['debug']);
+
 	/*Aura\Tasks::add(
 		array(
 			'time' => time(),

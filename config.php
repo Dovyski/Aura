@@ -18,7 +18,7 @@
 @define('AURA_SPYGLASS_WORKING_FOLDER', '/home/fernando/spyglass/');
 
 // Controle do site
-define('AURA_DEBUG', 				true);
-define('AURA_SESSION_NAME', 		'aurasid');
+@define('AURA_DEBUG', 				true);
+@define('AURA_SESSION_NAME', 		'aurasid');
 
 ?>

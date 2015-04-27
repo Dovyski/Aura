@@ -3,13 +3,18 @@
  */
 
 var AURA = new function() {
-	var showLoading = function() {
-	    $('#auraPainelResposta').slideDown();
-	    $('#auraPainelResposta').html('<img src="./img/ajax-loader.gif" align="absmiddle" title="Pensando..."/> <small>Pensando...</small>');
+	var showLoading = function(theStatus) {
+		if(theStatus) {
+			$('#aura-icon').attr('class', 'fa fa-circle-o-notch fa-spin');
+		} else {
+			$('#aura-icon').attr('class', 'fa fa-circle-o');
+		}
 	};
 
 	this.submitOrder = function() {
-		showLoading();
+		showLoading(true);
+
+		$('#auraPainelResposta').html('').slideUp();
 
 		$.ajax({
 			  url: 		"ajax-aura.php?action=order",
@@ -17,11 +22,10 @@ var AURA = new function() {
 			  data: 	$('#formAura').serialize(),
 
 			  success: function(data){
-				  $('html,body').animate({scrollTop: $("#linhaConsoleAura").offset().top - 60}, 'slow', function() {
-					  $('#auraPainelResposta').fadeOut('fast', function() {
-						  $('#auraPainelResposta').html(data);
-						  $('#auraPainelResposta').fadeIn();
-					  });
+				  showLoading(false);
+
+				  $('html,body').animate({scrollTop: $("#linhaConsoleAura").offset().top - 60}, 'fast', function() {
+					  $('#auraPainelResposta').html(data).slideDown();
 				  });
 			  },
 			  error: function() {
