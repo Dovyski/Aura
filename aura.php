@@ -12,16 +12,18 @@
 					echo '<div class="form-group">';
 						echo '<input name="command" id="consoleAura" class="form-control" style="width: 700px;" id="prependedInput" type="text" placeholder="Digite seu comando para a Aura. Ex.: que horas são?">';
 					echo '</div>';
-					echo '<i class="fa fa-bug"></i><input name="debug" type="checkbox" />';
+					echo ' <a href="javascript:void(0);" id="listen-button"><i class="fa fa-microphone fa-2x" id="start_img"></i></a>';
+					echo '<br /><input name="debug" type="checkbox" /><i class="fa fa-bug"></i>';
 				echo '</form>';
 				echo '<p id="auraPainelResposta" class="aura-resposta-console" style="display: none;">Resposta...</p>';
-            echo '</div>';
+			echo '</div>';
 		echo '</div>';
 	echo '</div>';
 
 	echo '<script type="text/javascript">
 			$(function() {
 				AURA.init();
+				AURA.speech.init();
 			});
 		  </script>';
 	rodape();

@@ -101,6 +101,15 @@ body {
   top: 0;
 }
 
+.aura-console-recognizing {
+	color: #9f9f9f;
+}
+
+
+.aura-console-recognized {
+	color: #000;
+}
+
 .aura-resposta-console {
   text-align: left;
   padding: 15px;
