@@ -101,6 +101,13 @@ body {
   top: 0;
 }
 
+#linhaConsoleAura a,
+#linhaConsoleAura a:hover,
+#linhaConsoleAura a:active,
+#linhaConsoleAura a:visited {
+	color: #505050;
+}
+
 .aura-console-recognizing {
 	color: #9f9f9f;
 }

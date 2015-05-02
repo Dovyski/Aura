@@ -3,7 +3,6 @@
  */
 
 AURA.speech = new function() {
-	var create_email = false;
 	var mRecognizing = false;
 	var mIgnoreOnEnd;
 	var mStartTimestamp;
@@ -13,19 +12,19 @@ AURA.speech = new function() {
 	var onStart = function() {
 		mRecognizing = true;
 		// Speak now.
-		$('#start_img').html('ani');
+		$('#microphone-icon').html('<i class="fa fa-circle-o-notch fa-stack-2x fa-spin"></i><i class="fa fa-microphone fa-stack-1x"></i>');
 	};
 
 	var onError = function(theEvent) {
 		if (theEvent.error == 'no-speech') {
-			$('#start_img').html('');
+			$('#microphone-icon').html('<i class="fa fa-circle-o fa-stack-2x fa-spin"></i><i class="fa fa-microphone fa-stack-1x"></i>');
 
 			// No speech was detected. You may need to adjust your <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone settings</a>
 			mIgnoreOnEnd = true;
 		}
 
 		if (theEvent.error == 'audio-capture') {
-			$('#start_img').html('');
+			$('#microphone-icon').html('<i class="fa fa-circle-o fa-stack-2x fa-spin"></i><i class="fa fa-microphone fa-stack-1x"></i>');
 			// No microphone was found
 			mIgnoreOnEnd = true;
 		}
@@ -47,7 +46,7 @@ AURA.speech = new function() {
 			return;
 		}
 
-		$('#start_img').html('');
+		$('#microphone-icon').html('<i class="fa fa-circle-o fa-stack-2x fa-spin"></i><i class="fa fa-microphone fa-stack-1x"></i>');
 		// Click on the microphone icon and begin speaking for as long as you like.
 	};
 
@@ -64,6 +63,7 @@ AURA.speech = new function() {
 		for (var i = theEvent.resultIndex; i < theEvent.results.length; ++i) {
 			if (theEvent.results[i].isFinal) {
 				$('#consoleAura').val(theEvent.results[i][0].transcript).attr('class', 'form-control aura-console-recognized');
+				AURA.submitOrder(false);
 
 			} else {
 				aInterimTranscript += theEvent.results[i][0].transcript;
@@ -93,7 +93,7 @@ AURA.speech = new function() {
 	};
 
 	this.startListening = function(theEvent) {
-		if (mSelf.mRecognizing) {
+		if (mRecognizing) {
 			mSelf.mRecognition.stop();
 			return;
 		}
@@ -101,7 +101,7 @@ AURA.speech = new function() {
 		mSelf.mRecognition.start();
 		mSelf.mIgnoreOnEnd = false;
 
-		$('#start_img').html('slash');
+		$('#microphone-icon').html('<i class="fa fa-microphone fa-stack-1x"></i><i class="fa fa-ban fa-stack-2x text-danger"></i>');
 
 		// Click the "Allow" button above to enable your microphone.
 		mStartTimestamp = theEvent.timeStamp;
