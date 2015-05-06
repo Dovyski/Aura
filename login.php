@@ -17,39 +17,21 @@
 
 	cabecalho('Login');
 
-	echo '<div class="hero-unit fundo-icone icone-senha">';
-		echo '<h1>Intranet</h1>';
-		echo '<p>Acesso à administração do NCC.</p>';
-	echo '</div>';
-
 	echo '<div class="row">';
-		echo '<div class="span9">';
-			echo '<form class="form-horizontal" action="login.php" method="post">
-			        <fieldset>
+		echo '<div class="col-md-4 col-md-offset-4">';
+			echo '<form action="login.php" method="post">
 			          <legend>Login</legend>
-			          <div class="control-group '.($aErroLogin ? 'error' : '').'">
-			            <label class="control-label">Usuário</label>
-			            <div class="controls docs-input-sizes">
-			              <input name="usuario" class="span3" type="text" placeholder="Seu usuário NCC">
-			            </div>
-			            <label class="control-label">Senha</label>
-			            <div class="controls docs-input-sizes">
-			              <input name="senha" class="span3" type="password" placeholder="sua senha">
-						  '.($aErroLogin ? '<span class="help-inline">Usuário ou senha inválidos.</span>' : '').'
-			            </div>
+			          <div class="form-group">
+			            <label for="inputUsername">CPF</label>
+			            <input name="usuario" class="form-control" type="text" id="inputUsername" placeholder="Ex.: 007.587.150-20">
 			          </div>
-			          <div class="form-actions">
-			            <button type="submit" class="btn btn-primary">Entrar</button>
-			            <button type="reset" class="btn">Limpar</button>
+					  <div class="form-group">
+					    <label for="inputUsuario">Senha</label>
+			            <input name="senha" class="form-control" type="password" id="inputPassword" placeholder="Informe sua senha">
+						'.($aErroLogin ? '<span class="help-inline">Usuário ou senha inválidos.</span>' : '').'
 			          </div>
-			        </fieldset>
+			          <button type="submit" class="btn btn-default">Entrar</button>
 			      </form>';
-		echo '</div>';
-
-		echo '<div class="span3">';
-			echo '<h2>Atenção</h2>';
-			echo '<p>Para efetuar login, você precisa de uma conta NCC.</p>';
-			echo '<p>Obtenha a sua conta gratuitamente com algum membro da equipe NCC.</p>';
 		echo '</div>';
 	echo '</div>';
 
