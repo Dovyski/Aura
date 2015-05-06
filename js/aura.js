@@ -11,7 +11,7 @@ var AURA = new function() {
 		}
 	};
 
-	this.submitOrder = function(theClearInput) {
+	this.submitOrder = function(theClearInput, theCallback) {
 		showLoading(true);
 
 		$('#auraPainelResposta').html('').slideUp('fast');
@@ -21,12 +21,16 @@ var AURA = new function() {
 			  context: 	document.body,
 			  data: 	$('#formAura').serialize(),
 
-			  success: function(data){
+			  success: function(theData){
 				  showLoading(false);
 
 				  $('html,body').animate({scrollTop: $("#linhaConsoleAura").offset().top - 60}, 'fast', function() {
-					  $('#auraPainelResposta').html(data).slideDown('fast');
+					  $('#auraPainelResposta').html(theData).slideDown('fast');
 				  });
+
+				  if(theCallback) {
+				 	theCallback(theData);
+			      }
 			  },
 			  error: function() {
 				  $('#auraPainelResposta').html("Erro ao enviar ordem. Tente de novo.");

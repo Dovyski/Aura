@@ -63,7 +63,7 @@ AURA.speech = new function() {
 		for (var i = theEvent.resultIndex; i < theEvent.results.length; ++i) {
 			if (theEvent.results[i].isFinal) {
 				$('#consoleAura').val(theEvent.results[i][0].transcript).attr('class', 'form-control aura-console-recognized');
-				AURA.submitOrder(false);
+				AURA.submitOrder(false, AURA.speech.speak);
 
 			} else {
 				aInterimTranscript += theEvent.results[i][0].transcript;
@@ -90,6 +90,12 @@ AURA.speech = new function() {
 
 			$('#listen-button').click(AURA.speech.startListening);
 		}
+	};
+
+	this.speak = function(theText) {
+		var aVoice = document.createElement('audio');
+		aVoice.setAttribute('src', 'aura-speak.php?text=' + encodeURIComponent(theText));
+		aVoice.play();
 	};
 
 	this.startListening = function(theEvent) {
