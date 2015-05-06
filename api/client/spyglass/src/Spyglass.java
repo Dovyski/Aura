@@ -2,6 +2,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
@@ -11,6 +12,9 @@ import javax.imageio.ImageIO;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.HttpURLConnection;
+import javax.net.ssl.*;
+import java.security.*;
+import java.security.cert.*;
 
 public class Spyglass {
     private boolean mActive;
@@ -37,16 +41,47 @@ public class Spyglass {
         mWebEndpoint        = theArgs[0];
         mDeviceHash         = theArgs[1];
         mRefreshInterval    = Integer.parseInt(theArgs[2]);
-        mRobot              = new Robot();
+        mRobot              = new Robot(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
         mNoResponseCount    = 0;
         mDebug              = false;
+
+        // TODO: improve this. At the moment, spyglass will ignore all
+        // self-signed certificates when connecting through HTTPS.
+        ignoreSSLSelfSignedCertificates();
     }
 
     private void debug(String theMsg) {
         if(mDebug) {
-            debug(theMsg);
+            System.out.println(theMsg);
         }
     }
+
+    // From here: http://stackoverflow.com/a/2893932/29827
+    private void ignoreSSLSelfSignedCertificates() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] aTrustAllCerts = new TrustManager[] {
+            new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+                public void checkClientTrusted(
+                    java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                public void checkServerTrusted(
+                    java.security.cert.X509Certificate[] certs, String authType) {
+                }
+            }
+        };
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext aSc = SSLContext.getInstance("SSL");
+            aSc.init(null, aTrustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(aSc.getSocketFactory());
+
+        } catch (GeneralSecurityException e) {}
+    }
+
 
     private InputStream captureCurrentScreenFrame() throws Exception {
         // Capture the whole screen

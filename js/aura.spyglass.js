@@ -111,7 +111,7 @@ AURA.spyglass = new function() {
 		var aParts, aApi, aUrl, aCmd;
 
 		aParts 	= window.location.pathname.split('/');
-		aParts.length = 2;
+		aParts.length = 2; // TODO: fix it, find the first file with .php in its name.
 
 		aApi	= aParts.join('/') + '/';
 		aUrl 	= window.location.protocol + '//' + window.location.host + aApi;
