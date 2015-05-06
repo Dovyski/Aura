@@ -11,7 +11,7 @@ var AURA = new function() {
 		}
 	};
 
-	this.submitOrder = function() {
+	this.submitOrder = function(theClearInput) {
 		showLoading(true);
 
 		$('#auraPainelResposta').html('').slideUp('fast');
@@ -33,7 +33,10 @@ var AURA = new function() {
 			  }
 		});
 
-	    $(':input','#formAura').val('');
+		if(theClearInput == undefined || theClearInput) {
+			$(':input','#formAura').val('');
+		}
+
 		return false;
 	};
 

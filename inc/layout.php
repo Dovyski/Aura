@@ -74,6 +74,7 @@ function cabecalho($theTitulo, $theBaseUrl = '.') {
 		echo '<script src="'.$theBaseUrl.'/js/jquery.min.js'.$aRandURLs.'"></script>';
 		echo '<script src="'.$theBaseUrl.'/js/bootstrap.min.js'.$aRandURLs.'"></script>';
 		echo '<script src="'.$theBaseUrl.'/js/aura.js'.$aRandURLs.'"></script>';
+		echo '<script src="'.$theBaseUrl.'/js/aura.speech.js'.$aRandURLs.'"></script>';
 	echo '</head>';
 
 	echo '<body>';
