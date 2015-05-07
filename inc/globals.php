@@ -19,8 +19,6 @@ require_once dirname(__FILE__).'/groups.php';
 require_once dirname(__FILE__).'/interpreter.php';
 require_once dirname(__FILE__).'/spyglass.php';
 
-// TODO: move this to Auth class.
-session_start();
-session_name(AURA_SESSION_NAME);
+authInit();
 
 ?>

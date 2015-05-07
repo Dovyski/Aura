@@ -1,5 +1,10 @@
 <?php
 
+function authInit() {
+	session_start();
+	session_name(AURA_SESSION_NAME);
+}
+
 function authIsValidUser($theUserLogin, $thePassword) {
 	global $gDb;
 
