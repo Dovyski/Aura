@@ -4,6 +4,7 @@
 
 	require_once dirname(__FILE__).'/../inc/utils.php';
 	require_once dirname(__FILE__).'/../inc/db.php';
+	require_once dirname(__FILE__).'/../inc/auth.php';
 	require_once dirname(__FILE__).'/../inc/users.php';
 	require_once dirname(__FILE__).'/../inc/commands.php';
 	require_once dirname(__FILE__).'/../inc/tasks.php';
@@ -88,17 +89,20 @@
 
 	} else if($aCommand != '') {
 		// This is a command to Aura coming from a web browser
+		// Check if user is authenticated to use this service.
+		authInit();
 
-		// TODO: check authentication here.
-		//authAllowAdmin();
+		if(authIsAuthenticated() && authIsAdmin()) {
+			$aDebug = isset($_REQUEST['debug']);
 
-		$aDebug = isset($_REQUEST['debug']);
+			Aura\Interpreter::loadSentenseHandlers();
+			$aReturn = Aura\Interpreter::process($aCommand, $aDebug);
 
-		Aura\Interpreter::loadSentenseHandlers();
-		$aReturn = Aura\Interpreter::process($aCommand, $aDebug);
-
-		if($aReturn === false) {
-			echo 'Não entendi o que você falou.';
+			if($aReturn === false) {
+				echo 'Não entendi o que você falou.';
+			}
+		} else {
+			echo 'Você não possui autorização para fazer isso.';
 		}
 	}
 ?>
