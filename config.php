@@ -8,6 +8,11 @@
 @define('AURA_DB_PASSWD', 		'aura');
 @define('AURA_DB_NAME', 		'aura');
 @define('AURA_DB_HOST', 		'localhost');
+@define('AURA_DB_DSN',			'mysql:host=localhost;dbname=aura');
+
+// Password salt
+@define('AURA_PASSWORD_SALT',	'sdkjwerterlthqwoicfwehrtiewhtoqwehiuch');
+
 
 // Se true, Aura irá inserir automaticamente na lista de dispositivos qualquer
 // dispositivo que envie informações ao cérebro através do aura-cli.

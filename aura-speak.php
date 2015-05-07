@@ -3,7 +3,7 @@
 
 	require_once dirname(__FILE__).'/inc/globals.php';
 
-	authRestritoAdmin();
+	authAllowAdmin();
 
 	$aText = isset($_REQUEST['text']) ? $_REQUEST['text'] : '';
 

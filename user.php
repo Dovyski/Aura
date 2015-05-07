@@ -1,7 +1,7 @@
 <?php
 	require_once dirname(__FILE__).'/inc/globals.php';
-	
-	authRestritoLogado();
+
+	authAllowAuthenticated();
 
 	$aDadosAtualizados = false;
 	$aContatos = array(

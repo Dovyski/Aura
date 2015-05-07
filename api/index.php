@@ -90,7 +90,7 @@
 		// This is a command to Aura coming from a web browser
 
 		// TODO: check authentication here.
-		//authRestritoAdmin();
+		//authAllowAdmin();
 
 		$aDebug = isset($_REQUEST['debug']);
 

@@ -3,7 +3,7 @@
 
 	require_once dirname(__FILE__).'/inc/globals.php';
 
-	authRestritoAdmin();
+	authAllowAdmin();
 
 	$aLabId = isset($_REQUEST['lab']) ? (int)$_REQUEST['lab'] : 0;
 

@@ -1,7 +1,7 @@
 <?php
 	require_once dirname(__FILE__).'/inc/globals.php';
 
-	authRestritoAdmin();
+	authAllowAdmin();
 	cabecalho('Inicial');
 
 	$aLabs = Aura\Groups::findByName('lab-%');

@@ -14,7 +14,7 @@ function barraNavegacao() {
 				echo '<a class="navbar-brand" href="index.php">A</a>';
 			echo '</div>';
 
-			if(authIsLogado()) {
+			if(authIsAuthenticated()) {
 				echo '<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
 					echo '<ul class="nav navbar-nav">';
 						echo '<li '.($aPagina == 'index.php' ? 'class="active"' : '').'><a href="index.php">Dashboard</a></li>';
@@ -36,7 +36,7 @@ function barraNavegacao() {
 
 function layoutBarraUsuarioLogado() {
 	echo '<li class="dropdown">';
-		echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> Fernando '.$_SESSION['usuario']['cn'].'</a>';
+		echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> '.$_SESSION['user']['name'].'</a>';
 
 		echo '<ul class="dropdown-menu" role="menu">';
 			echo '<li><a href="logout.php">Sair</a></li>';

@@ -1,7 +1,7 @@
 <?php
 	require_once dirname(__FILE__).'/inc/globals.php';
 
-	authRestritoAdmin();
+	authAllowAdmin();
 
 	$aRandURLs 	= AURA_DEBUG ? '?'.rand(20, 9999) : '';
 	$aHash		= @$_REQUEST['hash']; // TODO: secure hash coming from URL

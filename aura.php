@@ -1,7 +1,7 @@
 <?php
 	require_once dirname(__FILE__).'/inc/globals.php';
 
-	authRestritoAdmin();
+	authAllowAdmin();
 	cabecalho('Aura');
 
 	echo '<div class="row" id="linhaConsoleAura">';
