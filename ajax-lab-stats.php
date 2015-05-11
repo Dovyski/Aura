@@ -124,7 +124,7 @@
 							echo '<td>'.$aDevice['id'].'</td>';
 							echo '<td style="width: 35%;">'.$aDevice['name'].' <small class="fraco">'.$aDevice['hash'].'</small></td>';
 							echo '<td>';
-								$aPowerStatus 		= 'danger';
+								$aPowerStatus 		= 'default';
 								$aInternetStatus 	= 'default';
 								$aHdStats 			= '';
 								$aLastPing			= '';
@@ -147,9 +147,13 @@
 									$aUsers				= count($aUsers) > 0 ? count($aUsers) : '';
 								}
 
-								echo '<i class="fa fa-'.$aOsIcon.'" title="'.$aOs.'"></i> ';
+								if($aOs != '?') {
+									$aPowerIcon = '<i class="fa fa-'.$aOsIcon.'" title="Ligado com '.$aOs.'"></i>';
+								} else {
+									$aPowerIcon = '<i class="fa fa-power-off" title="Computador desligado"></i>';
+								}
 
-								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;"><i class="fa fa-power-off" title="Ligado/Desligado"></i></span> ';
+								echo '<span class="label label-'.$aPowerStatus.'" style="padding:5px;">'.$aPowerIcon.'</span> ';
 								echo '<span class="label label-'.$aInternetStatus.'" style="padding:5px;"><i class="fa fa-signal" title="Conexão com a Internet"></i></span> ';
 
 								if($aUsers != '') {
